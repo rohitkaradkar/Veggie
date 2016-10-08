@@ -5,4 +5,5 @@ package com.greentopli.core.presenter.base;
  */
 
 public interface MvpView {
+	public void showProgressbar(boolean show);
 }
