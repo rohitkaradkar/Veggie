@@ -12,6 +12,7 @@
     tools:context="com.greentopli.app.MainActivity">
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"/>
@@ -21,4 +22,10 @@
         android:layout_height="match_parent">
         <include layout="@layout/progressbar"/>
     </FrameLayout>
+
+    <Button
+        android:id="@+id/action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click"/>
 </RelativeLayout>

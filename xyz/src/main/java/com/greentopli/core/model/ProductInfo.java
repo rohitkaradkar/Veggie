@@ -1,8 +1,14 @@
-package com.greentopli.model;
+package com.greentopli.core.model;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
-public class ProductInfo {
-	private int id;
+import java.util.UUID;
+
+@Entity
+public class ProductInfo{
+	@Id
+	private String id;
 	private String name_english;
 	private String name_hinglish;
 	private ProductType productType;
@@ -10,15 +16,15 @@ public class ProductInfo {
 
 	public ProductInfo(){}
 
-	public ProductInfo(int id, String name_english, String name_hinglish, ProductType productType, PurchaseType purchaseType) {
-		this.id = id;
+	public ProductInfo(String name_english, String name_hinglish, ProductType productType, PurchaseType purchaseType) {
+		this.id = UUID.randomUUID().toString();
 		this.name_english = name_english;
 		this.name_hinglish = name_hinglish;
 		this.productType = productType;
 		this.purchaseType = purchaseType;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -38,7 +44,7 @@ public class ProductInfo {
 		this.purchaseType = purchaseType;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
