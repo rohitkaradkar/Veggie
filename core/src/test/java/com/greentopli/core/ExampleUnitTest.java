@@ -26,14 +26,6 @@ public class ExampleUnitTest {
 
 	@Test
 	public void data_store() throws Exception{
-//		ProductInfo productInfo = new ProductInfo("Onion","kanda", ProductType.FRUIT_VEGETABLE,
-//				PurchaseType.WEIGHT);
-//
-//		ProductTask productTask = new ProductTask(productInfo);
-//		try {
-//
-//		}catch (Exception e){
-//			e.printStackTrace();
-//		}
+
 	}
 }

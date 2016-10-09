@@ -20,10 +20,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.greentopli.backend.productApi.model.ProductInfo;
 import com.greentopli.core.presenter.base.MvpView;
-import com.greentopli.model.ProductType;
-import com.greentopli.model.PurchaseType;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 	}
 	@OnClick(R.id.action_button)
 	public void OnAction(){
-		ProductInfo productInfo = new ProductInfo("Onion","kanda", ProductType.FRUIT_VEGETABLE,
-				PurchaseType.WEIGHT);
+
+
 	}
 	private void verifyUserAuth(){
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

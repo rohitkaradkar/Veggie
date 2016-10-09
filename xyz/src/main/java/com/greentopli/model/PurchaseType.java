@@ -1,4 +1,4 @@
-package com.greentopli.core.model;
+package com.greentopli.model;
 
 /**
  * Created by rnztx on 9/10/16.
