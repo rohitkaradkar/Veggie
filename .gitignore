@@ -13,3 +13,4 @@
 backend/build
 ignore*
 *.zip
+backend/build

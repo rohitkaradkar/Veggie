@@ -1,5 +1,6 @@
 package com.greentopli.model;
 
+
 public class ProductInfo {
 	private int id;
 	private String name_english;
