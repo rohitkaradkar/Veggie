@@ -5,27 +5,30 @@ package com.greentopli.model;
  */
 
 public class BackendResult {
-	private boolean success;
+	private boolean result;
 	private String message;
 
-	public BackendResult(boolean success, String message) {
-		this.success = success;
+	public void setResult(boolean result) {
+		this.result = result;
+	}
+
+	public void setMessage(String message) {
 		this.message = message;
 	}
 
-	public boolean getResult() {
-		return success;
+	public boolean isResult() {
+		return result;
 	}
 
 	public String getMessage() {
 		return message;
 	}
 
-	@Override
-	public String toString() {
-		return "BackendResult{" +
-				"success=" + success +
-				", message='" + message + '\'' +
-				'}';
+	public BackendResult(boolean result, String message) {
+		this.result = result;
+		this.message = message;
 	}
+
+	public BackendResult(){}
+
 }

@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 
 public interface BackendService {
 	@POST("/_ah/api/backend/v1/saveProductInfo")
-	Call<Void> saveProductInfo(@Body ProductInfo productInfo);
+	Call<BackendResult> saveProductInfo(@Body ProductInfo productInfo);
 
 	@GET("/_ah/api/backend/v1/getProductInfo")
 	Call<ProductInfo> getProductInfo(@Query("product_id") String product_id);
