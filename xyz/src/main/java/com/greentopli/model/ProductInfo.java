@@ -2,6 +2,7 @@ package com.greentopli.model;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import java.util.UUID;
 public class ProductInfo{
 	@Id
 	private String id;
+	@Index
 	private String name_english;
 	private String name_hinglish;
 	private ProductType productType;

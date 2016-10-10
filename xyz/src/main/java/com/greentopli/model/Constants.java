@@ -10,6 +10,7 @@ public class Constants {
 	public static final String API_BASE_PATH = "/_ah/api/backend/v1";
 
 	public static final String API_SAVE_PRODUCT = "saveProductInfo";
+	public static final String API_UPDATE_PRODUCT = "updateProductInfo";
 	public static final String API_GET_PRODUCT = "getProductInfo";
 	public static final String API_DELETE_PRODUCT = "deleteProductInfo";
 	public static final String API_GET_PRODUCT_LIST = "getProductInfoList";

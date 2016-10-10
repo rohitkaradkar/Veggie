@@ -31,9 +31,9 @@ import static org.junit.Assert.*;
 public class BackendApiTest {
 	private BackendService service = ServiceGenerator.createService(BackendService.class);
 	// to avoid multiple instances make it static
-	private static final ProductInfo productInfo = new ProductInfo("lemon","limbu", ProductType.FRUIT_VEGETABLE, PurchaseType.QUANTITY);
+	private static final ProductInfo productInfo = new ProductInfo("Lemon","limbu", ProductType.FRUIT_VEGETABLE, PurchaseType.QUANTITY);
 
-	// Save
+	// Sqave
 	@Test public void test_a_save(){
 		final CountDownLatch latch = new CountDownLatch(1);
 		try {
@@ -41,7 +41,7 @@ public class BackendApiTest {
 			callSave.enqueue(new Callback<BackendResult>() {
 				@Override
 				public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
-					assertTrue(response.body().toString(),
+					assertTrue(response.body().getMessage(),
 							response.body().isResult());
 					System.out.print(response.body().getMessage());
 					latch.countDown();
@@ -61,9 +61,37 @@ public class BackendApiTest {
 			e.printStackTrace();
 		}
 	}
+	@Test public void test_b_update(){
+		final CountDownLatch latch = new CountDownLatch(1);
+		ProductInfo productInfo = this.productInfo;
+		productInfo.setName_english("Orange");
+		try {
+			Call<BackendResult> callSave = service.updateProductInfo(productInfo);
+			callSave.enqueue(new Callback<BackendResult>() {
+				@Override
+				public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
+					assertTrue(response.body().getMessage(),
+							response.body().isResult());
+					System.out.print(response.body().getMessage());
+					latch.countDown();
+				}
 
+				@Override
+				public void onFailure(Call<BackendResult> call, Throwable t) {
+
+					assertTrue("ERROR! Failed To Store",false);
+					latch.countDown();
+
+				}
+			});
+			latch.await();
+		}catch (Exception e){
+			assertTrue("Connection Failed",false);
+			e.printStackTrace();
+		}
+	}
 	// Retrieve
-	@Test public void test_b_retrieve(){
+	@Test public void test_c_retrieve(){
 		final CountDownLatch latch = new CountDownLatch(1);
 		try {
 			// use proper id here
@@ -92,7 +120,7 @@ public class BackendApiTest {
 	}
 
 	// Get List
-	@Test public void test_c_get_list(){
+	@Test public void test_d_get_list(){
 		try {
 			final CountDownLatch latch = new CountDownLatch(1);
 			Call<List<ProductInfo>> listCall = service.getProductInfoList();
@@ -118,7 +146,7 @@ public class BackendApiTest {
 
 	// DELETE
 
-	@Test public void test_d_delete(){
+	@Test public void test_e_delete(){
 		final CountDownLatch latch = new CountDownLatch(1);
 		try {
 			final String product_id = productInfo.getId();

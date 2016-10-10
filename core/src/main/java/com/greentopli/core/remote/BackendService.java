@@ -15,6 +15,9 @@ public interface BackendService {
 	@POST("/_ah/api/backend/v1/saveProductInfo")
 	Call<BackendResult> saveProductInfo(@Body ProductInfo productInfo);
 
+	@POST("/_ah/api/backend/v1/updateProductInfo")
+	Call<BackendResult> updateProductInfo(@Body ProductInfo productInfo);
+
 	@GET("/_ah/api/backend/v1/getProductInfo")
 	Call<ProductInfo> getProductInfo(@Query("product_id") String product_id);
 
