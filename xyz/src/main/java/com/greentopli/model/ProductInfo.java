@@ -6,24 +6,34 @@ import com.googlecode.objectify.annotation.Index;
 
 import java.util.UUID;
 
-@Entity
-public class ProductInfo{
-	@Id
-	private String id;
-	@Index
-	private String name_english;
-	private String name_hinglish;
-	private ProductType productType;
-	private PurchaseType purchaseType;
+@Entity public class ProductInfo{
+	public enum Type {
+		LEAF_VEGETABLE, FRUIT_VEGETABLE, FRUIT, FLOUR, SPROUT
+	}
+	public enum Volume {
+		WEIGHT, QUANTITY
+	}
 
+	@Id private String id;
+	@Index private String name_english;
+	private String name_hinglish;
+	private int minimumVolume;
+	private int maximumVolume;
+	private int volumeSet; // Fruits can be purchased in 3, 6, 9, 12 quantity
+
+	@Index private Type type;
+	private Volume volume;
 	public ProductInfo(){}
 
-	public ProductInfo(String name_english, String name_hinglish, ProductType productType, PurchaseType purchaseType) {
+	public ProductInfo(String name_english, String name_hinglish, Type type, Volume volume) {
 		this.id = UUID.randomUUID().toString();
 		this.name_english = name_english;
 		this.name_hinglish = name_hinglish;
-		this.productType = productType;
-		this.purchaseType = purchaseType;
+		this.type = type;
+		this.volume = volume;
+		this.maximumVolume = 0;
+		this.minimumVolume = 0;
+		this.volumeSet = 0;
 	}
 
 	public void setId(String id) {
@@ -38,12 +48,36 @@ public class ProductInfo{
 		this.name_hinglish = name_hinglish;
 	}
 
-	public void setProductType(ProductType productType) {
-		this.productType = productType;
+	public void setType(Type type) {
+		this.type = type;
 	}
 
-	public void setPurchaseType(PurchaseType purchaseType) {
-		this.purchaseType = purchaseType;
+	public void setVolume(Volume volume) {
+		this.volume = volume;
+	}
+
+	public void setMinimumVolume(int minimumVolume) {
+		this.minimumVolume = minimumVolume;
+	}
+
+	public void setMaximumVolume(int maximumVolume) {
+		this.maximumVolume = maximumVolume;
+	}
+
+	public int getMinimumVolume() {
+		return minimumVolume;
+	}
+
+	public int getMaximumVolume() {
+		return maximumVolume;
+	}
+
+	public void setVolumeSet(int volumeSet) {
+		this.volumeSet = volumeSet;
+	}
+
+	public int getVolumeSet() {
+		return volumeSet;
 	}
 
 	public String getId() {
@@ -58,11 +92,11 @@ public class ProductInfo{
 		return name_hinglish;
 	}
 
-	public ProductType getProductType() {
-		return productType;
+	public Type getType() {
+		return type;
 	}
 
-	public PurchaseType getPurchaseType() {
-		return purchaseType;
+	public Volume getVolume() {
+		return volume;
 	}
 }

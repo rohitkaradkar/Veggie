@@ -1,13 +1,10 @@
 package com.greentopli.core;
 
 
-import com.google.api.client.http.HttpStatusCodes;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.model.BackendResult;
 import com.greentopli.model.ProductInfo;
-import com.greentopli.model.ProductType;
-import com.greentopli.model.PurchaseType;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -31,7 +28,8 @@ import static org.junit.Assert.*;
 public class BackendApiTest {
 	private BackendService service = ServiceGenerator.createService(BackendService.class);
 	// to avoid multiple instances make it static
-	private static final ProductInfo productInfo = new ProductInfo("Lemon","limbu", ProductType.FRUIT_VEGETABLE, PurchaseType.QUANTITY);
+	private static ProductInfo productInfo = new ProductInfo("Lemon","limbu", ProductInfo.Type.FRUIT_VEGETABLE,
+			ProductInfo.Volume.WEIGHT);
 
 	// Sqave
 	@Test public void test_a_save(){
