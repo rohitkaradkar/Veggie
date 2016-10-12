@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Green Topli</string>
-    
     <string name="menu_sign_out">Sign Out</string>
 
+    <string name="volume_set_quantity">6</string>
+    <string name="volume_set_weight">250</string>
+
+    <string name="volume_max_quantity">48</string>
+    <string name="volume_max_weight">5000</string>
 </resources>

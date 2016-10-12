@@ -20,9 +20,10 @@ import java.util.UUID;
 	private int minimumVolume;
 	private int maximumVolume;
 	private int volumeSet; // Fruits can be purchased in 3, 6, 9, 12 quantity
-
+	private String pictureName;
 	@Index private Type type;
-	private Volume volume;
+	@Index private Volume volume;
+
 	public ProductInfo(){}
 
 	public ProductInfo(String name_english, String name_hinglish, Type type, Volume volume) {
@@ -34,6 +35,7 @@ import java.util.UUID;
 		this.maximumVolume = 0;
 		this.minimumVolume = 0;
 		this.volumeSet = 0;
+		this.pictureName = "default picture name";
 	}
 
 	public void setId(String id) {
@@ -62,6 +64,14 @@ import java.util.UUID;
 
 	public void setMaximumVolume(int maximumVolume) {
 		this.maximumVolume = maximumVolume;
+	}
+
+	public void setPictureName(String pictureName) {
+		this.pictureName = pictureName;
+	}
+
+	public String getPictureName() {
+		return pictureName;
 	}
 
 	public int getMinimumVolume() {
