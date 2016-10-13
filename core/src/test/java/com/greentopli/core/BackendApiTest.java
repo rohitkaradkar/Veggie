@@ -5,6 +5,7 @@ import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.model.BackendResult;
 import com.greentopli.model.ProductInfo;
+import com.greentopli.model.ProductList;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -121,9 +122,9 @@ public class BackendApiTest {
 	@Test public void test_d_get_list(){
 		try {
 			final CountDownLatch latch = new CountDownLatch(1);
-			Call<List<ProductInfo>> listCall = service.getProductInfoList();
+			Call<ProductList> listCall = service.getProductInfoList();
 
-			listCall.enqueue(new Callback<List<ProductInfo>>() {
+			listCall.enqueue(new Callback<com.greentopli.model.ProductList>() {
 				@Override
 				public void onResponse(Call<List<ProductInfo>> call, Response<List<ProductInfo>> response) {
 					assertTrue("Code: "+response.code(),response.body().size()>0);

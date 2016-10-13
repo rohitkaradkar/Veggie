@@ -2,6 +2,7 @@ package com.greentopli.core.remote;
 
 import com.greentopli.model.BackendResult;
 import com.greentopli.model.ProductInfo;
+import com.greentopli.model.ProductList;
 
 import java.util.List;
 
@@ -26,5 +27,5 @@ public interface BackendService {
 
 	// get All product Info Items
 	@GET("/_ah/api/backend/v1/getProductInfoList")
-	Call<List<ProductInfo>> getProductInfoList();
+	Call<ProductList> getProductInfoList();
 }
