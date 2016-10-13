@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             xmlns:tool="http://schemas.android.com/tools"
+             android:background="@android:color/darker_gray"
+             android:layout_margin="8dp"
+             android:stretchColumns="1,3">
+    <TableRow>
+        <TextView
+            android:id="@+id/item_product_name"
+            tool:text="Sweet Lemon / mosambi"
+            android:padding="@dimen/product_item_element_padding"/>
+        <TextView
+            tool:text="set"
+            android:padding="@dimen/product_item_element_padding"/>
+        <TextView
+            android:id="@+id/item_product_set"
+            tool:text="6pcs"
+            android:padding="@dimen/product_item_element_padding"
+            />
+    </TableRow>
+    <TableRow>
+
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_column="0"
+            tool:text="type"
+            android:padding="@dimen/product_item_element_padding"/>
+        <TextView
+            android:id="@+id/item_product_type"
+            tool:text="Fruit"
+            android:padding="@dimen/product_item_element_padding"/>
+        <TextView
+            tool:text="sold by"
+            android:padding="@dimen/product_item_element_padding"/>
+        <TextView
+            android:id="@+id/item_product_volume"
+            tool:text="Quantity"
+            android:padding="@dimen/product_item_element_padding"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            tool:text="min"
+            android:padding="@dimen/product_item_element_padding"/>
+        <TextView
+            android:id="@+id/item_min_product_volume"
+            tool:text="6 pcs"
+            android:padding="@dimen/product_item_element_padding"/>
+        <TextView
+            tool:text="max"
+            android:padding="@dimen/product_item_element_padding"/>
+        <TextView
+            android:id="@+id/item_max_product_volume"
+            tool:text="60 pcs"
+            android:padding="@dimen/product_item_element_padding"/>
+    </TableRow>
+</TableLayout>
