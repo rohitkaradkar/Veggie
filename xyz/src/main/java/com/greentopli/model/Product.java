@@ -4,9 +4,10 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
+import java.util.Calendar;
 import java.util.UUID;
 
-@Entity public class ProductInfo{
+@Entity public class Product {
 	public enum Type {
 		LEAF_VEGETABLE, FRUIT_VEGETABLE, FRUIT, FLOUR, SPROUT
 	}
@@ -21,21 +22,41 @@ import java.util.UUID;
 	private int maximumVolume;
 	private int volumeSet; // Fruits can be purchased in 3, 6, 9, 12 quantity
 	private String pictureName;
+	private int price;
+	@Index private long time;
 	@Index private Type type;
 	@Index private Volume volume;
 
-	public ProductInfo(){}
+	public Product(){}
 
-	public ProductInfo(String name_english, String name_hinglish, Type type, Volume volume) {
+	public Product(String name_english, String name_hinglish, Type type, Volume volume, int price) {
 		this.id = UUID.randomUUID().toString();
 		this.name_english = name_english;
 		this.name_hinglish = name_hinglish;
 		this.type = type;
 		this.volume = volume;
+		this.price = price;
 		this.maximumVolume = 0;
 		this.minimumVolume = 0;
 		this.volumeSet = 0;
 		this.pictureName = "default picture name";
+		this.time = Calendar.getInstance().getTimeInMillis();
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public long getTime() {
+		return time;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
 	}
 
 	public void setId(String id) {

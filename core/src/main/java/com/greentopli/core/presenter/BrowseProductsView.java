@@ -1,7 +1,7 @@
 package com.greentopli.core.presenter;
 
 import com.greentopli.core.presenter.base.MvpView;
-import com.greentopli.model.ProductInfo;
+import com.greentopli.model.Product;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ import java.util.List;
 public interface BrowseProductsView extends MvpView{
 	void showEmpty();
 	void showError(String message);
-	void showProducts(List<ProductInfo> list);
+	void showProducts(List<Product> list);
 }

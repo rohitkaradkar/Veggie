@@ -7,16 +7,16 @@ import java.util.List;
  */
 
 public class ProductList {
-	private List<ProductInfo> items;
+	private List<Product> items;
 
 	public ProductList() {
 	}
 
-	public List<ProductInfo> getItems() {
+	public List<Product> getItems() {
 		return items;
 	}
 
-	public void setItems(List<ProductInfo> items) {
+	public void setItems(List<Product> items) {
 		this.items = items;
 	}
 }

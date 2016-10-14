@@ -4,7 +4,7 @@ package com.greentopli.core;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.ProductInfo;
+import com.greentopli.model.Product;
 import com.greentopli.model.ProductList;
 
 import org.junit.FixMethodOrder;
@@ -29,14 +29,14 @@ import static org.junit.Assert.*;
 public class BackendApiTest {
 	private BackendService service = ServiceGenerator.createService(BackendService.class);
 	// to avoid multiple instances make it static
-	private static ProductInfo productInfo = new ProductInfo("Lemon","limbu", ProductInfo.Type.FRUIT_VEGETABLE,
-			ProductInfo.Volume.WEIGHT);
+	private static Product product = new Product("Lemon","limbu", Product.Type.FRUIT_VEGETABLE,
+			Product.Volume.WEIGHT);
 
 	// Sqave
 	@Test public void test_a_save(){
 		final CountDownLatch latch = new CountDownLatch(1);
 		try {
-			Call<BackendResult> callSave = service.saveProductInfo(productInfo);
+			Call<BackendResult> callSave = service.saveProductInfo(product);
 			callSave.enqueue(new Callback<BackendResult>() {
 				@Override
 				public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
@@ -62,10 +62,10 @@ public class BackendApiTest {
 	}
 	@Test public void test_b_update(){
 		final CountDownLatch latch = new CountDownLatch(1);
-		ProductInfo productInfo = this.productInfo;
-		productInfo.setName_english("Orange");
+		Product product = this.product;
+		product.setName_english("Orange");
 		try {
-			Call<BackendResult> callSave = service.updateProductInfo(productInfo);
+			Call<BackendResult> callSave = service.updateProductInfo(product);
 			callSave.enqueue(new Callback<BackendResult>() {
 				@Override
 				public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
@@ -94,18 +94,18 @@ public class BackendApiTest {
 		final CountDownLatch latch = new CountDownLatch(1);
 		try {
 			// use proper id here
-			final String product_id = productInfo.getId();
-			Call<ProductInfo> callRetrieve = service.getProductInfo(product_id);
-				callRetrieve.enqueue(new Callback<ProductInfo>() {
+			final String product_id = product.getId();
+			Call<Product> callRetrieve = service.getProductInfo(product_id);
+				callRetrieve.enqueue(new Callback<Product>() {
 					@Override
-					public void onResponse(Call<ProductInfo> call, retrofit2.Response<ProductInfo> response) {
+					public void onResponse(Call<Product> call, retrofit2.Response<Product> response) {
 						latch.countDown();
 						assertTrue("Different OBJ Found"
 								,response.body().getId().equals(product_id));
 					}
 
 					@Override
-					public void onFailure(Call<ProductInfo> call, Throwable t) {
+					public void onFailure(Call<Product> call, Throwable t) {
 						assertTrue("ERROR! Retrieve",false);
 						latch.countDown();
 					}
@@ -126,13 +126,13 @@ public class BackendApiTest {
 
 			listCall.enqueue(new Callback<com.greentopli.model.ProductList>() {
 				@Override
-				public void onResponse(Call<List<ProductInfo>> call, Response<List<ProductInfo>> response) {
+				public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
 					assertTrue("Code: "+response.code(),response.body().size()>0);
 					latch.countDown();
 				}
 
 				@Override
-				public void onFailure(Call<List<ProductInfo>> call, Throwable t) {
+				public void onFailure(Call<List<Product>> call, Throwable t) {
 					latch.countDown();
 				}
 			});
@@ -148,7 +148,7 @@ public class BackendApiTest {
 	@Test public void test_e_delete(){
 		final CountDownLatch latch = new CountDownLatch(1);
 		try {
-			final String product_id = productInfo.getId();
+			final String product_id = product.getId();
 			Call<BackendResult> callDelete = service.deleteProductInfo(product_id);
 			callDelete.enqueue(new Callback<BackendResult>() {
 				@Override

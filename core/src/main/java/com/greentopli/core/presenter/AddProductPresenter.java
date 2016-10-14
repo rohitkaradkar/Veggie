@@ -4,7 +4,7 @@ import com.greentopli.core.presenter.base.MvpView;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.ProductInfo;
+import com.greentopli.model.Product;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,9 +26,9 @@ public class AddProductPresenter {
 		this.callbacks = callbacks;
 		service = ServiceGenerator.createService(BackendService.class);
 	}
-	public void addProductInfo(ProductInfo productInfo){
+	public void addProductInfo(Product product){
 		callbacks.showProgressbar(true);
-		Call<BackendResult> saveProductInfo = service.saveProductInfo(productInfo);
+		Call<BackendResult> saveProductInfo = service.saveProductInfo(product);
 		saveProductInfo.enqueue(new Callback<BackendResult>() {
 			@Override
 			public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
