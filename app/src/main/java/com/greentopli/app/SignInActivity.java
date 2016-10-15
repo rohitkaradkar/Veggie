@@ -99,7 +99,8 @@ public class SignInActivity extends AppCompatActivity implements
 		FirebaseUser user = firebaseAuth.getCurrentUser();
 		if (user != null) {
 			// User is signed in
-			startActivity(new Intent(this,MainActivity.class));
+//			startActivity(new Intent(this,MainActivity.class));
+			finish();
 		} else {
 			// User is signed out
 			showProgressbar(false);

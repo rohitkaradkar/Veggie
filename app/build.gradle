@@ -34,16 +34,22 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':core')
-    //ButterKnife
 
-    //Firebase auth
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.jakewharton:butterknife:8.4.0'
-    compile 'com.google.firebase:firebase-auth:9.6.1'
-    compile 'com.google.android.gms:play-services-auth:9.6.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
-    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+
+    //ButterKnife
+    compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    //Firebase auth
+    compile 'com.google.firebase:firebase-auth:9.6.1'
+    compile 'com.google.android.gms:play-services-auth:9.6.1'
+
+    //Firebase storage
+    compile 'com.google.firebase:firebase-storage:9.6.1'
+
+    testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

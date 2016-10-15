@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.greentopli.app.admin.ProductManager;
 import com.greentopli.core.presenter.base.MvpView;
 
 import butterknife.BindView;
@@ -40,8 +42,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 	}
 	@OnClick(R.id.action_button)
 	public void OnAction(){
-
-
+		startActivity(new Intent(getApplicationContext(),ProductManager.class));
 	}
 	private void verifyUserAuth(){
 		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

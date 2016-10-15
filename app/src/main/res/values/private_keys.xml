@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="image_storage_bucket">gs://green-topli.appspot.com/icons</string>
+</resources>
