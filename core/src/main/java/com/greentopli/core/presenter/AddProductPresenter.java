@@ -14,7 +14,7 @@ import retrofit2.Response;
  * Created by rnztx on 12/10/16.
  */
 
-public class AddProductPresenter {
+public class AddProductPresenter implements Callback<BackendResult> {
 	public interface Callbacks extends MvpView{
 		void onSuccess();
 		void  onFailure(String message);
@@ -28,22 +28,27 @@ public class AddProductPresenter {
 	}
 	public void addProductInfo(Product product){
 		callbacks.showProgressbar(true);
-		Call<BackendResult> saveProductInfo = service.saveProductInfo(product);
-		saveProductInfo.enqueue(new Callback<BackendResult>() {
-			@Override
-			public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
-				if (response.body().isResult())
-					callbacks.onSuccess();
-				else
-					callbacks.onFailure(response.body().getMessage());
-				callbacks.showProgressbar(false);
-			}
+		Call<BackendResult> saveProductCall = service.saveProductInfo(product);
+		saveProductCall.enqueue(this);
+	}
 
-			@Override
-			public void onFailure(Call<BackendResult> call, Throwable t) {
-				callbacks.onFailure("Error Connecting Server: "+t.getMessage());
-				callbacks.showProgressbar(false);
-			}
-		});
+	public void editProductInfo(Product product){
+		callbacks.showProgressbar(true);
+		Call<BackendResult> editProductCall = service.updateProductInfo(product);
+		editProductCall.enqueue(this);
+	}
+	@Override
+	public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
+		if (response.body().isResult())
+			callbacks.onSuccess();
+		else
+			callbacks.onFailure(response.body().getMessage());
+		callbacks.showProgressbar(false);
+	}
+
+	@Override
+	public void onFailure(Call<BackendResult> call, Throwable t) {
+		callbacks.onFailure("Error Connecting Server: "+t.getMessage());
+		callbacks.showProgressbar(false);
 	}
 }
