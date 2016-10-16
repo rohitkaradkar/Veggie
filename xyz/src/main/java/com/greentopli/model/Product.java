@@ -21,7 +21,7 @@ import java.util.UUID;
 	private int minimumVolume;
 	private int maximumVolume;
 	private int volumeSet; // Fruits can be purchased in 3, 6, 9, 12 quantity
-	private String pictureName;
+	private String imageUrl;
 	private int price;
 	@Index private long time;
 	@Index private Type type;
@@ -39,7 +39,7 @@ import java.util.UUID;
 		this.maximumVolume = 0;
 		this.minimumVolume = 0;
 		this.volumeSet = 0;
-		this.pictureName = "default picture name";
+		this.imageUrl = "";
 		this.time = Calendar.getInstance().getTimeInMillis();
 	}
 
@@ -87,12 +87,12 @@ import java.util.UUID;
 		this.maximumVolume = maximumVolume;
 	}
 
-	public void setPictureName(String pictureName) {
-		this.pictureName = pictureName;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
-	public String getPictureName() {
-		return pictureName;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
 	public int getMinimumVolume() {
