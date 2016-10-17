@@ -10,18 +10,21 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:stretchColumns="*">
         <TableRow>
             <ImageView
                 android:id="@+id/item_product_image"
                 android:layout_width="@dimen/product_icon_size"
                 android:layout_height="@dimen/product_icon_size"
+                android:layout_gravity="center_horizontal"
                 android:src="@drawable/ic_photo_default"/>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="start|center_vertical"
+                android:padding="@dimen/product_item_element_padding">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -34,6 +37,15 @@
                     tool:text="Rs 10 / 6pcs"
                     />
             </LinearLayout>
+            <ImageButton
+                android:id="@+id/item_product_delete"
+                android:src="@drawable/ic_delete"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom|end"
+                android:padding="@dimen/product_item_element_padding"
+                android:background="@android:color/transparent"
+                />
         </TableRow>
         <TableRow>
             <TextView
