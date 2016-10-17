@@ -1,5 +1,6 @@
 package com.greentopli.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.greentopli.app.admin.ProductManager;
 import com.greentopli.core.presenter.base.MvpView;
 
 import butterknife.BindView;
@@ -35,10 +37,10 @@ import butterknife.OnClick;
  */
 public class SignInActivity extends AppCompatActivity implements
 	GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener, MvpView{
-	private static final String TAG = "SignInActivity";
 	private GoogleApiClient mGoogleApiClient;
 	private static final int RC_SIGN_IN = 9015;
 	private FirebaseAuth mAuth;
+	private static final String TAG = SignInActivity.class.getSimpleName();
 	@BindView(R.id.default_progressbar)ProgressBar progressBar;
 	@BindView(R.id.button_sign_in) SignInButton signInButton;
 
@@ -99,7 +101,12 @@ public class SignInActivity extends AppCompatActivity implements
 		FirebaseUser user = firebaseAuth.getCurrentUser();
 		if (user != null) {
 			// User is signed in
-//			startActivity(new Intent(this,MainActivity.class));
+			Log.d(TAG,"Signed in "+user.getDisplayName());
+			if (getParent() == null)
+				setResult(Activity.RESULT_OK);
+			else {
+				getParent().setResult(RESULT_OK);
+			}
 			finish();
 		} else {
 			// User is signed out
@@ -120,7 +127,6 @@ public class SignInActivity extends AppCompatActivity implements
 					@Override
 					public void onComplete(@NonNull Task<AuthResult> task) {
 						Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-
 						// If sign in fails, display a message to the user. If sign in succeeds
 						// the auth state listener will be notified and logic to handle the
 						// signed in user can be handled in the listener.
@@ -146,5 +152,10 @@ public class SignInActivity extends AppCompatActivity implements
 		showProgressbar(true);
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
+	}
+	private void redirect(){
+		if (BuildConfig.FLAVOR.equals("admin")){
+			startActivity(new Intent(getApplicationContext(), ProductManager.class));
+		}
 	}
 }
