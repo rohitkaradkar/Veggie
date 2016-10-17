@@ -30,7 +30,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			@Override
 			public void onResponse(Call<ProductList> call, Response<ProductList> response) {
 
-				if (response.body()!=null){
+				if (response.body().getItems()!=null){
 					if (response.body().getItems().size()>0)
 						getmMvpView().showProducts(response.body().getItems());
 					else
