@@ -50,7 +50,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sign_in);
+		setContentView(R.layout.activity_authenticator);
 		ButterKnife.bind(this);
 
 		// Configure Google Sign In
@@ -106,6 +106,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	@Override
 	public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 		FirebaseUser user = firebaseAuth.getCurrentUser();
+		showProgressbar(false);
 		if (user != null) {
 			// User is signed in
 			Log.d(TAG,"Signed In "+user.getDisplayName());
@@ -157,6 +158,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	}
 	private void signOut(){
 		try{
+			showProgressbar(true);
 			// Firebase Logout
 			FirebaseAuth.getInstance().signOut();
 
@@ -186,7 +188,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 				new ResultCallback<Status>() {
 					@Override
 					public void onResult(@NonNull Status status) {
-						returnActivityResult();
+
 					}
 				}
 		);
