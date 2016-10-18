@@ -116,7 +116,7 @@ public class SignInActivity extends AppCompatActivity implements
 
 	@Override
 	public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+		Toast.makeText(getApplicationContext(),connectionResult.toString(),Toast.LENGTH_LONG).show();
 	}
 	private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 		Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
@@ -132,7 +132,7 @@ public class SignInActivity extends AppCompatActivity implements
 						// signed in user can be handled in the listener.
 						if (!task.isSuccessful()) {
 							Log.e(TAG, "signInWithCredential", task.getException());
-							Toast.makeText(SignInActivity.this, "Authentication failed.",
+							Toast.makeText(getApplicationContext(), "Authentication failed.",
 									Toast.LENGTH_SHORT).show();
 						}
 					}
@@ -152,10 +152,5 @@ public class SignInActivity extends AppCompatActivity implements
 		showProgressbar(true);
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
-	}
-	private void redirect(){
-		if (BuildConfig.FLAVOR.equals("admin")){
-			startActivity(new Intent(getApplicationContext(), ProductManager.class));
-		}
 	}
 }
