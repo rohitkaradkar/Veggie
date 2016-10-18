@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="@dimen/cardview_default_elevation"
-    android:layout_marginBottom="@dimen/activity_vertical_margin">
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginStart="@dimen/activity_horizontal_margin"
+    android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="*">
-        <TableRow>
+        <TableRow android:id="@+id/table_row_1">
             <ImageView
                 android:id="@+id/item_product_image"
                 android:layout_width="@dimen/product_icon_size"
@@ -47,7 +49,8 @@
                 android:background="@android:color/transparent"
                 />
         </TableRow>
-        <TableRow>
+
+        <TableRow android:id="@+id/table_row_2">
             <TextView
                 android:text="@string/label_set"
                 android:padding="@dimen/product_item_element_padding"/>
@@ -56,9 +59,9 @@
                 tool:text="6pcs"
                 android:padding="@dimen/product_item_element_padding"
                 />
-        </TableRow>
+        </TableRow >
 
-        <TableRow>
+        <TableRow android:id="@+id/table_row_3">
             <TextView
                 android:layout_column="0"
                 android:text="@string/label_type"
@@ -69,7 +72,7 @@
                 android:padding="@dimen/product_item_element_padding"/>
         </TableRow>
 
-        <TableRow>
+        <TableRow android:id="@+id/table_row_4">
             <TextView
                 android:text="@string/label_volume"
                 android:padding="@dimen/product_item_element_padding"/>
@@ -78,7 +81,7 @@
                 tool:text="Quantity"
                 android:padding="@dimen/product_item_element_padding"/>
         </TableRow>
-        <TableRow>
+        <TableRow android:id="@+id/table_row_5">
             <TextView
                 android:text="@string/label_min_volume"
                 android:padding="@dimen/product_item_element_padding"/>
@@ -87,7 +90,7 @@
                 tool:text="6 pcs"
                 android:padding="@dimen/product_item_element_padding"/>
         </TableRow>
-        <TableRow>
+        <TableRow android:id="@+id/table_row_6">
             <TextView
                 android:text="@string/label_max_volume"
                 android:padding="@dimen/product_item_element_padding"/>
