@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.greentopli.app.SignInActivity">
+    tools:context="com.greentopli.app.AuthenticatorActivity">
     <com.google.android.gms.common.SignInButton
         android:id="@+id/button_sign_in"
         android:layout_width="wrap_content"

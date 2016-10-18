@@ -2,8 +2,8 @@ package com.greentopli.app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +18,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -25,7 +27,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.greentopli.app.admin.ProductManager;
 import com.greentopli.core.presenter.base.MvpView;
 
 import butterknife.BindView;
@@ -35,12 +36,14 @@ import butterknife.OnClick;
 /**
  * referred from https://firebase.google.com/docs/auth/android/google-signin?utm_source=studio
  */
-public class SignInActivity extends AppCompatActivity implements
-	GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener, MvpView{
+public class AuthenticatorActivity extends AppCompatActivity implements
+	GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener, MvpView,
+	GoogleApiClient.ConnectionCallbacks{
 	private GoogleApiClient mGoogleApiClient;
 	private static final int RC_SIGN_IN = 9015;
+	public static final String EXTRA_SIGNOUT = "signout_request";
 	private FirebaseAuth mAuth;
-	private static final String TAG = SignInActivity.class.getSimpleName();
+	private static final String TAG = AuthenticatorActivity.class.getSimpleName();
 	@BindView(R.id.default_progressbar)ProgressBar progressBar;
 	@BindView(R.id.button_sign_in) SignInButton signInButton;
 
@@ -63,6 +66,9 @@ public class SignInActivity extends AppCompatActivity implements
 				.build();
 
 		mAuth = FirebaseAuth.getInstance();
+
+		if (getIntent().hasExtra(EXTRA_SIGNOUT) && getIntent().getBooleanExtra(EXTRA_SIGNOUT,false))
+			signOut();
 	}
 
 	@Override
@@ -90,6 +96,7 @@ public class SignInActivity extends AppCompatActivity implements
 			} else {
 				// Google Sign In failed, update UI appropriately
 				showProgressbar(false);
+				Toast.makeText(getApplicationContext(),"SignIn Failed",Toast.LENGTH_LONG).show();
 			}
 		}
 
@@ -101,16 +108,11 @@ public class SignInActivity extends AppCompatActivity implements
 		FirebaseUser user = firebaseAuth.getCurrentUser();
 		if (user != null) {
 			// User is signed in
-			Log.d(TAG,"Signed in "+user.getDisplayName());
-			if (getParent() == null)
-				setResult(Activity.RESULT_OK);
-			else {
-				getParent().setResult(RESULT_OK);
-			}
-			finish();
+			Log.d(TAG,"Signed In "+user.getDisplayName());
+			returnActivityResult();
 		} else {
 			// User is signed out
-			showProgressbar(false);
+			Log.d(TAG,"Signed Out");
 		}
 	}
 
@@ -152,5 +154,57 @@ public class SignInActivity extends AppCompatActivity implements
 		showProgressbar(true);
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
+	}
+	private void signOut(){
+		try{
+			// Firebase Logout
+			FirebaseAuth.getInstance().signOut();
+
+			// Configure Google Sign In
+			GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+					.requestIdToken(getString(R.string.default_web_client_id))
+					.requestEmail()
+					.requestProfile()
+					.build();
+
+			mGoogleApiClient = new GoogleApiClient.Builder(this)
+					.enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+					.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+					.addConnectionCallbacks(this)
+					.build();
+
+			mGoogleApiClient.connect(); // wait for connection
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onConnected(@Nullable Bundle bundle) {
+		// on GoogleApiClient connection SignOut
+		Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+				new ResultCallback<Status>() {
+					@Override
+					public void onResult(@NonNull Status status) {
+						returnActivityResult();
+					}
+				}
+		);
+	}
+
+	@Override
+	public void onConnectionSuspended(int i) {
+
+	}
+	public static boolean isUserSignedIn(){
+		return FirebaseAuth.getInstance().getCurrentUser()!=null;
+	}
+	private void returnActivityResult(){
+		if (getParent() == null)
+			setResult(Activity.RESULT_OK);
+		else {
+			getParent().setResult(RESULT_OK);
+		}
+		finish();
 	}
 }
