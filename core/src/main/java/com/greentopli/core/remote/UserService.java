@@ -1,11 +1,11 @@
 package com.greentopli.core.remote;
 
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.PurchaseEntity;
+import com.greentopli.model.PurchasedItem;
+import com.greentopli.model.UserCartItems;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -14,5 +14,5 @@ import retrofit2.http.POST;
 
 public interface UserService {
 	@POST("/_ah/api/server/v1/purchase")
-	Call<BackendResult> purchaseProduct(@Body PurchaseEntity entity);
+	Call<BackendResult> storePurchasedItems(@Body UserCartItems items);
 }

@@ -4,7 +4,7 @@ import com.greentopli.core.presenter.base.MvpView;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.UserService;
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.PurchaseEntity;
+import com.greentopli.model.UserCartItems;
 
 import java.util.List;
 
@@ -30,9 +30,9 @@ public class CartCheckoutPresenter{
 	}
 
 
-	public void checkOutOrders(PurchaseEntity entity){
+	public void checkOutOrders(UserCartItems cartItems){
 		UserService service = ServiceGenerator.createService(UserService.class);
-		checkoutCall = service.purchaseProduct(entity);
+		checkoutCall = service.storePurchasedItems(cartItems);
 
 		checkoutCall.enqueue(new Callback<BackendResult>() {
 			@Override

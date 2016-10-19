@@ -1,12 +1,15 @@
 package com.greentopli.core;
 
 import com.greentopli.core.presenter.CartCheckoutPresenter;
-import com.greentopli.model.PurchaseEntity;
+import com.greentopli.model.PurchasedItem;
+import com.greentopli.model.UserCartItems;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -33,15 +36,42 @@ public class UserServiceTest {
 			}
 
 			@Override
-			public void showProgressbar(boolean show) {
-
-			}
+			public void showProgressbar(boolean show) {}
 		});
-		PurchaseEntity entity = new PurchaseEntity("rohit","orange");
-		entity.setTime_completed(Calendar.getInstance().getTime());
-		entity.setTime_placed(Calendar.getInstance().getTime());
 
-		presenter.checkOutOrders(entity);
+		presenter.checkOutOrders(new UserCartItems(getDummyData()));
 		latch.await();
+	}
+
+	private List<PurchasedItem> getDummyData(){
+		List<PurchasedItem> list = new ArrayList<>();
+		for (int i=0; i<100; i++){
+			PurchasedItem entity;
+			if (i%2==0){
+				entity = new PurchasedItem("rohit", UUID.randomUUID().toString());
+				entity.setAccepted(true);
+				Calendar calendar = Calendar.getInstance();
+				calendar.roll(Calendar.DAY_OF_MONTH,true);
+				entity.setDateCompleted(Utils.getDateExcludingTime(calendar));
+			} else if (i%3==0){
+				entity = new PurchasedItem("amar", UUID.randomUUID().toString());
+				entity.setAccepted(true);
+				Calendar calendar = Calendar.getInstance();
+				calendar.roll(Calendar.DAY_OF_MONTH,false);
+				entity.setDateCompleted(Utils.getDateExcludingTime(calendar));
+			}else if (i%7==0){
+				entity = new PurchasedItem("romen", UUID.randomUUID().toString());
+				entity.setCompleted(true);
+				entity.setDateCompleted(Utils.getDateExcludingTime());
+			}
+			else {
+				entity = new PurchasedItem("dev", UUID.randomUUID().toString());
+				entity.setCompleted(true);
+				entity.setAccepted(true);
+				entity.setDateCompleted(Utils.getDateExcludingTime());
+			}
+			list.add(entity);
+		}
+		return list;
 	}
 }
