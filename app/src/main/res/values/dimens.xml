@@ -2,6 +2,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-
     <dimen name="label_margin">4dp</dimen>
+
+    <!--Spinner Row-->
+    <dimen name="spinner_item_height">46dp</dimen>
+    <dimen name="spinner_item_textSize">20sp</dimen>
+    <dimen name="spinner_item_padding">4dp</dimen>
 </resources>
