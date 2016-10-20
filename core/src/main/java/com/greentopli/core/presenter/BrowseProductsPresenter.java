@@ -3,17 +3,23 @@ package com.greentopli.core.presenter;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.greentopli.core.CoreApp;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
+import com.greentopli.core.storage.product.ProductColumns;
 import com.greentopli.core.storage.product.ProductContentValues;
+import com.greentopli.core.storage.product.ProductCursor;
+import com.greentopli.core.storage.product.ProductSelection;
 import com.greentopli.model.BackendResult;
 import com.greentopli.model.Product;
 import com.greentopli.model.ProductList;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,15 +30,16 @@ import retrofit2.Response;
  */
 
 public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
+	private static final String TAG = BrowseProductsPresenter.class.getSimpleName();
 	public BrowseProductsPresenter(){}
 	@Override
 	public void attachView(BrowseProductsView mvpView) {
 		super.attachView(mvpView);
 		getmMvpView().showProgressbar(true);
-		sendProducts();
+		getProductItems();
 	}
 
-	private void sendProducts(){
+	private void getProductItems(){
 		BackendService service = ServiceGenerator.createService(BackendService.class);
 		Call<ProductList> call = service.getProductInfoList();
 		call.enqueue(new Callback<com.greentopli.model.ProductList>() {
@@ -40,34 +47,68 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			public void onResponse(Call<ProductList> call, Response<ProductList> response) {
 
 				if (response.body().getItems()!=null){
+
+					// we get Items
 					if (response.body().getItems().size()>0) {
-						getmMvpView().showProducts(response.body().getItems());
-						storeProducts(response.body().getItems());
+						// store to database
+						storeProductListToDatabase(response.body().getItems());
+						// retrieve to show
+						getmMvpView().showProducts(retrieveProductsFromDatabase());
 					}
-					else
+					else // server sends empty list
 						getmMvpView().showEmpty();
-				}else
-					getmMvpView().showError("Error Getting Data");
+
+				}else // bad response
+					getmMvpView().showError("Bad Response");
 
 				getmMvpView().showProgressbar(false);
 			}
 
 			@Override
 			public void onFailure(Call<ProductList> call, Throwable t) {
-				getmMvpView().showError("Error in Connection:: "+t.getMessage());
+				getmMvpView().showError(null);
+				Log.e(TAG,"Connection Error "+t.getMessage());
 				getmMvpView().showProgressbar(false);
 			}
 		});
 	}
 
-	private void storeProducts(@NonNull List<Product> productList){
+	private void storeProductListToDatabase(@NonNull List<Product> productList){
 		for (Product item : productList){
-			long id = storeProduct(item);
-
+			long id = storeProductToDatabase(item);
 		}
 	}
+	private List<Product> retrieveProductsFromDatabase(){
+		ProductSelection selection = new ProductSelection();
+		ProductCursor cursor = selection.query(CoreApp.getContext().getContentResolver(), ProductColumns.ALL_COLUMNS);
+		List<Product> list = new ArrayList<>();
+		while (cursor.moveToNext()){
+			Product product = getProductFromCursor(cursor);
+			if (product!=null)
+				list.add(product);
+		}
+		cursor.close();
+		return list;
+	}
 
-	private long storeProduct(@NonNull Product product){
+	private Product getProductFromCursor(ProductCursor cursor){
+		Product product = new Product();
+		product.setId(cursor.getProductId());
+		product.setName_english(cursor.getNameEnglish());
+		product.setName_hinglish(cursor.getNameHinglish());
+		product.setImageUrl(cursor.getImageUrl());
+		product.setPrice(cursor.getPrice());
+		product.setVolumeSet(cursor.getVolumeSet());
+		product.setMinimumVolume(cursor.getMinVolume());
+		product.setMaximumVolume(cursor.getMaxVolume());
+		product.setTime(cursor.getTime());
+		// convert String to Enums
+		product.setVolume(Product.Volume.valueOf(cursor.getVolume().toUpperCase(Locale.ENGLISH)));
+		product.setType(Product.Type.valueOf(cursor.getType().toUpperCase(Locale.ENGLISH)));
+		return product;
+	}
+
+	private long storeProductToDatabase(@NonNull Product product){
 		ProductContentValues values = new ProductContentValues();
 		values.putProductId(product.getId());
 		values.putNameEnglish(product.getName_english());
@@ -102,6 +143,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			}
 		});
 	}
+
 	@Override
 	public void detachView() {
 		super.detachView();
