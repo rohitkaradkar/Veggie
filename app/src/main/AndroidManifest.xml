@@ -3,11 +3,6 @@
           package="com.greentopli.app">
 
     <application
-        android:name="com.greentopli.core.AppClass"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AuthenticatorActivity">
         </activity>

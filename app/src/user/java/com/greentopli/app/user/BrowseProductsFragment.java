@@ -30,7 +30,7 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View rootView =  inflater.inflate(R.layout.fragment_browse_product, container, false);
-		new BrowseProductsPresenter().attachView(this);
+		new BrowseProductsPresenter().attachView(this,getContext());
 		return rootView;
 	}
 

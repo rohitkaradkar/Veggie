@@ -1,14 +1,18 @@
 package com.greentopli.core.presenter.base;
 
+import android.content.Context;
+
 /**
  * Created by rnztx on 8/10/16.
  */
 
 public class BasePresenter<T extends MvpView> implements Presenter<T> {
 	private T mMvpView;
+	private Context context;
 	@Override
-	public void attachView(T mvpView) {
+	public void attachView(T mvpView, Context context) {
 		this.mMvpView=mvpView;
+		this.context = context;
 	}
 
 	@Override
@@ -21,5 +25,9 @@ public class BasePresenter<T extends MvpView> implements Presenter<T> {
 	}
 	public T getmMvpView(){
 		return this.mMvpView;
+	}
+
+	public Context getContext() {
+		return context;
 	}
 }

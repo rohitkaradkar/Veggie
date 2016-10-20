@@ -1,11 +1,11 @@
 package com.greentopli.core.presenter;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.greentopli.core.CoreApp;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
@@ -33,8 +33,8 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 	private static final String TAG = BrowseProductsPresenter.class.getSimpleName();
 	public BrowseProductsPresenter(){}
 	@Override
-	public void attachView(BrowseProductsView mvpView) {
-		super.attachView(mvpView);
+	public void attachView(BrowseProductsView mvpView,Context context) {
+		super.attachView(mvpView,context);
 		getmMvpView().showProgressbar(true);
 		getProductItems();
 	}
@@ -80,7 +80,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 	}
 	private List<Product> retrieveProductsFromDatabase(){
 		ProductSelection selection = new ProductSelection();
-		ProductCursor cursor = selection.query(CoreApp.getContext().getContentResolver(), ProductColumns.ALL_COLUMNS);
+		ProductCursor cursor = selection.query(getContext().getContentResolver(), ProductColumns.ALL_COLUMNS);
 		List<Product> list = new ArrayList<>();
 		while (cursor.moveToNext()){
 			Product product = getProductFromCursor(cursor);
@@ -121,7 +121,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 		values.putMinVolume(product.getMinimumVolume());
 		values.putMaxVolume(product.getMaximumVolume());
 		values.putTime(product.getTime());
-		Uri uri = values.insert(CoreApp.getContext().getContentResolver());
+		Uri uri = values.insert(getContext().getContentResolver());
 		return ContentUris.parseId(uri);
 	}
 
