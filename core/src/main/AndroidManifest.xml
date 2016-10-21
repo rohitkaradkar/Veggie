@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.greentopli.core">
+<manifest package="com.greentopli.core"
+          xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:name=".AppClass"
+        android:label="@string/app_name">
+
+    </application>
 </manifest>
