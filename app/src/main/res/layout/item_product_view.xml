@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="64dp">
+    <ImageView
+        android:id="@+id/item_product_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_photo_default"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/item_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            tools:text="Landy Finger / Bhindi"/>
+        <TextView
+            android:id="@+id/item_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            tools:text="Rs 10 / 6 pcs"/>
+    </LinearLayout>
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|end"
+        android:id="@+id/item_product_checkbox"/>
+</LinearLayout>

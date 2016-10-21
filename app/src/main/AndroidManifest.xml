@@ -3,6 +3,7 @@
           package="com.greentopli.app">
 
     <application
+        android:name=".MyAppClass"
         android:theme="@style/AppTheme">
         <activity android:name=".AuthenticatorActivity">
         </activity>

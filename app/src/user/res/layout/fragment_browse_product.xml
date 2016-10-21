@@ -3,11 +3,13 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="com.greentopli.app.user.BrowseProductsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/browse_products_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Browse Products Fragment"/>
-
+        android:layout_height="match_parent"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/progressbar"/>
+    </FrameLayout>
 </FrameLayout>

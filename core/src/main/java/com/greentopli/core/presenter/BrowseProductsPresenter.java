@@ -35,11 +35,10 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 	@Override
 	public void attachView(BrowseProductsView mvpView,Context context) {
 		super.attachView(mvpView,context);
-		getmMvpView().showProgressbar(true);
-		getProductItems();
 	}
 
-	private void getProductItems(){
+	public void getProductItems(){
+		getmMvpView().showProgressbar(true);
 		BackendService service = ServiceGenerator.createService(BackendService.class);
 		Call<ProductList> call = service.getProductInfoList();
 		call.enqueue(new Callback<com.greentopli.model.ProductList>() {
