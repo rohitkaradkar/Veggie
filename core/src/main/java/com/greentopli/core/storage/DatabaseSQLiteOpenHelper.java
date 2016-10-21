@@ -11,6 +11,8 @@ import android.util.Log;
 
 import com.greentopli.core.BuildConfig;
 import com.greentopli.core.storage.product.ProductColumns;
+import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
+import com.greentopli.core.storage.user.UserColumns;
 
 public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = DatabaseSQLiteOpenHelper.class.getSimpleName();
@@ -37,6 +39,32 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper {
             + ProductColumns.TYPE + " TEXT NOT NULL, "
             + ProductColumns.VOLUME + " TEXT NOT NULL "
             + ", CONSTRAINT unique_name UNIQUE (product_id, name_english) ON CONFLICT REPLACE"
+            + " );";
+
+    public static final String SQL_CREATE_TABLE_PURCHASED_ITEM = "CREATE TABLE IF NOT EXISTS "
+            + PurchasedItemColumns.TABLE_NAME + " ( "
+            + PurchasedItemColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + PurchasedItemColumns.PURCHASE_ID + " TEXT NOT NULL, "
+            + PurchasedItemColumns.USER_ID + " TEXT NOT NULL, "
+            + PurchasedItemColumns.PRODUCT_ID + " TEXT NOT NULL, "
+            + PurchasedItemColumns.DATE_REQUESTED + " INTEGER NOT NULL, "
+            + PurchasedItemColumns.DATE_ACCEPTED + " INTEGER NOT NULL, "
+            + PurchasedItemColumns.ACCEPTED + " INTEGER NOT NULL, "
+            + PurchasedItemColumns.COMPLETED + " INTEGER NOT NULL, "
+            + PurchasedItemColumns.VOLUME + " INTEGER NOT NULL "
+            + ", CONSTRAINT unique_name UNIQUE (purchase_id,product_id) ON CONFLICT REPLACE"
+            + " );";
+
+    public static final String SQL_CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS "
+            + UserColumns.TABLE_NAME + " ( "
+            + UserColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + UserColumns.USER_ID + " TEXT NOT NULL, "
+            + UserColumns.EMAIL + " TEXT NOT NULL, "
+            + UserColumns.NAME + " TEXT NOT NULL, "
+            + UserColumns.MOBILE_NO + " INTEGER NOT NULL, "
+            + UserColumns.ADDRESS + " TEXT NOT NULL, "
+            + UserColumns.PINCODE + " INTEGER NOT NULL "
+            + ", CONSTRAINT unique_name UNIQUE (user_id) ON CONFLICT REPLACE"
             + " );";
 
     // @formatter:on
@@ -94,6 +122,8 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
         db.execSQL(SQL_CREATE_TABLE_PRODUCT);
+        db.execSQL(SQL_CREATE_TABLE_PURCHASED_ITEM);
+        db.execSQL(SQL_CREATE_TABLE_USER);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
 

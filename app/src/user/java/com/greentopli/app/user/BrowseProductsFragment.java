@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.greentopli.app.R;
+import com.greentopli.core.handler.CartDbHandler;
 import com.greentopli.core.presenter.BrowseProductsPresenter;
 import com.greentopli.core.presenter.BrowseProductsView;
 import com.greentopli.model.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BrowseProductsFragment extends Fragment implements BrowseProductsView {
+public class BrowseProductsFragment extends Fragment implements BrowseProductsView{
 
 	@BindView(R.id.browse_products_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.default_progressbar) ProgressBar progressBar;

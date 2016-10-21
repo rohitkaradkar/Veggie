@@ -5,6 +5,8 @@ import android.provider.BaseColumns;
 
 import com.greentopli.core.storage.DatabaseProvider;
 import com.greentopli.core.storage.product.ProductColumns;
+import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
+import com.greentopli.core.storage.user.UserColumns;
 
 /**
  * The Product Item wich user is will purchase.

@@ -13,6 +13,8 @@ import android.util.Log;
 import com.greentopli.core.BuildConfig;
 import com.greentopli.core.storage.base.BaseContentProvider;
 import com.greentopli.core.storage.product.ProductColumns;
+import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
+import com.greentopli.core.storage.user.UserColumns;
 
 public class DatabaseProvider extends BaseContentProvider {
     private static final String TAG = DatabaseProvider.class.getSimpleName();
@@ -28,6 +30,12 @@ public class DatabaseProvider extends BaseContentProvider {
     private static final int URI_TYPE_PRODUCT = 0;
     private static final int URI_TYPE_PRODUCT_ID = 1;
 
+    private static final int URI_TYPE_PURCHASED_ITEM = 2;
+    private static final int URI_TYPE_PURCHASED_ITEM_ID = 3;
+
+    private static final int URI_TYPE_USER = 4;
+    private static final int URI_TYPE_USER_ID = 5;
+
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -35,6 +43,10 @@ public class DatabaseProvider extends BaseContentProvider {
     static {
         URI_MATCHER.addURI(AUTHORITY, ProductColumns.TABLE_NAME, URI_TYPE_PRODUCT);
         URI_MATCHER.addURI(AUTHORITY, ProductColumns.TABLE_NAME + "/#", URI_TYPE_PRODUCT_ID);
+        URI_MATCHER.addURI(AUTHORITY, PurchasedItemColumns.TABLE_NAME, URI_TYPE_PURCHASED_ITEM);
+        URI_MATCHER.addURI(AUTHORITY, PurchasedItemColumns.TABLE_NAME + "/#", URI_TYPE_PURCHASED_ITEM_ID);
+        URI_MATCHER.addURI(AUTHORITY, UserColumns.TABLE_NAME, URI_TYPE_USER);
+        URI_MATCHER.addURI(AUTHORITY, UserColumns.TABLE_NAME + "/#", URI_TYPE_USER_ID);
     }
 
     @Override
@@ -55,6 +67,16 @@ public class DatabaseProvider extends BaseContentProvider {
                 return TYPE_CURSOR_DIR + ProductColumns.TABLE_NAME;
             case URI_TYPE_PRODUCT_ID:
                 return TYPE_CURSOR_ITEM + ProductColumns.TABLE_NAME;
+
+            case URI_TYPE_PURCHASED_ITEM:
+                return TYPE_CURSOR_DIR + PurchasedItemColumns.TABLE_NAME;
+            case URI_TYPE_PURCHASED_ITEM_ID:
+                return TYPE_CURSOR_ITEM + PurchasedItemColumns.TABLE_NAME;
+
+            case URI_TYPE_USER:
+                return TYPE_CURSOR_DIR + UserColumns.TABLE_NAME;
+            case URI_TYPE_USER_ID:
+                return TYPE_CURSOR_ITEM + UserColumns.TABLE_NAME;
 
         }
         return null;
@@ -106,12 +128,30 @@ public class DatabaseProvider extends BaseContentProvider {
                 res.orderBy = ProductColumns.DEFAULT_ORDER;
                 break;
 
+            case URI_TYPE_PURCHASED_ITEM:
+            case URI_TYPE_PURCHASED_ITEM_ID:
+                res.table = PurchasedItemColumns.TABLE_NAME;
+                res.idColumn = PurchasedItemColumns._ID;
+                res.tablesWithJoins = PurchasedItemColumns.TABLE_NAME;
+                res.orderBy = PurchasedItemColumns.DEFAULT_ORDER;
+                break;
+
+            case URI_TYPE_USER:
+            case URI_TYPE_USER_ID:
+                res.table = UserColumns.TABLE_NAME;
+                res.idColumn = UserColumns._ID;
+                res.tablesWithJoins = UserColumns.TABLE_NAME;
+                res.orderBy = UserColumns.DEFAULT_ORDER;
+                break;
+
             default:
                 throw new IllegalArgumentException("The uri '" + uri + "' is not supported by this ContentProvider");
         }
 
         switch (matchedId) {
             case URI_TYPE_PRODUCT_ID:
+            case URI_TYPE_PURCHASED_ITEM_ID:
+            case URI_TYPE_USER_ID:
                 id = uri.getLastPathSegment();
         }
         if (id != null) {

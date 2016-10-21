@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.greentopli.core.handler.CartDbHandler;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
@@ -31,10 +32,12 @@ import retrofit2.Response;
 
 public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 	private static final String TAG = BrowseProductsPresenter.class.getSimpleName();
+	private CartDbHandler cartDbHandler;
 	public BrowseProductsPresenter(){}
 	@Override
 	public void attachView(BrowseProductsView mvpView,Context context) {
 		super.attachView(mvpView,context);
+		cartDbHandler = new CartDbHandler(context);
 	}
 
 	public void getProductItems(){
@@ -77,6 +80,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			long id = storeProductToDatabase(item);
 		}
 	}
+
 	private List<Product> retrieveProductsFromDatabase(){
 		ProductSelection selection = new ProductSelection();
 		ProductCursor cursor = selection.query(getContext().getContentResolver(), ProductColumns.ALL_COLUMNS);
