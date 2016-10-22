@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
 
-public class PurchaseManagerActivity extends AppCompatActivity {
+public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 	private static final int REQUEST_SIGNIN = 210;
 	private static final int REQUEST_SIGNOUT = 220;
 
@@ -22,7 +22,7 @@ public class PurchaseManagerActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_purchase_manager);
 
 		if (savedInstanceState == null){
-			BrowseProductsFragment fragment = new BrowseProductsFragment();
+			BrowseProductsFragment fragment = BrowseProductsFragment.getInstance();
 
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.activity_purchase_manager_container,fragment)
@@ -46,8 +46,15 @@ public class PurchaseManagerActivity extends AppCompatActivity {
 
 			default:
 				return super.onOptionsItemSelected(item);
-
 		}
+	}
+
+	@Override
+	public void onFragmentInteraction() {
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.activity_purchase_manager_container,CartItemsFragment.newInstance())
+				.addToBackStack(null)
+				.commit();
 	}
 
 	private void signIn(){

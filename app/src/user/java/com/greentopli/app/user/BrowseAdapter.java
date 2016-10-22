@@ -98,6 +98,9 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 		return mProducts.size();
 	}
 
+	public int getCartItemCount(){
+		return cartDbHandler.getCartItems().size();
+	}
 	public void addProduct(Product product){
 		mProducts.add(product);
 		notifyDataSetChanged();
@@ -108,4 +111,5 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 		mProducts.addAll(list);
 		notifyDataSetChanged();
 	}
+
 }

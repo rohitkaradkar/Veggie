@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">User Green Topli</string>
+
+    <string name="message_empty_cart">Cart is empty</string>
 </resources>

@@ -1,27 +1,14 @@
-package com.greentopli.core.presenter;
+package com.greentopli.core.presenter.browse;
 
-import android.content.ContentUris;
 import android.content.Context;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.greentopli.core.handler.CartDbHandler;
 import com.greentopli.core.handler.ProductDbHandler;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
-import com.greentopli.core.storage.product.ProductColumns;
-import com.greentopli.core.storage.product.ProductContentValues;
-import com.greentopli.core.storage.product.ProductCursor;
-import com.greentopli.core.storage.product.ProductSelection;
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.Product;
 import com.greentopli.model.ProductList;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;

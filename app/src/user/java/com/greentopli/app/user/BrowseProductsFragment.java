@@ -1,6 +1,7 @@
 package com.greentopli.app.user;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,17 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.greentopli.app.R;
-import com.greentopli.core.handler.CartDbHandler;
-import com.greentopli.core.presenter.BrowseProductsPresenter;
-import com.greentopli.core.presenter.BrowseProductsView;
+import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
+import com.greentopli.core.presenter.browse.BrowseProductsView;
 import com.greentopli.model.Product;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -32,10 +34,26 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 	private BrowseAdapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private BrowseProductsPresenter mPresenter;
+	OnFragmentInteractionListener listener;
+
 	public BrowseProductsFragment() {
 		// Required empty public constructor
 	}
-
+	public static BrowseProductsFragment getInstance(){
+		BrowseProductsFragment fragment = new BrowseProductsFragment();
+		// set parameters
+		return fragment;
+	}
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		if (context instanceof OnFragmentInteractionListener){
+			listener = (OnFragmentInteractionListener)context;
+		}else {
+			throw new RuntimeException(context.toString()+" Must implement "+
+			OnFragmentInteractionListener.class.getSimpleName());
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,10 +87,17 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 	}
 
 	@Override
-	public void onProductDeleted(boolean deleted, String product_id) {
+	public void onProductDeleted(boolean deleted, String product_id) {}
+
+	@OnClick(R.id.fab_browse_product_fragment)
+	void onFabClick(){
+		if (mAdapter.getCartItemCount()>0){
+			listener.onFragmentInteraction();
+		}else {
+			Toast.makeText(getContext(),R.string.message_empty_cart,Toast.LENGTH_SHORT).show();
+		}
 
 	}
-
 	@Override
 	public void showProgressbar(boolean show) {
 		progressBar.setVisibility(show?View.VISIBLE:View.GONE);
