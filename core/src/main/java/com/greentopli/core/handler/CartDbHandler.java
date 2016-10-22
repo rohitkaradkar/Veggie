@@ -38,7 +38,7 @@ public class CartDbHandler {
 		values.putVolume(volume);
 		values.putAccepted(false);
 		values.putCompleted(false);
-		values.putDateAccepted(Utils.getDateExcludingTime());
+		values.putDateAccepted(0);
 		values.putDateRequested(Utils.getDateExcludingTime());
 		Uri uri = values.insert(context.getContentResolver());
 		return ContentUris.parseId(uri);
@@ -78,6 +78,16 @@ public class CartDbHandler {
 		return productDbHandler.retrieveProductsFromDatabase(ids);
 	}
 
+	public List<PurchasedItem> getPurchasedItemList(){
+		List<PurchasedItem> purchasedItems = new ArrayList<>();
+		PurchasedItemSelection selection = new PurchasedItemSelection();
+		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
+		while (cursor.moveToNext()){
+			purchasedItems.add(getPurchasedItemFromCursor(cursor));
+		}
+		cursor.close();
+		return purchasedItems;
+	}
 	public PurchasedItem getPurchasedItem(@NonNull String product_id){
 		PurchasedItemSelection selection = new PurchasedItemSelection();
 		selection.productId(product_id);
@@ -108,5 +118,10 @@ public class CartDbHandler {
 		PurchasedItemContentValues values = new PurchasedItemContentValues();
 		values.putVolume(updated_volume);
 		return values.update(context,where);
+	}
+
+	public int clearCartItems(){
+		PurchasedItemSelection allItems = new PurchasedItemSelection();
+		return allItems.delete(context);
 	}
 }

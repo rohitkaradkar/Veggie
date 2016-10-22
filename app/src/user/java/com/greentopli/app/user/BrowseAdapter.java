@@ -24,6 +24,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.greentopli.core.Utils.calculatePrice;
+
 /**
  * Created by rnztx on 20/10/16.
  */
@@ -130,6 +132,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 				.load(product.getImageUrl())
 				.diskCacheStrategy(DiskCacheStrategy.SOURCE)
 				.into(holder.image);
+
 		if (extraControls){
 			PurchasedItem purchasedItem = cartDbHandler.getPurchasedItem(product.getId());
 			int price = calculatePrice(product.getPrice(),product.getMinimumVolume(),purchasedItem.getVolume());
@@ -145,10 +148,6 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 			if (cartDbHandler.isProductAddedToCart(product.getId()))
 				holder.checkBox.setChecked(true);
 		}
-	}
-	private int calculatePrice(int priceForMinVolume , int minVolume, int requiredVolume){
-		double result = Double.valueOf(requiredVolume)*(Double.valueOf(priceForMinVolume)/Double.valueOf(minVolume));
-		return (int) result;
 	}
 
 	@Override

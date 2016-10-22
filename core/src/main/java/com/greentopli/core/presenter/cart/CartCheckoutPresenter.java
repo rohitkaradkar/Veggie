@@ -39,7 +39,10 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 		// TODO: detach view in fragment
 	}
 
-	public void checkOutOrders(UserCartItems cartItems){
+	public void checkOutOrders(){
+		UserCartItems cartItems = new UserCartItems();
+		cartItems.setCartItems(dbHandler.getPurchasedItemList());
+
 		UserService service = ServiceGenerator.createService(UserService.class);
 		checkoutCall = service.storePurchasedItems(cartItems);
 
@@ -48,8 +51,10 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 			public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
 				if (response.body()==null)
 					getmMvpView().onCartCheckoutError("Null Pointer "+call.toString());
-				else if (response.body().isResult())
+				else if (response.body().isResult()){
+					dbHandler.clearCartItems();
 					getmMvpView().onCartCheckoutSuccess();
+				}
 				else
 					getmMvpView().onCartCheckoutFailed(null);
 			}

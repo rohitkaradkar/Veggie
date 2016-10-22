@@ -22,4 +22,9 @@ public class Utils {
 		calendar.clear(Calendar.MILLISECOND);
 		return calendar.getTimeInMillis();
 	}
+
+	public static int calculatePrice(int priceForMinVolume , int minVolume, int requiredVolume){
+		double result = Double.valueOf(requiredVolume)*(Double.valueOf(priceForMinVolume)/Double.valueOf(minVolume));
+		return (int) Math.ceil(result); // Rs. 16.45 becomes 17
+	}
 }

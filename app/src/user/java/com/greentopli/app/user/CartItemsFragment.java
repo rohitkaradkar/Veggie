@@ -1,10 +1,13 @@
 package com.greentopli.app.user;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CartItemsFragment extends Fragment implements CartView{
 	@BindView(R.id.cartItem_fragment_recyclerView) RecyclerView mRecyclerView;
@@ -25,7 +29,7 @@ public class CartItemsFragment extends Fragment implements CartView{
 	private CartCheckoutPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private BrowseAdapter mAdapter;
-
+	private static final String TAG = CartItemsFragment.class.getSimpleName();
 	public CartItemsFragment() {
 		// Required empty public constructor
 	}
@@ -56,19 +60,24 @@ public class CartItemsFragment extends Fragment implements CartView{
 		return rootView;
 	}
 
+	@OnClick(R.id.fab_cart_items_fragment)
+	void onFabClick(){
+		mPresenter.checkOutOrders();
+	}
 	@Override
 	public void onCartCheckoutSuccess() {
-
+		Log.e(TAG,"Checkout Success");
+		startActivity(new Intent(getContext(),PurchaseManagerActivity.class));
 	}
 
 	@Override
 	public void onCartCheckoutFailed(List<String> failedProductIds) {
-
+		Log.e(TAG,"Checkout Failed");
 	}
 
 	@Override
 	public void onCartCheckoutError(String error_message) {
-
+		Log.e(TAG,"Checkout Success "+error_message);
 	}
 
 	@Override

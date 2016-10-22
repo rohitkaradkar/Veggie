@@ -16,4 +16,13 @@
         android:text="@string/message_empty_cart"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:layout_gravity="center"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_cart_items_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_forward"
+        android:tint="@color/cardview_light_background"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        />
 </FrameLayout>

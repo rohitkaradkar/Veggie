@@ -19,27 +19,27 @@ import java.util.concurrent.CountDownLatch;
 public class UserServiceTest {
 	@Test public void test_checkout() throws InterruptedException{
 		final CountDownLatch latch = new CountDownLatch(1);
-		CartCheckoutPresenter presenter = new CartCheckoutPresenter(new CartCheckoutPresenter.CartView() {
-			@Override
-			public void onCartCheckoutSuccess() {
-				latch.countDown();
-			}
+//		CartCheckoutPresenter presenter = new CartCheckoutPresenter(new CartCheckoutPresenter.CartView() {
+//			@Override
+//			public void onCartCheckoutSuccess() {
+//				latch.countDown();
+//			}
+//
+//			@Override
+//			public void onCartCheckoutFailed(List<String> failedProductIds) {
+//				latch.countDown();
+//			}
+//
+//			@Override
+//			public void onCartCheckoutError(String error_message) {
+//				latch.countDown();
+//			}
+//
+//			@Override
+//			public void showProgressbar(boolean show) {}
+//		});
 
-			@Override
-			public void onCartCheckoutFailed(List<String> failedProductIds) {
-				latch.countDown();
-			}
-
-			@Override
-			public void onCartCheckoutError(String error_message) {
-				latch.countDown();
-			}
-
-			@Override
-			public void showProgressbar(boolean show) {}
-		});
-
-		presenter.checkOutOrders(new UserCartItems(getDummyData()));
+//		presenter.checkOutOrders(new UserCartItems(getDummyData()));
 		latch.await();
 	}
 
