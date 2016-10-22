@@ -38,4 +38,7 @@ dependencies {
     // Retrofit & OkHttp
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    // facebook stetho
+    compile 'com.facebook.stetho:stetho:1.4.1'
 }

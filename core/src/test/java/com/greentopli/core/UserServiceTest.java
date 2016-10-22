@@ -1,6 +1,6 @@
 package com.greentopli.core;
 
-import com.greentopli.core.presenter.CartCheckoutPresenter;
+import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
 import com.greentopli.model.PurchasedItem;
 import com.greentopli.model.UserCartItems;
 
@@ -19,7 +19,7 @@ import java.util.concurrent.CountDownLatch;
 public class UserServiceTest {
 	@Test public void test_checkout() throws InterruptedException{
 		final CountDownLatch latch = new CountDownLatch(1);
-		CartCheckoutPresenter presenter = new CartCheckoutPresenter(new CartCheckoutPresenter.ResultCallbacks() {
+		CartCheckoutPresenter presenter = new CartCheckoutPresenter(new CartCheckoutPresenter.CartView() {
 			@Override
 			public void onCartCheckoutSuccess() {
 				latch.countDown();

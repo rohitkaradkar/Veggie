@@ -130,4 +130,8 @@ import java.util.UUID;
 	public Volume getVolume() {
 		return volume;
 	}
+
+	public boolean isEmpty(){
+		return (getId() == null || getId().isEmpty());
+	}
 }

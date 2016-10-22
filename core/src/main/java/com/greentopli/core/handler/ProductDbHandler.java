@@ -49,8 +49,7 @@ public class ProductDbHandler {
 		}
 	}
 
-	public List<Product> retrieveProductsFromDatabase(){
-		ProductSelection selection = new ProductSelection();
+	public List<Product> retrieveProductsFromDatabase(ProductSelection selection){
 		ProductCursor cursor = selection.query(context.getContentResolver(), ProductColumns.ALL_COLUMNS);
 		List<Product> list = new ArrayList<>();
 		while (cursor.moveToNext()){
@@ -61,7 +60,16 @@ public class ProductDbHandler {
 		cursor.close();
 		return list;
 	}
-
+	public List<Product> retrieveProductsFromDatabase(List<String> product_ids){
+		ProductSelection selection = new ProductSelection();
+		String[] ids = product_ids.toArray(new String[product_ids.size()]);
+		selection.productId(ids);
+		return retrieveProductsFromDatabase(selection);
+	}
+	public List<Product> retrieveProductsFromDatabase(){
+		ProductSelection selection = new ProductSelection();
+		return retrieveProductsFromDatabase(selection);
+	}
 	public Product getProductFromCursor(ProductCursor cursor){
 		Product product = new Product();
 		product.setId(cursor.getProductId());

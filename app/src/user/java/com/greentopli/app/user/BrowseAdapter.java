@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder>{
 	private List<Product> mProducts;
 	CartDbHandler cartDbHandler;
+	private boolean extraControls;
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 		@BindView(R.id.item_product_image) ImageView image;
@@ -37,15 +38,17 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this,itemView);
-			checkBox.setClickable(false);
 			itemView.setOnClickListener(this);
+			checkBox.setVisibility(extraControls ?View.GONE:View.VISIBLE);
 		}
 
 		@Override
 		public void onClick(View v) {
-			updateCart();
+			if (v.getId()==R.id.item_product_view && !extraControls)
+				updateToCart();
 		}
-		private void updateCart(){
+
+		private void updateToCart(){
 			Product product = mProducts.get(getAdapterPosition());
 			if (checkBox.isChecked()){
 				cartDbHandler.removeProductFromCart(product.getId());
@@ -55,10 +58,17 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 				checkBox.setChecked(true);
 			}
 		}
+
 	}
 
 	public BrowseAdapter(){
 		this(new ArrayList<Product>());
+		extraControls = false;
+	}
+
+	public BrowseAdapter(boolean extraControls){
+		this(new ArrayList<Product>());
+		this.extraControls = extraControls;
 	}
 
 	public BrowseAdapter(List<Product> products) {
@@ -99,7 +109,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 	}
 
 	public int getCartItemCount(){
-		return cartDbHandler.getCartItems().size();
+		return cartDbHandler.getProductIdsFromCart().size();
 	}
 	public void addProduct(Product product){
 		mProducts.add(product);

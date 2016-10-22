@@ -10,6 +10,7 @@ import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemContentValues;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemCursor;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemSelection;
+import com.greentopli.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,10 @@ import java.util.UUID;
 
 public class CartDbHandler {
 	private Context context;
-
+	private ProductDbHandler productDbHandler;
 	public CartDbHandler(Context context) {
 		this.context = context;
+		productDbHandler = new ProductDbHandler(context);
 	}
 
 	public long addProductToCart(@NonNull String product_id){
@@ -46,7 +48,7 @@ public class CartDbHandler {
 		return selection.delete(context.getContentResolver());
 	}
 
-	public List<String> getCartItems(){
+	public List<String> getProductIdsFromCart(){
 		List<String> list = new ArrayList<>();
 		PurchasedItemSelection selection = new PurchasedItemSelection();
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),
@@ -67,5 +69,10 @@ public class CartDbHandler {
 			isAdded = true;
 		cursor.close();
 		return isAdded;
+	}
+
+	public List<Product> getProductsFromCart(){
+		List<String> ids = getProductIdsFromCart();
+		return productDbHandler.retrieveProductsFromDatabase(ids);
 	}
 }

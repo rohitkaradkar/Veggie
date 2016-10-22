@@ -18,6 +18,7 @@ public class BasePresenter<T extends MvpView> implements Presenter<T> {
 	@Override
 	public void detachView() {
 		this.mMvpView=null;
+		this.context=null;
 	}
 
 	public boolean isViewAttached(){
