@@ -36,6 +36,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 	public void attachView(CartView mvpView, Context context) {
 		super.attachView(mvpView, context);
 		dbHandler = new CartDbHandler(context);
+		// TODO: detach view in fragment
 	}
 
 	public void checkOutOrders(UserCartItems cartItems){

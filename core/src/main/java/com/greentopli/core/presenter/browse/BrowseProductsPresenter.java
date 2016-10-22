@@ -57,7 +57,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 
 			@Override
 			public void onFailure(Call<ProductList> call, Throwable t) {
-				getmMvpView().showError(null);
+				getmMvpView().showError("Connection Error");
 				Log.e(TAG,"Connection Error "+t.getMessage());
 				getmMvpView().showProgressbar(false);
 			}

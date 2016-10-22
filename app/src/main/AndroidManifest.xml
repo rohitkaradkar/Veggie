@@ -7,8 +7,12 @@
         android:theme="@style/AppTheme"
         xmlns:tools="http://schemas.android.com/tools"
         tools:replace="name">
-        <activity android:name=".AuthenticatorActivity">
-        </activity>
+        <activity android:name="com.greentopli.app.AuthenticatorActivity"/>
+
+        <provider
+            android:name="com.greentopli.core.storage.DatabaseProvider"
+            android:authorities="com.greentopli.core.storage"
+            android:exported="false" />
     </application>
 
 </manifest>
