@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.greentopli.app.R;
 import com.greentopli.core.handler.CartDbHandler;
 import com.greentopli.model.Product;
+import com.greentopli.model.PurchasedItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by rnztx on 20/10/16.
@@ -35,11 +38,17 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 		@BindView(R.id.item_product_checkbox) CheckBox checkBox;
 		@BindView(R.id.item_product_name) TextView name;
 		@BindView(R.id.item_product_price) TextView price;
+		@BindView(R.id.subtract_image_button)ImageButton subtract;
+		@BindView(R.id.add_image_button)ImageButton add;
+		private Product product;
+		private PurchasedItem cartItem;
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this,itemView);
 			itemView.setOnClickListener(this);
 			checkBox.setVisibility(extraControls ?View.GONE:View.VISIBLE);
+			subtract.setVisibility(extraControls ?View.VISIBLE:View.GONE);
+			add.setVisibility(extraControls ?View.VISIBLE:View.GONE);
 		}
 
 		@Override
@@ -48,17 +57,41 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 				updateToCart();
 		}
 
+		@OnClick(R.id.add_image_button)
+		void onVolumeAdded(){
+			int newVolume = cartItem.getVolume() + product.getVolumeSet();
+			if (newVolume <= product.getMaximumVolume()) {
+				cartDbHandler.updateVolume(product.getId(), newVolume);
+				notifyItemChanged(getAdapterPosition());
+			}
+		}
+		@OnClick(R.id.subtract_image_button)
+		void onVolumeSubtracted(){
+			int newVolume = cartItem.getVolume() - product.getVolumeSet();
+			if (newVolume >= product.getMinimumVolume()) {
+				cartDbHandler.updateVolume(product.getId(), newVolume);
+				notifyItemChanged(getAdapterPosition());
+			}
+		}
+
 		private void updateToCart(){
 			Product product = mProducts.get(getAdapterPosition());
 			if (checkBox.isChecked()){
 				cartDbHandler.removeProductFromCart(product.getId());
 				checkBox.setChecked(false);
 			}else {
-				cartDbHandler.addProductToCart(product.getId());
+				cartDbHandler.addProductToCart(product.getId(),product.getMinimumVolume());
 				checkBox.setChecked(true);
 			}
 		}
 
+		public void setProduct(Product product) {
+			this.product = product;
+		}
+
+		public void setCartItem(PurchasedItem cartItem) {
+			this.cartItem = cartItem;
+		}
 	}
 
 	public BrowseAdapter(){
@@ -89,18 +122,33 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Product product = mProducts.get(position);
+
 		holder.name.setText(String.format(Locale.ENGLISH,
 						"%s / %s",product.getName_english(),product.getName_hinglish()));
 
-		holder.price.setText(String.format(Locale.ENGLISH,
-				"Rs. %s",product.getPrice()));
 		Glide.with(holder.image.getContext())
 				.load(product.getImageUrl())
 				.diskCacheStrategy(DiskCacheStrategy.SOURCE)
 				.into(holder.image);
+		if (extraControls){
+			PurchasedItem purchasedItem = cartDbHandler.getPurchasedItem(product.getId());
+			int price = calculatePrice(product.getPrice(),product.getMinimumVolume(),purchasedItem.getVolume());
+			holder.price.setText(String.format(Locale.ENGLISH,
+					"Rs. %d / %d %s",price,purchasedItem.getVolume(),product.getVolume().getExtenction()));
 
-		if (cartDbHandler.isProductAddedToCart(product.getId()))
-			holder.checkBox.setChecked(true);
+			holder.setCartItem(purchasedItem);
+			holder.setProduct(product);
+		}else {
+			holder.price.setText(String.format(Locale.ENGLISH,
+					"Rs. %s / %d %s",product.getPrice(),product.getMinimumVolume(),product.getVolume().getExtenction()));
+
+			if (cartDbHandler.isProductAddedToCart(product.getId()))
+				holder.checkBox.setChecked(true);
+		}
+	}
+	private int calculatePrice(int priceForMinVolume , int minVolume, int requiredVolume){
+		double result = Double.valueOf(requiredVolume)*(Double.valueOf(priceForMinVolume)/Double.valueOf(minVolume));
+		return (int) result;
 	}
 
 	@Override

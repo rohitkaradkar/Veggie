@@ -12,7 +12,16 @@ import java.util.UUID;
 		LEAF_VEGETABLE, FRUIT_VEGETABLE, FRUIT, FLOUR, SPROUT
 	}
 	public enum Volume {
-		WEIGHT, QUANTITY
+		WEIGHT("gms"), QUANTITY("pcs");
+		private final String extenction;
+
+		Volume(String extenction) {
+			this.extenction = extenction;
+		}
+
+		public String getExtenction() {
+			return extenction;
+		}
 	}
 
 	@Id private String id;

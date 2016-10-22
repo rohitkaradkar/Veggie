@@ -20,6 +20,15 @@ import java.util.UUID;
 	@Index private long dateCompleted;
 	@Index private boolean accepted;
 	@Index private boolean completed;
+	@Index private int volume;
+
+	public int getVolume() {
+		return volume;
+	}
+
+	public void setVolume(int volume) {
+		this.volume = volume;
+	}
 
 	public String getOrderId() {
 		return orderId;

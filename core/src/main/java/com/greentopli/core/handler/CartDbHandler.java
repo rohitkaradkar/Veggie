@@ -9,8 +9,10 @@ import com.greentopli.core.Utils;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemContentValues;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemCursor;
+import com.greentopli.core.storage.purchaseditem.PurchasedItemModel;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemSelection;
 import com.greentopli.model.Product;
+import com.greentopli.model.PurchasedItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +30,12 @@ public class CartDbHandler {
 		productDbHandler = new ProductDbHandler(context);
 	}
 
-	public long addProductToCart(@NonNull String product_id){
+	public long addProductToCart(@NonNull String product_id, @NonNull int volume){
 		PurchasedItemContentValues values = new PurchasedItemContentValues();
 		values.putProductId(product_id);
 		values.putPurchaseId(UUID.randomUUID().toString());
 		values.putUserId("rohit");
-		values.putVolume(0);
+		values.putVolume(volume);
 		values.putAccepted(false);
 		values.putCompleted(false);
 		values.putDateAccepted(Utils.getDateExcludingTime());
@@ -74,5 +76,37 @@ public class CartDbHandler {
 	public List<Product> getProductsFromCart(){
 		List<String> ids = getProductIdsFromCart();
 		return productDbHandler.retrieveProductsFromDatabase(ids);
+	}
+
+	public PurchasedItem getPurchasedItem(@NonNull String product_id){
+		PurchasedItemSelection selection = new PurchasedItemSelection();
+		selection.productId(product_id);
+		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
+	    PurchasedItem item = new PurchasedItem();
+		while (cursor.moveToNext()){
+			item = getPurchasedItemFromCursor(cursor);
+		}
+		cursor.close();
+		return item;
+	}
+	private PurchasedItem getPurchasedItemFromCursor(PurchasedItemCursor cursor){
+		PurchasedItem item = new PurchasedItem();
+		item.setOrderId(cursor.getPurchaseId());
+		item.setProductId(cursor.getProductId());
+		item.setUserId(cursor.getUserId());
+		item.setVolume(cursor.getVolume());
+		item.setAccepted(cursor.getAccepted());
+		item.setCompleted(cursor.getCompleted());
+		item.setDateRequested(cursor.getDateRequested());
+		item.setDateCompleted(cursor.getDateAccepted());
+		return item;
+	}
+
+	public int updateVolume(@NonNull String product_id, @NonNull int updated_volume){
+		PurchasedItemSelection where = new PurchasedItemSelection();
+		where.productId(product_id);
+		PurchasedItemContentValues values = new PurchasedItemContentValues();
+		values.putVolume(updated_volume);
+		return values.update(context,where);
 	}
 }
