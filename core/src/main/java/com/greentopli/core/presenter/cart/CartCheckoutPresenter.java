@@ -1,4 +1,4 @@
-package com.greentopli.core.presenter;
+package com.greentopli.core.presenter.cart;
 
 import com.greentopli.core.presenter.base.MvpView;
 import com.greentopli.core.remote.ServiceGenerator;
