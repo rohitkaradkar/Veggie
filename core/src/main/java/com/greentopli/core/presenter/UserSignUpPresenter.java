@@ -26,14 +26,9 @@ public class UserSignUpPresenter extends BasePresenter<SignUpView> {
 	}
 
 	public void signUp(@NonNull User user) throws RuntimeException{
-		// TODO: remove dummy user
-		user.setAddress("Kadegaon");
-		user.setPincode(415304);
-		user.setMobileNo(7038124567L);
-		user.setAuthToken("asdasd");
-		user.setInstanceId("asdkddd");
+
 		if (userDbHandler.storeUserInfo(user)<=0)
-			throw new RuntimeException("Error Storing User Info");
+			getmMvpView().onRegistrationError("Failed to store");
 		else
 			getmMvpView().onRegistrationSuccess();
 

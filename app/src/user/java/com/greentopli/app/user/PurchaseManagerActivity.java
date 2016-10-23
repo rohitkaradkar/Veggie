@@ -21,7 +21,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		if (!AuthenticatorActivity.isUserSignedIn())
 			signIn();
 		else if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
-			startActivityForResult(new Intent(getApplicationContext(), SignUpActivity.class),REQUEST_SIGNUP);
+			signUp();
 
 		setContentView(R.layout.activity_purchase_manager);
 
@@ -61,6 +61,17 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 				.commit();
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK){
+			if (requestCode == REQUEST_SIGNIN){
+				if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
+					signUp();
+			}
+		}
+	}
+
 	private void signIn(){
 		Intent intent = new Intent(this,AuthenticatorActivity.class);
 		startActivityForResult(intent,REQUEST_SIGNIN);
@@ -69,5 +80,8 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		Intent signOutIntent = new Intent(this,AuthenticatorActivity.class);
 		signOutIntent.putExtra(AuthenticatorActivity.EXTRA_SIGNOUT,true);
 		startActivityForResult(signOutIntent,REQUEST_SIGNOUT);
+	}
+	private void signUp(){
+		startActivityForResult(new Intent(getApplicationContext(), SignUpActivity.class),REQUEST_SIGNUP);
 	}
 }

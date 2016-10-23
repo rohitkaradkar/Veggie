@@ -10,6 +10,6 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
 
     <string name="error_empty_field">Empty Field Not Allowed</string>
-    <string name="error_mobile_digit">mobile no should be 10 digit</string>
-    <string name="error_picCode_digit">Pic Code should be 6 digit</string>
+    <string name="error_mobile_digit">Mobile Number should be 10 digit</string>
+    <string name="error_picCode_digit">Pin Code should be 6 digit</string>
 </resources>
