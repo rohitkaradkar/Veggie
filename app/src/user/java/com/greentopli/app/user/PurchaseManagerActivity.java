@@ -69,6 +69,10 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 				if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
 					signUp();
 			}
+			else if (requestCode == REQUEST_SIGNOUT){
+				signIn();
+			}
+
 		}
 	}
 

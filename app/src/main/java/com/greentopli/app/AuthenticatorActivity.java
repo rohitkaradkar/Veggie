@@ -160,6 +160,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	private void signOut(){
 		try{
 			showProgressbar(true);
+
 			// Firebase Logout
 			FirebaseAuth.getInstance().signOut();
 
@@ -170,13 +171,13 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 					.requestProfile()
 					.build();
 
-			mGoogleApiClient = new GoogleApiClient.Builder(this)
-					.enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-					.addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-					.addConnectionCallbacks(this)
-					.build();
-
 			mGoogleApiClient.connect(); // wait for connection
+
+			// delete local data
+			UserDbHandler userDbHandler = new UserDbHandler(getApplicationContext());
+			userDbHandler.removeUserInfo();
+
+			returnActivityResult();
 		}catch (Exception e){
 			e.printStackTrace();
 		}

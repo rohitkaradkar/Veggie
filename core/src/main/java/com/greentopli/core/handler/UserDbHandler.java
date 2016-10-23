@@ -49,23 +49,21 @@ public class UserDbHandler {
 		return user;
 	}
 
-	public User getUserInfo(@NonNull String email){
-		if (isUserInfoAvailable(email)){
-
-			UserSelection where = new UserSelection();
-			where.email(email);
-			UserCursor cursor = where.query(context.getContentResolver(), UserColumns.ALL_COLUMNS);
-
-			User user = new User();
-			while (cursor.moveToNext()){
-				user = getUserInfo(cursor);
-			}
-			cursor.close();
-			return user;
-		}
-		return null;
+	public User getSignedUserInfo(){
+		UserSelection where = new UserSelection();
+		UserCursor cursor = where.query(context.getContentResolver(), UserColumns.ALL_COLUMNS);
+		User user = null;
+		if(cursor.moveToNext())
+			user = getUserInfo(cursor);
+		cursor.close();
+		return user;
 	}
 
+	public long removeUserInfo(){
+		UserSelection where = new UserSelection();
+//		where.email(email);
+		return where.delete(context);
+	}
 	public boolean isUserInfoAvailable(@NonNull String email){
 		try {
 			UserSelection where = new UserSelection();
