@@ -125,12 +125,12 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 	}
 
 	@Override
-	public void onRegistrationError(String message) {
+	public void onSignUpError(String message) {
 
 	}
 
 	@Override
-	public void onRegistrationSuccess() {
+	public void onSignUpSuccess() {
 		if (getParent() == null)
 			setResult(Activity.RESULT_OK);
 		else {

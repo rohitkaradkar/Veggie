@@ -25,16 +25,18 @@ import java.util.UUID;
 public class CartDbHandler {
 	private Context context;
 	private ProductDbHandler productDbHandler;
+	private UserDbHandler userDbHandler;
 	public CartDbHandler(Context context) {
 		this.context = context;
 		productDbHandler = new ProductDbHandler(context);
+		userDbHandler = new UserDbHandler(context);
 	}
 
 	public long addProductToCart(@NonNull String product_id, @NonNull int volume){
 		PurchasedItemContentValues values = new PurchasedItemContentValues();
 		values.putProductId(product_id);
 		values.putPurchaseId(UUID.randomUUID().toString());
-		values.putUserId("rohit");
+		values.putUserId(userDbHandler.getSignedUserInfo().getEmail());
 		values.putVolume(volume);
 		values.putAccepted(false);
 		values.putCompleted(false);

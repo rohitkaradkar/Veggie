@@ -1,6 +1,7 @@
 package com.greentopli.model;
 
 import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 /**
@@ -8,7 +9,7 @@ import com.googlecode.objectify.annotation.Index;
  */
 
 @Entity public class User {
-	@Index private String email;
+	@Id private String email;
 	@Index private String name;
 	@Index private long mobileNo;
 	@Index private String address;

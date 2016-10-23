@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity public class PurchasedItem {
 
 	@Id private String orderId;
-	@Index private String userId;
+	@Index private String userId; // as email id
 	@Index private String productId;
 	@Index private long dateRequested;
 	@Index private long dateCompleted;
