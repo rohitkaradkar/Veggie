@@ -27,18 +27,6 @@ public class UserCursor extends AbstractCursor implements UserModel {
     }
 
     /**
-     * Get the {@code user_id} value.
-     * Cannot be {@code null}.
-     */
-    @NonNull
-    public String getUserId() {
-        String res = getStringOrNull(UserColumns.USER_ID);
-        if (res == null)
-            throw new NullPointerException("The value of 'user_id' in the database was null, which is not allowed according to the model definition");
-        return res;
-    }
-
-    /**
      * Get the {@code email} value.
      * Cannot be {@code null}.
      */
@@ -65,8 +53,8 @@ public class UserCursor extends AbstractCursor implements UserModel {
     /**
      * Get the {@code mobile_no} value.
      */
-    public int getMobileNo() {
-        Integer res = getIntegerOrNull(UserColumns.MOBILE_NO);
+    public long getMobileNo() {
+        Long res = getLongOrNull(UserColumns.MOBILE_NO);
         if (res == null)
             throw new NullPointerException("The value of 'mobile_no' in the database was null, which is not allowed according to the model definition");
         return res;
@@ -91,6 +79,30 @@ public class UserCursor extends AbstractCursor implements UserModel {
         Integer res = getIntegerOrNull(UserColumns.PINCODE);
         if (res == null)
             throw new NullPointerException("The value of 'pincode' in the database was null, which is not allowed according to the model definition");
+        return res;
+    }
+
+    /**
+     * identification for FCM service
+     * Cannot be {@code null}.
+     */
+    @NonNull
+    public String getInstanceId() {
+        String res = getStringOrNull(UserColumns.INSTANCE_ID);
+        if (res == null)
+            throw new NullPointerException("The value of 'instance_id' in the database was null, which is not allowed according to the model definition");
+        return res;
+    }
+
+    /**
+     * for verifying user auth from Firebase. Used by server
+     * Cannot be {@code null}.
+     */
+    @NonNull
+    public String getAuthToken() {
+        String res = getStringOrNull(UserColumns.AUTH_TOKEN);
+        if (res == null)
+            throw new NullPointerException("The value of 'auth_token' in the database was null, which is not allowed according to the model definition");
         return res;
     }
 }

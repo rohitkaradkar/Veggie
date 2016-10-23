@@ -58,13 +58,14 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TABLE_USER = "CREATE TABLE IF NOT EXISTS "
             + UserColumns.TABLE_NAME + " ( "
             + UserColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + UserColumns.USER_ID + " TEXT NOT NULL, "
             + UserColumns.EMAIL + " TEXT NOT NULL, "
             + UserColumns.NAME + " TEXT NOT NULL, "
             + UserColumns.MOBILE_NO + " INTEGER NOT NULL, "
             + UserColumns.ADDRESS + " TEXT NOT NULL, "
-            + UserColumns.PINCODE + " INTEGER NOT NULL "
-            + ", CONSTRAINT unique_name UNIQUE (user_id) ON CONFLICT REPLACE"
+            + UserColumns.PINCODE + " INTEGER NOT NULL, "
+            + UserColumns.INSTANCE_ID + " TEXT NOT NULL, "
+            + UserColumns.AUTH_TOKEN + " TEXT NOT NULL "
+            + ", CONSTRAINT unique_name UNIQUE (email, instance_id, auth_token) ON CONFLICT REPLACE"
             + " );";
 
     // @formatter:on

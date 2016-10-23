@@ -39,13 +39,6 @@ public class UserContentValues extends AbstractContentValues {
         return context.getContentResolver().update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
     }
 
-    public UserContentValues putUserId(@NonNull String value) {
-        if (value == null) throw new IllegalArgumentException("userId must not be null");
-        mContentValues.put(UserColumns.USER_ID, value);
-        return this;
-    }
-
-
     public UserContentValues putEmail(@NonNull String value) {
         if (value == null) throw new IllegalArgumentException("email must not be null");
         mContentValues.put(UserColumns.EMAIL, value);
@@ -60,7 +53,7 @@ public class UserContentValues extends AbstractContentValues {
     }
 
 
-    public UserContentValues putMobileNo(int value) {
+    public UserContentValues putMobileNo(long value) {
         mContentValues.put(UserColumns.MOBILE_NO, value);
         return this;
     }
@@ -75,6 +68,26 @@ public class UserContentValues extends AbstractContentValues {
 
     public UserContentValues putPincode(int value) {
         mContentValues.put(UserColumns.PINCODE, value);
+        return this;
+    }
+
+
+    /**
+     * identification for FCM service
+     */
+    public UserContentValues putInstanceId(@NonNull String value) {
+        if (value == null) throw new IllegalArgumentException("instanceId must not be null");
+        mContentValues.put(UserColumns.INSTANCE_ID, value);
+        return this;
+    }
+
+
+    /**
+     * for verifying user auth from Firebase. Used by server
+     */
+    public UserContentValues putAuthToken(@NonNull String value) {
+        if (value == null) throw new IllegalArgumentException("authToken must not be null");
+        mContentValues.put(UserColumns.AUTH_TOKEN, value);
         return this;
     }
 

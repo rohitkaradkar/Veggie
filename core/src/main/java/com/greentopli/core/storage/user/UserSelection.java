@@ -78,46 +78,6 @@ public class UserSelection extends AbstractSelection<UserSelection> {
         return orderById(false);
     }
 
-    public UserSelection userId(String... value) {
-        addEquals(UserColumns.USER_ID, value);
-        return this;
-    }
-
-    public UserSelection userIdNot(String... value) {
-        addNotEquals(UserColumns.USER_ID, value);
-        return this;
-    }
-
-    public UserSelection userIdLike(String... value) {
-        addLike(UserColumns.USER_ID, value);
-        return this;
-    }
-
-    public UserSelection userIdContains(String... value) {
-        addContains(UserColumns.USER_ID, value);
-        return this;
-    }
-
-    public UserSelection userIdStartsWith(String... value) {
-        addStartsWith(UserColumns.USER_ID, value);
-        return this;
-    }
-
-    public UserSelection userIdEndsWith(String... value) {
-        addEndsWith(UserColumns.USER_ID, value);
-        return this;
-    }
-
-    public UserSelection orderByUserId(boolean desc) {
-        orderBy(UserColumns.USER_ID, desc);
-        return this;
-    }
-
-    public UserSelection orderByUserId() {
-        orderBy(UserColumns.USER_ID, false);
-        return this;
-    }
-
     public UserSelection email(String... value) {
         addEquals(UserColumns.EMAIL, value);
         return this;
@@ -198,32 +158,32 @@ public class UserSelection extends AbstractSelection<UserSelection> {
         return this;
     }
 
-    public UserSelection mobileNo(int... value) {
+    public UserSelection mobileNo(long... value) {
         addEquals(UserColumns.MOBILE_NO, toObjectArray(value));
         return this;
     }
 
-    public UserSelection mobileNoNot(int... value) {
+    public UserSelection mobileNoNot(long... value) {
         addNotEquals(UserColumns.MOBILE_NO, toObjectArray(value));
         return this;
     }
 
-    public UserSelection mobileNoGt(int value) {
+    public UserSelection mobileNoGt(long value) {
         addGreaterThan(UserColumns.MOBILE_NO, value);
         return this;
     }
 
-    public UserSelection mobileNoGtEq(int value) {
+    public UserSelection mobileNoGtEq(long value) {
         addGreaterThanOrEquals(UserColumns.MOBILE_NO, value);
         return this;
     }
 
-    public UserSelection mobileNoLt(int value) {
+    public UserSelection mobileNoLt(long value) {
         addLessThan(UserColumns.MOBILE_NO, value);
         return this;
     }
 
-    public UserSelection mobileNoLtEq(int value) {
+    public UserSelection mobileNoLtEq(long value) {
         addLessThanOrEquals(UserColumns.MOBILE_NO, value);
         return this;
     }
@@ -315,6 +275,86 @@ public class UserSelection extends AbstractSelection<UserSelection> {
 
     public UserSelection orderByPincode() {
         orderBy(UserColumns.PINCODE, false);
+        return this;
+    }
+
+    public UserSelection instanceId(String... value) {
+        addEquals(UserColumns.INSTANCE_ID, value);
+        return this;
+    }
+
+    public UserSelection instanceIdNot(String... value) {
+        addNotEquals(UserColumns.INSTANCE_ID, value);
+        return this;
+    }
+
+    public UserSelection instanceIdLike(String... value) {
+        addLike(UserColumns.INSTANCE_ID, value);
+        return this;
+    }
+
+    public UserSelection instanceIdContains(String... value) {
+        addContains(UserColumns.INSTANCE_ID, value);
+        return this;
+    }
+
+    public UserSelection instanceIdStartsWith(String... value) {
+        addStartsWith(UserColumns.INSTANCE_ID, value);
+        return this;
+    }
+
+    public UserSelection instanceIdEndsWith(String... value) {
+        addEndsWith(UserColumns.INSTANCE_ID, value);
+        return this;
+    }
+
+    public UserSelection orderByInstanceId(boolean desc) {
+        orderBy(UserColumns.INSTANCE_ID, desc);
+        return this;
+    }
+
+    public UserSelection orderByInstanceId() {
+        orderBy(UserColumns.INSTANCE_ID, false);
+        return this;
+    }
+
+    public UserSelection authToken(String... value) {
+        addEquals(UserColumns.AUTH_TOKEN, value);
+        return this;
+    }
+
+    public UserSelection authTokenNot(String... value) {
+        addNotEquals(UserColumns.AUTH_TOKEN, value);
+        return this;
+    }
+
+    public UserSelection authTokenLike(String... value) {
+        addLike(UserColumns.AUTH_TOKEN, value);
+        return this;
+    }
+
+    public UserSelection authTokenContains(String... value) {
+        addContains(UserColumns.AUTH_TOKEN, value);
+        return this;
+    }
+
+    public UserSelection authTokenStartsWith(String... value) {
+        addStartsWith(UserColumns.AUTH_TOKEN, value);
+        return this;
+    }
+
+    public UserSelection authTokenEndsWith(String... value) {
+        addEndsWith(UserColumns.AUTH_TOKEN, value);
+        return this;
+    }
+
+    public UserSelection orderByAuthToken(boolean desc) {
+        orderBy(UserColumns.AUTH_TOKEN, desc);
+        return this;
+    }
+
+    public UserSelection orderByAuthToken() {
+        orderBy(UserColumns.AUTH_TOKEN, false);
         return this;
     }
 }

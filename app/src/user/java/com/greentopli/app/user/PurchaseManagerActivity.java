@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
+import com.greentopli.app.SignUpActivity;
 
 public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 	private static final int REQUEST_SIGNIN = 210;
@@ -18,6 +19,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		super.onCreate(savedInstanceState);
 		if (!AuthenticatorActivity.isUserSignedIn())
 			signIn();
+		startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
 
 		setContentView(R.layout.activity_purchase_manager);
 

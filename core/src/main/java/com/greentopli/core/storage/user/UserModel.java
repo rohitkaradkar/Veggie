@@ -13,13 +13,6 @@ import android.support.annotation.Nullable;
 public interface UserModel extends BaseModel {
 
     /**
-     * Get the {@code user_id} value.
-     * Cannot be {@code null}.
-     */
-    @NonNull
-    String getUserId();
-
-    /**
      * Get the {@code email} value.
      * Cannot be {@code null}.
      */
@@ -36,7 +29,7 @@ public interface UserModel extends BaseModel {
     /**
      * Get the {@code mobile_no} value.
      */
-    int getMobileNo();
+    long getMobileNo();
 
     /**
      * Get the {@code address} value.
@@ -49,4 +42,18 @@ public interface UserModel extends BaseModel {
      * Get the {@code pincode} value.
      */
     int getPincode();
+
+    /**
+     * identification for FCM service
+     * Cannot be {@code null}.
+     */
+    @NonNull
+    String getInstanceId();
+
+    /**
+     * for verifying user auth from Firebase. Used by server
+     * Cannot be {@code null}.
+     */
+    @NonNull
+    String getAuthToken();
 }

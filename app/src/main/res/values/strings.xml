@@ -7,4 +7,5 @@
 
     <string name="volume_max_quantity">48</string>
     <string name="volume_max_weight">5000</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
 </resources>
