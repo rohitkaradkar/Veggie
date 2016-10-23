@@ -8,4 +8,8 @@
     <string name="volume_max_quantity">48</string>
     <string name="volume_max_weight">5000</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
+
+    <string name="error_empty_field">Empty Field Not Allowed</string>
+    <string name="error_mobile_digit">mobile no should be 10 digit</string>
+    <string name="error_picCode_digit">Pic Code should be 6 digit</string>
 </resources>

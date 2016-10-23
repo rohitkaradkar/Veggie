@@ -2,4 +2,11 @@
     <string name="app_name">User Green Topli</string>
 
     <string name="message_empty_cart">Cart is empty</string>
+
+    <!--Edit text hits-->
+    <string name="hint_name">Name</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_pinCode">Pin Code</string>
+    <string name="hint_mobile_number">Mobile Number</string>
+
 </resources>
