@@ -31,7 +31,7 @@ public class UserDbHandler {
 		values.putPincode(user.getPincode());
 		values.putInstanceId(user.getInstanceId());
 		values.putAuthToken(user.getAuthToken());
-
+		values.putPhotoUrl(user.getPhotoUrl());
 		Uri uri = values.insert(context.getContentResolver());
 		return ContentUris.parseId(uri);
 	}
@@ -45,6 +45,7 @@ public class UserDbHandler {
 		user.setPincode(cursor.getPincode());
 		user.setInstanceId(cursor.getInstanceId());
 		user.setAuthToken(cursor.getAuthToken());
+		user.setPhotoUrl(cursor.getPhotoUrl());
 		return user;
 	}
 

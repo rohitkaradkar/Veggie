@@ -56,4 +56,11 @@ public interface UserModel extends BaseModel {
      */
     @NonNull
     String getAuthToken();
+
+    /**
+     * Get the {@code photo_url} value.
+     * Cannot be {@code null}.
+     */
+    @NonNull
+    String getPhotoUrl();
 }

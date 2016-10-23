@@ -32,7 +32,10 @@ public class UserSignUpPresenter extends BasePresenter<SignUpView> {
 		user.setMobileNo(7038124567L);
 		user.setAuthToken("asdasd");
 		user.setInstanceId("asdkddd");
-		if (userDbHandler.storeUserInfo(user)>0)
+		if (userDbHandler.storeUserInfo(user)<=0)
 			throw new RuntimeException("Error Storing User Info");
+		else
+			getmMvpView().onRegistrationSuccess();
+
 	}
 }

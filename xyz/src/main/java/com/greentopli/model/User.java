@@ -15,12 +15,22 @@ import com.googlecode.objectify.annotation.Index;
 	@Index private int pincode;
 	@Index private String instanceId;
 	@Index private String authToken;
+	@Index private String photoUrl;
 
 	public User(String email) {
 		this.email = email;
 	}
 
 	public User() {}
+
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
+
+	public String getPhotoUrl() {
+
+		return photoUrl;
+	}
 
 	public String getEmail() {
 		return email;

@@ -40,6 +40,8 @@ public class UserColumns implements BaseColumns {
      */
     public static final String AUTH_TOKEN = "auth_token";
 
+    public static final String PHOTO_URL = "photo_url";
+
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
@@ -52,7 +54,8 @@ public class UserColumns implements BaseColumns {
             ADDRESS,
             PINCODE,
             INSTANCE_ID,
-            AUTH_TOKEN
+            AUTH_TOKEN,
+            PHOTO_URL
     };
     // @formatter:on
 
@@ -66,6 +69,7 @@ public class UserColumns implements BaseColumns {
             if (c.equals(PINCODE) || c.contains("." + PINCODE)) return true;
             if (c.equals(INSTANCE_ID) || c.contains("." + INSTANCE_ID)) return true;
             if (c.equals(AUTH_TOKEN) || c.contains("." + AUTH_TOKEN)) return true;
+            if (c.equals(PHOTO_URL) || c.contains("." + PHOTO_URL)) return true;
         }
         return false;
     }

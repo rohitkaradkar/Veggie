@@ -13,13 +13,15 @@ import com.greentopli.app.SignUpActivity;
 public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 	private static final int REQUEST_SIGNIN = 210;
 	private static final int REQUEST_SIGNOUT = 220;
+	private static final int REQUEST_SIGNUP = 230;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (!AuthenticatorActivity.isUserSignedIn())
 			signIn();
-		startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
+		else if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
+			startActivityForResult(new Intent(getApplicationContext(), SignUpActivity.class),REQUEST_SIGNUP);
 
 		setContentView(R.layout.activity_purchase_manager);
 

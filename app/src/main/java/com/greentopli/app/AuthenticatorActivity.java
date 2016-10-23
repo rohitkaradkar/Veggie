@@ -1,6 +1,7 @@
 package com.greentopli.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.greentopli.core.handler.UserDbHandler;
 import com.greentopli.core.presenter.base.MvpView;
 
 import butterknife.BindView;
@@ -46,7 +48,6 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	private static final String TAG = AuthenticatorActivity.class.getSimpleName();
 	@BindView(R.id.default_progressbar)ProgressBar progressBar;
 	@BindView(R.id.button_sign_in) SignInButton signInButton;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -200,6 +201,15 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	}
 	public static boolean isUserSignedIn(){
 		return FirebaseAuth.getInstance().getCurrentUser()!=null;
+	}
+	public static boolean isUserSignedUp(Context context){
+		UserDbHandler userDbHandler = new UserDbHandler(context);
+		if (isUserSignedIn()){
+			return userDbHandler.isUserInfoAvailable(
+					FirebaseAuth.getInstance().getCurrentUser().getEmail()
+			);
+		}
+		return false;
 	}
 	private void returnActivityResult(){
 		if (getParent() == null)

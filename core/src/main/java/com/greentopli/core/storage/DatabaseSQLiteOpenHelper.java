@@ -64,8 +64,9 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper {
             + UserColumns.ADDRESS + " TEXT NOT NULL, "
             + UserColumns.PINCODE + " INTEGER NOT NULL, "
             + UserColumns.INSTANCE_ID + " TEXT NOT NULL, "
-            + UserColumns.AUTH_TOKEN + " TEXT NOT NULL "
-            + ", CONSTRAINT unique_name UNIQUE (email, instance_id, auth_token) ON CONFLICT REPLACE"
+            + UserColumns.AUTH_TOKEN + " TEXT NOT NULL, "
+            + UserColumns.PHOTO_URL + " TEXT NOT NULL "
+            + ", CONSTRAINT unique_name UNIQUE (email) ON CONFLICT REPLACE"
             + " );";
 
     // @formatter:on

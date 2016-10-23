@@ -1,5 +1,6 @@
 package com.greentopli.app;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 		if (firebaseUser!=null){
 			User user = new User(firebaseUser.getEmail());
 			user.setName(firebaseUser.getDisplayName());
-
+			user.setPhotoUrl(firebaseUser.getPhotoUrl().toString());
 			presenter.signUp(user);
 		}
 
@@ -44,6 +45,16 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 	@Override
 	public void onRegistrationError(String message) {
 
+	}
+
+	@Override
+	public void onRegistrationSuccess() {
+		if (getParent() == null)
+			setResult(Activity.RESULT_OK);
+		else {
+			getParent().setResult(RESULT_OK);
+		}
+		finish();
 	}
 
 	@Override

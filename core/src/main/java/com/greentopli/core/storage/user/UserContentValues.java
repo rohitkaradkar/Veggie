@@ -91,4 +91,11 @@ public class UserContentValues extends AbstractContentValues {
         return this;
     }
 
+
+    public UserContentValues putPhotoUrl(@NonNull String value) {
+        if (value == null) throw new IllegalArgumentException("photoUrl must not be null");
+        mContentValues.put(UserColumns.PHOTO_URL, value);
+        return this;
+    }
+
 }

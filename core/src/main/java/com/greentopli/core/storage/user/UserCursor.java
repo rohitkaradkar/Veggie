@@ -105,4 +105,16 @@ public class UserCursor extends AbstractCursor implements UserModel {
             throw new NullPointerException("The value of 'auth_token' in the database was null, which is not allowed according to the model definition");
         return res;
     }
+
+    /**
+     * Get the {@code photo_url} value.
+     * Cannot be {@code null}.
+     */
+    @NonNull
+    public String getPhotoUrl() {
+        String res = getStringOrNull(UserColumns.PHOTO_URL);
+        if (res == null)
+            throw new NullPointerException("The value of 'photo_url' in the database was null, which is not allowed according to the model definition");
+        return res;
+    }
 }

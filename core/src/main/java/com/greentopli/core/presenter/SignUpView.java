@@ -8,4 +8,5 @@ import com.greentopli.core.presenter.base.MvpView;
 
 public interface SignUpView extends MvpView{
 	void onRegistrationError(String message);
+	void onRegistrationSuccess();
 }

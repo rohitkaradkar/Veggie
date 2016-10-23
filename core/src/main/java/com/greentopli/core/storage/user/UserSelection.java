@@ -357,4 +357,44 @@ public class UserSelection extends AbstractSelection<UserSelection> {
         orderBy(UserColumns.AUTH_TOKEN, false);
         return this;
     }
+
+    public UserSelection photoUrl(String... value) {
+        addEquals(UserColumns.PHOTO_URL, value);
+        return this;
+    }
+
+    public UserSelection photoUrlNot(String... value) {
+        addNotEquals(UserColumns.PHOTO_URL, value);
+        return this;
+    }
+
+    public UserSelection photoUrlLike(String... value) {
+        addLike(UserColumns.PHOTO_URL, value);
+        return this;
+    }
+
+    public UserSelection photoUrlContains(String... value) {
+        addContains(UserColumns.PHOTO_URL, value);
+        return this;
+    }
+
+    public UserSelection photoUrlStartsWith(String... value) {
+        addStartsWith(UserColumns.PHOTO_URL, value);
+        return this;
+    }
+
+    public UserSelection photoUrlEndsWith(String... value) {
+        addEndsWith(UserColumns.PHOTO_URL, value);
+        return this;
+    }
+
+    public UserSelection orderByPhotoUrl(boolean desc) {
+        orderBy(UserColumns.PHOTO_URL, desc);
+        return this;
+    }
+
+    public UserSelection orderByPhotoUrl() {
+        orderBy(UserColumns.PHOTO_URL, false);
+        return this;
+    }
 }
