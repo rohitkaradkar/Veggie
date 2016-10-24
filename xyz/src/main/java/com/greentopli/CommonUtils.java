@@ -8,17 +8,16 @@ import java.util.TimeZone;
  */
 
 public class CommonUtils {
-//	public static long getDateExcludingTime(){
-//		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-////		calendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
-//		return getDateExcludingTime(calendar);
-//	}
+	public static long getDateExcludingTime(){
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
+//		calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
+		return getDateExcludingTime(calendar);
+	}
 
 	/**
 	 * Striping out time details so that we can compare only by long value
 	 */
-	public static long getDateExcludingTime(){
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+	public static long getDateExcludingTime(Calendar calendar){
 		calendar.clear(Calendar.HOUR);
 		calendar.clear(Calendar.HOUR_OF_DAY);
 		calendar.clear(Calendar.AM_PM);
