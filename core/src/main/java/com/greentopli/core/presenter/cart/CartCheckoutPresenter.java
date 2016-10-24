@@ -42,7 +42,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 	public void checkOutOrders(){
 		getmMvpView().showProgressbar(true);
 		UserCartItems cartItems = new UserCartItems();
-		cartItems.setCartItems(dbHandler.getPurchasedItemList());
+		cartItems.setCartItems(dbHandler.getPurchasedItemList(true));
 
 		UserService service = ServiceGenerator.createService(UserService.class);
 		checkoutCall = service.storePurchasedItems(cartItems);

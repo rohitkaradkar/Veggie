@@ -47,13 +47,15 @@ public class CartDbHandler {
 
 	public int removeProductFromCart(@NonNull String product_id){
 		PurchasedItemSelection selection = new PurchasedItemSelection();
-		selection.productId(product_id);
+		selection.productId(product_id)
+				.and().accepted(false);
 		return selection.delete(context.getContentResolver());
 	}
 
 	public List<String> getProductIdsFromCart(){
 		List<String> list = new ArrayList<>();
 		PurchasedItemSelection selection = new PurchasedItemSelection();
+		selection.accepted(false); // items only added to cart
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),
 				new String[]{PurchasedItemColumns.PRODUCT_ID});
 		while (cursor.moveToNext()){
@@ -65,7 +67,8 @@ public class CartDbHandler {
 
 	public boolean isProductAddedToCart(@NonNull String product_id){
 		PurchasedItemSelection selection = new PurchasedItemSelection();
-		selection.productId(product_id);
+		selection.productId(product_id)
+			.and().accepted(false);
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
 		boolean isAdded = false;
 		if (cursor.moveToNext())
@@ -79,9 +82,10 @@ public class CartDbHandler {
 		return productDbHandler.retrieveProductsFromDatabase(ids);
 	}
 
-	public List<PurchasedItem> getPurchasedItemList(){
+	public List<PurchasedItem> getPurchasedItemList(boolean fromCart){
 		List<PurchasedItem> purchasedItems = new ArrayList<>();
 		PurchasedItemSelection selection = new PurchasedItemSelection();
+		selection.accepted(!fromCart); // cart items are not accepted
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
 		while (cursor.moveToNext()){
 			purchasedItems.add(getPurchasedItemFromCursor(cursor));
@@ -89,7 +93,7 @@ public class CartDbHandler {
 		cursor.close();
 		return purchasedItems;
 	}
-	public PurchasedItem getPurchasedItem(@NonNull String product_id){
+	public PurchasedItem getPurchasedItem(@NonNull String product_id, boolean fromCart){
 		PurchasedItemSelection selection = new PurchasedItemSelection();
 		selection.productId(product_id);
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
