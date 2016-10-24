@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.greentopli.CommonUtils;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemContentValues;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemCursor;
@@ -88,23 +87,24 @@ public class CartDbHandler {
 		selection.accepted(!fromCart); // cart items are not accepted
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
 		while (cursor.moveToNext()){
-			purchasedItems.add(getPurchasedItemFromCursor(cursor));
+			purchasedItems.add(getPOJOFromCursor(cursor));
 		}
 		cursor.close();
 		return purchasedItems;
 	}
-	public PurchasedItem getPurchasedItem(@NonNull String product_id, boolean fromCart){
+	public PurchasedItem getCartItem(@NonNull String product_id, boolean fromCart){
 		PurchasedItemSelection selection = new PurchasedItemSelection();
-		selection.productId(product_id);
+		selection.productId(product_id)
+			.and().accepted(!fromCart);
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
 	    PurchasedItem item = new PurchasedItem();
 		while (cursor.moveToNext()){
-			item = getPurchasedItemFromCursor(cursor);
+			item = getPOJOFromCursor(cursor);
 		}
 		cursor.close();
 		return item;
 	}
-	private PurchasedItem getPurchasedItemFromCursor(PurchasedItemCursor cursor){
+	private PurchasedItem getPOJOFromCursor(PurchasedItemCursor cursor){
 		PurchasedItem item = new PurchasedItem();
 		item.setOrderId(cursor.getPurchaseId());
 		item.setProductId(cursor.getProductId());
@@ -117,9 +117,35 @@ public class CartDbHandler {
 		return item;
 	}
 
+	private PurchasedItemContentValues getValuesFromPOJO(PurchasedItem item){
+		PurchasedItemContentValues values = new PurchasedItemContentValues();
+		values.putPurchaseId(item.getOrderId());
+		values.putProductId(item.getProductId());
+		values.putUserId(item.getUserId());
+		values.putVolume(item.getVolume());
+		values.putAccepted(item.isAccepted());
+		values.putCompleted(item.isCompleted());
+		values.putDateRequested(item.getDateRequested());
+		values.putDateAccepted(item.getDateCompleted());
+		return values;
+	}
+
+	public void storeOrderHistory(List<PurchasedItem> purchasedItems){
+		// delete all orders except from cart order
+		PurchasedItemSelection selection = new PurchasedItemSelection();
+		selection.accepted(true);
+		selection.delete(context);
+
+		for (PurchasedItem item: purchasedItems){
+			PurchasedItemContentValues values = getValuesFromPOJO(item);
+			Uri uri = values.insert(context);
+			ContentUris.parseId(uri);
+		}
+	}
 	public int updateVolume(@NonNull String product_id, @NonNull int updated_volume){
 		PurchasedItemSelection where = new PurchasedItemSelection();
-		where.productId(product_id);
+		where.productId(product_id).and().accepted(false);
+
 		PurchasedItemContentValues values = new PurchasedItemContentValues();
 		values.putVolume(updated_volume);
 		return values.update(context,where);
@@ -127,6 +153,7 @@ public class CartDbHandler {
 
 	public int clearCartItems(){
 		PurchasedItemSelection allItems = new PurchasedItemSelection();
+		allItems.accepted(false);
 		return allItems.delete(context);
 	}
 }

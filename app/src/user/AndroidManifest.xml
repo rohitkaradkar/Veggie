@@ -12,5 +12,8 @@
 
         <activity android:name="com.greentopli.app.AuthenticatorActivity"/>
 
+        <service
+            android:name="com.greentopli.core.OrderHistoryService"
+            android:exported="false"/>
     </application>
 </manifest>

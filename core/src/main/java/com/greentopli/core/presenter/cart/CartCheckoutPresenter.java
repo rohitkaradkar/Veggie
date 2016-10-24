@@ -3,6 +3,7 @@ package com.greentopli.core.presenter.cart;
 import android.content.Context;
 
 import com.greentopli.core.handler.CartDbHandler;
+import com.greentopli.core.handler.UserDbHandler;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.UserService;
@@ -24,6 +25,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 
 	private Call<BackendResult> checkoutCall;
 	private CartDbHandler dbHandler;
+	private UserDbHandler userDbHandler;
 	public CartCheckoutPresenter() {}
 
 	public static CartCheckoutPresenter bind(CartView cartView,Context context){
@@ -36,6 +38,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 	public void attachView(CartView mvpView, Context context) {
 		super.attachView(mvpView, context);
 		dbHandler = new CartDbHandler(context);
+		userDbHandler = new UserDbHandler(context);
 		// TODO: detach view in fragment
 	}
 
@@ -54,7 +57,9 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 					getmMvpView().onCartCheckoutError("Null Pointer "+call.toString());
 				else if (response.body().isResult()){
 					dbHandler.clearCartItems();
-					getmMvpView().onCartCheckoutSuccess();
+					getmMvpView().onCartCheckoutSuccess(
+							userDbHandler.getSignedUserInfo().getEmail()
+					);
 				}
 				else
 					getmMvpView().onCartCheckoutFailed(null);

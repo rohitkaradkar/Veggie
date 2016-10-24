@@ -2,6 +2,7 @@ package com.greentopli.app.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.greentopli.app.R;
+import com.greentopli.core.OrderHistoryService;
 import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
 import com.greentopli.core.presenter.cart.CartView;
 import com.greentopli.model.Product;
@@ -67,15 +69,20 @@ public class CartCheckoutFragment extends Fragment implements CartView{
 	}
 
 	@Override
-	public void onCartCheckoutSuccess() {
+	public void onCartCheckoutSuccess(String user_id) {
 		Log.e(TAG,"Checkout Success");
 		Toast.makeText(getContext(),R.string.message_checkout_success,Toast.LENGTH_SHORT).show();
+		// notify to save orders
+		Intent orderHistoryService = new Intent(getContext(), OrderHistoryService.class);
+		orderHistoryService.setData(Uri.parse(user_id));
+		getActivity().startService(orderHistoryService);
 		startActivity(new Intent(getContext(),PurchaseManagerActivity.class));
 	}
 
 	@Override
 	public void onCartCheckoutFailed(List<String> failedProductIds) {
 		Log.e(TAG,"Checkout Failed");
+		Toast.makeText(getContext(),R.string.message_duplicate_orders,Toast.LENGTH_SHORT).show();
 	}
 
 	@Override

@@ -12,4 +12,5 @@
     <!--messages-->
     <string name="message_checkout_success">Orders Placed</string>
     <string name="message_checkout_error">Error</string>
+    <string name="message_duplicate_orders">Duplicate Orders Not Allowed</string>
 </resources>
