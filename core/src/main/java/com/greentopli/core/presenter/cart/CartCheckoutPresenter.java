@@ -40,6 +40,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 	}
 
 	public void checkOutOrders(){
+		getmMvpView().showProgressbar(true);
 		UserCartItems cartItems = new UserCartItems();
 		cartItems.setCartItems(dbHandler.getPurchasedItemList());
 
@@ -57,11 +58,14 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 				}
 				else
 					getmMvpView().onCartCheckoutFailed(null);
+
+				getmMvpView().showProgressbar(false);
 			}
 
 			@Override
 			public void onFailure(Call<BackendResult> call, Throwable t) {
 				getmMvpView().onCartCheckoutError(t.getMessage());
+				getmMvpView().showProgressbar(false);
 			}
 		});
 	}

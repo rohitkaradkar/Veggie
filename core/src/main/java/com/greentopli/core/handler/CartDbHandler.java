@@ -5,11 +5,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.greentopli.core.Utils;
+import com.greentopli.CommonUtils;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemContentValues;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemCursor;
-import com.greentopli.core.storage.purchaseditem.PurchasedItemModel;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemSelection;
 import com.greentopli.model.Product;
 import com.greentopli.model.PurchasedItem;
@@ -41,7 +40,7 @@ public class CartDbHandler {
 		values.putAccepted(false);
 		values.putCompleted(false);
 		values.putDateAccepted(0);
-		values.putDateRequested(Utils.getDateExcludingTime());
+		values.putDateRequested(0);
 		Uri uri = values.insert(context.getContentResolver());
 		return ContentUris.parseId(uri);
 	}

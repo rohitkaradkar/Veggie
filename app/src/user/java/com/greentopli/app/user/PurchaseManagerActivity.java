@@ -56,7 +56,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 	@Override
 	public void onFragmentInteraction() {
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.activity_purchase_manager_container,CartItemsFragment.newInstance())
+				.replace(R.id.activity_purchase_manager_container, CartCheckoutFragment.newInstance())
 				.addToBackStack(null)
 				.commit();
 	}

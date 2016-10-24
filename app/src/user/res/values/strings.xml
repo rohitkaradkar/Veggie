@@ -9,4 +9,7 @@
     <string name="hint_pinCode">Pin Code</string>
     <string name="hint_mobile_number">Mobile Number</string>
 
+    <!--messages-->
+    <string name="message_checkout_success">Orders Placed</string>
+    <string name="message_checkout_error">Error</string>
 </resources>

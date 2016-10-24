@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.greentopli.CommonUtils;
 import com.greentopli.app.R;
 import com.greentopli.core.handler.CartDbHandler;
 import com.greentopli.model.Product;
@@ -23,8 +24,6 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.greentopli.core.Utils.calculatePrice;
 
 /**
  * Created by rnztx on 20/10/16.
@@ -135,7 +134,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 
 		if (extraControls){
 			PurchasedItem purchasedItem = cartDbHandler.getPurchasedItem(product.getId());
-			int price = calculatePrice(product.getPrice(),product.getMinimumVolume(),purchasedItem.getVolume());
+			int price = CommonUtils.calculatePrice(product.getPrice(),product.getMinimumVolume(),purchasedItem.getVolume());
 			holder.price.setText(String.format(Locale.ENGLISH,
 					"Rs. %d / %d %s",price,purchasedItem.getVolume(),product.getVolume().getExtenction()));
 
@@ -156,6 +155,8 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 	}
 
 	public int getCartItemCount(){
+		if (cartDbHandler==null)
+			return 0;
 		return cartDbHandler.getProductIdsFromCart().size();
 	}
 	public void addProduct(Product product){
