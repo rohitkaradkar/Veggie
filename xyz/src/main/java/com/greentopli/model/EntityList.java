@@ -1,7 +1,5 @@
 package com.greentopli.model;
 
-import com.googlecode.objectify.annotation.Entity;
-
 import java.util.List;
 
 /**

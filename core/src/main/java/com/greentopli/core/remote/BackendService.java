@@ -1,8 +1,8 @@
 package com.greentopli.core.remote;
 
 import com.greentopli.model.BackendResult;
+import com.greentopli.model.EntityList;
 import com.greentopli.model.Product;
-import com.greentopli.model.ProductList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -25,5 +25,5 @@ public interface BackendService {
 
 	// get All product Info Items
 	@GET("/_ah/api/backend/v1/getProductInfoList")
-	Call<ProductList> getProductInfoList();
+	Call<EntityList<Product>> getProductInfoList();
 }

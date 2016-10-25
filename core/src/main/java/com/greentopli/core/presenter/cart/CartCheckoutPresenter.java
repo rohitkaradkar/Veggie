@@ -8,8 +8,10 @@ import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.UserService;
 import com.greentopli.model.BackendResult;
+import com.greentopli.model.EntityList;
 import com.greentopli.model.Product;
-import com.greentopli.model.UserCartItems;
+import com.greentopli.model.PurchasedItem;
+import com.greentopli.model.UserOrders;
 
 import java.util.List;
 
@@ -44,8 +46,8 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 
 	public void checkOutOrders(){
 		getmMvpView().showProgressbar(true);
-		UserCartItems cartItems = new UserCartItems();
-		cartItems.setCartItems(dbHandler.getPurchasedItemList(true));
+		UserOrders cartItems = new UserOrders();
+		cartItems.setItems(dbHandler.getPurchasedItemList(true));
 
 		UserService service = ServiceGenerator.createService(UserService.class);
 		checkoutCall = service.storePurchasedItems(cartItems);

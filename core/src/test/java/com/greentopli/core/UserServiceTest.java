@@ -37,7 +37,7 @@
 ////			public void showProgressbar(boolean show) {}
 ////		});
 //
-////		presenter.checkOutOrders(new UserCartItems(getDummyData()));
+////		presenter.checkOutOrders(new UserOrders(getDummyData()));
 //		latch.await();
 //	}
 //

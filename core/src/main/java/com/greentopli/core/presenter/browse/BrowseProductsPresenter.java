@@ -8,7 +8,8 @@ import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.ProductList;
+import com.greentopli.model.EntityList;
+import com.greentopli.model.Product;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,10 +33,10 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 	public void getProductItems(){
 		getmMvpView().showProgressbar(true);
 		BackendService service = ServiceGenerator.createService(BackendService.class);
-		Call<ProductList> call = service.getProductInfoList();
-		call.enqueue(new Callback<com.greentopli.model.ProductList>() {
+		Call<EntityList<Product>> call = service.getProductInfoList();
+		call.enqueue(new Callback<com.greentopli.model.EntityList<Product>>() {
 			@Override
-			public void onResponse(Call<ProductList> call, Response<ProductList> response) {
+			public void onResponse(Call<EntityList<Product>> call, Response<EntityList<Product>> response) {
 
 				if (response.body()!=null && response.body().getItems()!=null){
 
@@ -56,7 +57,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			}
 
 			@Override
-			public void onFailure(Call<ProductList> call, Throwable t) {
+			public void onFailure(Call<EntityList<Product>> call, Throwable t) {
 				getmMvpView().showError("Connection Error");
 				Log.e(TAG,"Connection Error "+t.getMessage());
 				getmMvpView().showProgressbar(false);
