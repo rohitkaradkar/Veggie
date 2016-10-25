@@ -60,6 +60,8 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			public void onFailure(Call<EntityList<Product>> call, Throwable t) {
 				getmMvpView().showError("Connection Error");
 				Log.e(TAG,"Connection Error "+t.getMessage());
+				// retrieve to show
+				getmMvpView().showProducts(dbHandler.retrieveProductsFromDatabase());
 				getmMvpView().showProgressbar(false);
 			}
 		});

@@ -108,6 +108,14 @@ public class CartDbHandler {
 		cursor.close();
 		return item;
 	}
+
+	public int getCartSubtotal(){
+		List<PurchasedItem> purchasedItems = getPurchasedItemList(true);
+		int totalOrderPrice = 0;
+		for (PurchasedItem item : purchasedItems)
+			totalOrderPrice = totalOrderPrice + item.getTotalPrice();
+		return totalOrderPrice;
+	}
 	private PurchasedItem getPOJOFromCursor(PurchasedItemCursor cursor){
 		PurchasedItem item = new PurchasedItem();
 		item.setOrderId(cursor.getPurchaseId());

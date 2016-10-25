@@ -56,6 +56,12 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	}
 
 	@Override
+	public void onDetach() {
+		super.onDetach();
+		mPresenter.detachView();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
@@ -72,17 +78,20 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@Override
 	public void onResume() {
 		super.onResume();
+		// Create handler on Background Thread
 		HandlerThread thread = new HandlerThread(TAG);
 		thread.start();
 		Handler handler = new Handler(thread.getLooper());
 
-		contentObserver = new PurchasedItemObserver(handler,getContext());
+		contentObserver = new PurchasedItemObserver(handler,getContext(),this);
 		getContext().getContentResolver()
 				.registerContentObserver(
 						PurchasedItemColumns.CONTENT_URI,
 						true,
 						contentObserver
 				);
+		// force execute once
+		contentObserver.updateCartInformation();
 	}
 
 	@Override
@@ -126,8 +135,8 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	}
 
 	@Override
-	public void onTotalOrderPriceChanged(int total_price) {
-		Log.e(TAG,"Cart Total: "+total_price);
+	public void onCartItemsChanged(int total_price, int item_count) {
+		Log.e(TAG,"Cart Total: "+total_price+" Count: "+item_count);
 	}
 
 	@Override

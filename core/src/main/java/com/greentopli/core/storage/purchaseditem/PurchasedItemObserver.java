@@ -4,12 +4,8 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
-import android.util.Log;
 
 import com.greentopli.core.handler.CartDbHandler;
-import com.greentopli.model.PurchasedItem;
-
-import java.util.List;
 
 /**
  * Created by rnztx on 25/10/16.
@@ -35,15 +31,18 @@ public class PurchasedItemObserver extends ContentObserver {
 	@Override
 	public void onChange(boolean selfChange, Uri uri) {
 		super.onChange(selfChange, uri);
-		List<PurchasedItem> purchasedItems = cartDbHandler.getPurchasedItemList(true);
-		int totalOrderPrice = 0;
-		for (PurchasedItem item : purchasedItems)
-			totalOrderPrice =+ item.getTotalPrice();
+		if (uri.equals(PurchasedItemColumns.CONTENT_URI)){
+			updateCartInformation();
+		}
+	}
 
-		listener.onTotalOrderPriceChanged(totalOrderPrice);
+	public void updateCartInformation(){
+		int totalOrderPrice = cartDbHandler.getCartSubtotal();
+		int item_count = cartDbHandler.getProductsFromCart().size();
+		listener.onCartItemsChanged(totalOrderPrice,item_count);
 	}
 
 	public interface Listener{
-		void onTotalOrderPriceChanged(int total_price);
+		void onCartItemsChanged(int total_price, int item_count);
 	}
 }

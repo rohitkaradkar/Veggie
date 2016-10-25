@@ -1,6 +1,7 @@
 package com.greentopli.core.presenter.cart;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.greentopli.core.handler.CartDbHandler;
 import com.greentopli.core.handler.UserDbHandler;
@@ -80,7 +81,8 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 	@Override
 	public void detachView() {
 		super.detachView();
-		checkoutCall.cancel();
+		this.userDbHandler = null;
+		this.dbHandler = null;
 	}
 
 	public void getProductsFromCart(){

@@ -3,6 +3,7 @@ package com.greentopli.app.user;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -78,7 +79,7 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 
 	@Override
 	public void showError(String message) {
-
+		Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
 	}
 
 	@Override
