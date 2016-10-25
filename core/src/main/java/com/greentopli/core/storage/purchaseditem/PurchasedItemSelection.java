@@ -347,4 +347,44 @@ public class PurchasedItemSelection extends AbstractSelection<PurchasedItemSelec
         orderBy(PurchasedItemColumns.VOLUME, false);
         return this;
     }
+
+    public PurchasedItemSelection totalPrice(int... value) {
+        addEquals(PurchasedItemColumns.TOTAL_PRICE, toObjectArray(value));
+        return this;
+    }
+
+    public PurchasedItemSelection totalPriceNot(int... value) {
+        addNotEquals(PurchasedItemColumns.TOTAL_PRICE, toObjectArray(value));
+        return this;
+    }
+
+    public PurchasedItemSelection totalPriceGt(int value) {
+        addGreaterThan(PurchasedItemColumns.TOTAL_PRICE, value);
+        return this;
+    }
+
+    public PurchasedItemSelection totalPriceGtEq(int value) {
+        addGreaterThanOrEquals(PurchasedItemColumns.TOTAL_PRICE, value);
+        return this;
+    }
+
+    public PurchasedItemSelection totalPriceLt(int value) {
+        addLessThan(PurchasedItemColumns.TOTAL_PRICE, value);
+        return this;
+    }
+
+    public PurchasedItemSelection totalPriceLtEq(int value) {
+        addLessThanOrEquals(PurchasedItemColumns.TOTAL_PRICE, value);
+        return this;
+    }
+
+    public PurchasedItemSelection orderByTotalPrice(boolean desc) {
+        orderBy(PurchasedItemColumns.TOTAL_PRICE, desc);
+        return this;
+    }
+
+    public PurchasedItemSelection orderByTotalPrice() {
+        orderBy(PurchasedItemColumns.TOTAL_PRICE, false);
+        return this;
+    }
 }

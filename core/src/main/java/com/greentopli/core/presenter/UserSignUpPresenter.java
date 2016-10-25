@@ -41,15 +41,18 @@ public class UserSignUpPresenter extends BasePresenter<SignUpView> {
 			@Override
 			public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
 				// Stored on server
-				if (response.body().isResult()){
+				if (response.body()!=null && response.body().isResult()){
 					// now store locally
 					if (userDbHandler.storeUserInfo(user)<=0)
 						getmMvpView().onSignUpError("Failed to store Locally");
 					else
 						getmMvpView().onSignUpSuccess();
 				}
-				else // Failed to store on server
+				else { // Failed to store on server
 					getmMvpView().onSignUpError("Error uploading data");
+					signUpCall.cancel();
+					signUpCall.enqueue(this);
+				}
 
 				getmMvpView().showProgressbar(false);
 			}

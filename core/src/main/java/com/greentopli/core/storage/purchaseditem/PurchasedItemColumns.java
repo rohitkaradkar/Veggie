@@ -48,6 +48,11 @@ public class PurchasedItemColumns implements BaseColumns {
      */
     public static final String VOLUME = "volume";
 
+    /**
+     * Total price
+     */
+    public static final String TOTAL_PRICE = "total_price";
+
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
@@ -61,7 +66,8 @@ public class PurchasedItemColumns implements BaseColumns {
             DATE_ACCEPTED,
             ACCEPTED,
             COMPLETED,
-            VOLUME
+            VOLUME,
+            TOTAL_PRICE
     };
     // @formatter:on
 
@@ -76,6 +82,7 @@ public class PurchasedItemColumns implements BaseColumns {
             if (c.equals(ACCEPTED) || c.contains("." + ACCEPTED)) return true;
             if (c.equals(COMPLETED) || c.contains("." + COMPLETED)) return true;
             if (c.equals(VOLUME) || c.contains("." + VOLUME)) return true;
+            if (c.equals(TOTAL_PRICE) || c.contains("." + TOTAL_PRICE)) return true;
         }
         return false;
     }

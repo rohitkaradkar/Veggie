@@ -13,14 +13,14 @@ import java.util.UUID;
 	}
 	public enum Volume {
 		WEIGHT("gms"), QUANTITY("pcs");
-		private final String extenction;
+		private final String extension;
 
-		Volume(String extenction) {
-			this.extenction = extenction;
+		Volume(String extension) {
+			this.extension = extension;
 		}
 
-		public String getExtenction() {
-			return extenction;
+		public String getExtension() {
+			return extension;
 		}
 	}
 

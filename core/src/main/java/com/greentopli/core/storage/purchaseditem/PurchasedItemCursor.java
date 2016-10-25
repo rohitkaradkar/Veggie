@@ -111,4 +111,14 @@ public class PurchasedItemCursor extends AbstractCursor implements PurchasedItem
             throw new NullPointerException("The value of 'volume' in the database was null, which is not allowed according to the model definition");
         return res;
     }
+
+    /**
+     * Total price
+     */
+    public int getTotalPrice() {
+        Integer res = getIntegerOrNull(PurchasedItemColumns.TOTAL_PRICE);
+        if (res == null)
+            throw new NullPointerException("The value of 'total_price' in the database was null, which is not allowed according to the model definition");
+        return res;
+    }
 }

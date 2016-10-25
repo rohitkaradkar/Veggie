@@ -136,13 +136,13 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 			PurchasedItem purchasedItem = cartDbHandler.getCartItem(product.getId(),true);
 			int price = CommonUtils.calculatePrice(product.getPrice(),product.getMinimumVolume(),purchasedItem.getVolume());
 			holder.price.setText(String.format(Locale.ENGLISH,
-					"Rs. %d / %d %s",price,purchasedItem.getVolume(),product.getVolume().getExtenction()));
+					"Rs. %d / %d %s",price,purchasedItem.getVolume(),product.getVolume().getExtension()));
 
 			holder.setCartItem(purchasedItem);
 			holder.setProduct(product);
 		}else {
 			holder.price.setText(String.format(Locale.ENGLISH,
-					"Rs. %s / %d %s",product.getPrice(),product.getMinimumVolume(),product.getVolume().getExtenction()));
+					"Rs. %s / %d %s",product.getPrice(),product.getMinimumVolume(),product.getVolume().getExtension()));
 
 			if (cartDbHandler.isProductAddedToCart(product.getId()))
 				holder.checkBox.setChecked(true);

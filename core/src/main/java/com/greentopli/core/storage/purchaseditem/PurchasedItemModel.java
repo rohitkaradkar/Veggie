@@ -57,4 +57,9 @@ public interface PurchasedItemModel extends BaseModel {
      * volume of purchasing item eg. 6pcs or 250gms
      */
     int getVolume();
+
+    /**
+     * Total price
+     */
+    int getTotalPrice();
 }

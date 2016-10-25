@@ -51,7 +51,8 @@ public class DatabaseSQLiteOpenHelper extends SQLiteOpenHelper {
             + PurchasedItemColumns.DATE_ACCEPTED + " INTEGER NOT NULL, "
             + PurchasedItemColumns.ACCEPTED + " INTEGER NOT NULL, "
             + PurchasedItemColumns.COMPLETED + " INTEGER NOT NULL, "
-            + PurchasedItemColumns.VOLUME + " INTEGER NOT NULL "
+            + PurchasedItemColumns.VOLUME + " INTEGER NOT NULL, "
+            + PurchasedItemColumns.TOTAL_PRICE + " INTEGER NOT NULL "
             + ", CONSTRAINT unique_name UNIQUE (purchase_id,product_id) ON CONFLICT REPLACE"
             + " );";
 

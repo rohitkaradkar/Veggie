@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.greentopli.CommonUtils;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemContentValues;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemCursor;
@@ -31,15 +32,18 @@ public class CartDbHandler {
 	}
 
 	public long addProductToCart(@NonNull String product_id, @NonNull int volume){
-		PurchasedItemContentValues values = new PurchasedItemContentValues();
-		values.putProductId(product_id);
-		values.putPurchaseId(UUID.randomUUID().toString());
-		values.putUserId(userDbHandler.getSignedUserInfo().getEmail());
-		values.putVolume(volume);
-		values.putAccepted(false);
-		values.putCompleted(false);
-		values.putDateAccepted(0);
-		values.putDateRequested(0);
+		PurchasedItemContentValues values;
+
+		PurchasedItem item = new PurchasedItem(userDbHandler.getSignedUserInfo().getEmail(),product_id);
+		item.setVolume(volume);
+		Product product = productDbHandler.getProductFromDatabase(product_id);
+		if (!product.isEmpty()){
+			int price = CommonUtils.calculatePrice(
+					product.getPrice(),product.getMinimumVolume(),item.getVolume()
+			);
+			item.setTotalPrice(price);
+		}
+		values = getValuesFromPOJO(item);
 		Uri uri = values.insert(context.getContentResolver());
 		return ContentUris.parseId(uri);
 	}
@@ -114,6 +118,7 @@ public class CartDbHandler {
 		item.setCompleted(cursor.getCompleted());
 		item.setDateRequested(cursor.getDateRequested());
 		item.setDateCompleted(cursor.getDateAccepted());
+		item.setTotalPrice(cursor.getTotalPrice());
 		return item;
 	}
 
@@ -127,6 +132,7 @@ public class CartDbHandler {
 		values.putCompleted(item.isCompleted());
 		values.putDateRequested(item.getDateRequested());
 		values.putDateAccepted(item.getDateCompleted());
+		values.putTotalPrice(item.getTotalPrice());
 		return values;
 	}
 
@@ -148,6 +154,14 @@ public class CartDbHandler {
 
 		PurchasedItemContentValues values = new PurchasedItemContentValues();
 		values.putVolume(updated_volume);
+
+		Product product = productDbHandler.getProductFromDatabase(product_id);
+		if (!product.isEmpty()){
+			int price = CommonUtils.calculatePrice(
+					product.getPrice(),product.getMinimumVolume(),updated_volume
+			);
+			values.putTotalPrice(price);
+		}
 		return values.update(context,where);
 	}
 

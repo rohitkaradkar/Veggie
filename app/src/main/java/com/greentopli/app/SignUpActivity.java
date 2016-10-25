@@ -126,7 +126,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 
 	@Override
 	public void onSignUpError(String message) {
-
+		Log.e(TAG, "SignUp "+message);
 	}
 
 	@Override

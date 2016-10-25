@@ -21,6 +21,27 @@ import java.util.UUID;
 	@Index private boolean accepted;
 	@Index private boolean completed;
 	@Index private int volume;
+	@Index private int totalPrice;
+
+
+	public PurchasedItem(String userId, String productId) {
+		this.orderId = UUID.randomUUID().toString();
+		this.userId = userId;
+		this.productId = productId;
+		this.totalPrice = 0;
+		this.volume = 0;
+		this.completed = false;
+		this.accepted = false;
+		this.dateCompleted = 0;
+		this.dateRequested = 0;
+	}
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 
 	public int getVolume() {
 		return volume;
@@ -88,9 +109,4 @@ import java.util.UUID;
 
 	public PurchasedItem() {}
 
-	public PurchasedItem(String userId, String productId) {
-		this.orderId = UUID.randomUUID().toString();
-		this.userId = userId;
-		this.productId = productId;
-	}
 }

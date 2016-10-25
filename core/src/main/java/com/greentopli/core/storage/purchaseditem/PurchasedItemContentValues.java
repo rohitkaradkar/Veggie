@@ -101,4 +101,13 @@ public class PurchasedItemContentValues extends AbstractContentValues {
         return this;
     }
 
+
+    /**
+     * Total price
+     */
+    public PurchasedItemContentValues putTotalPrice(int value) {
+        mContentValues.put(PurchasedItemColumns.TOTAL_PRICE, value);
+        return this;
+    }
+
 }

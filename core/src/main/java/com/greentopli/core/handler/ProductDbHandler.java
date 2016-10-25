@@ -87,4 +87,14 @@ public class ProductDbHandler {
 		return product;
 	}
 
+	public Product getProductFromDatabase(@NonNull String product_id){
+		ProductSelection where = new ProductSelection();
+		where.productId(product_id);
+		Product product =  new Product();
+		ProductCursor cursor = where.query(context);
+		if (cursor.moveToNext())
+			product = getProductFromCursor(cursor);
+		cursor.close();
+		return product;
+	}
 }
