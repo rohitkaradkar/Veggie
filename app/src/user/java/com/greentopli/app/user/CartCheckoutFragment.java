@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +20,8 @@ import com.greentopli.app.R;
 import com.greentopli.core.OrderHistoryService;
 import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
 import com.greentopli.core.presenter.cart.CartView;
+import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
+import com.greentopli.core.storage.purchaseditem.PurchasedItemObserver;
 import com.greentopli.model.Product;
 
 import java.util.List;
@@ -26,12 +30,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CartCheckoutFragment extends Fragment implements CartView{
+public class CartCheckoutFragment extends Fragment implements CartView,PurchasedItemObserver.Listener{
 	@BindView(R.id.cartItem_fragment_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.progressbar_cartCheckout_fragment) ProgressBar progressBar;
 	private CartCheckoutPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private BrowseAdapter mAdapter;
+	private PurchasedItemObserver contentObserver;
+
 	private static final String TAG = CartCheckoutFragment.class.getSimpleName();
 	public CartCheckoutFragment() {
 		// Required empty public constructor
@@ -61,6 +67,29 @@ public class CartCheckoutFragment extends Fragment implements CartView{
 		mRecyclerView.setAdapter(mAdapter);
 		mPresenter.getProductsFromCart();
 		return rootView;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		HandlerThread thread = new HandlerThread(TAG);
+		thread.start();
+		Handler handler = new Handler(thread.getLooper());
+
+		contentObserver = new PurchasedItemObserver(handler,getContext());
+		getContext().getContentResolver()
+				.registerContentObserver(
+						PurchasedItemColumns.CONTENT_URI,
+						true,
+						contentObserver
+				);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		getContext().getContentResolver()
+				.unregisterContentObserver(contentObserver);
 	}
 
 	@OnClick(R.id.fab_cart_items_fragment)
@@ -94,6 +123,11 @@ public class CartCheckoutFragment extends Fragment implements CartView{
 	@Override
 	public void onCartItemsReceived(List<Product> cartItems) {
 		mAdapter.addNewProducts(cartItems);
+	}
+
+	@Override
+	public void onTotalOrderPriceChanged(int total_price) {
+		Log.e(TAG,"Cart Total: "+total_price);
 	}
 
 	@Override
