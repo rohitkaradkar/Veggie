@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.greentopli.app.R;
-import com.greentopli.app.user.BrowseAdapter;
+import com.greentopli.app.user.ProductAdapter;
 import com.greentopli.app.user.OnFragmentInteractionListener;
 import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
 import com.greentopli.core.presenter.browse.BrowseProductsView;
@@ -33,7 +33,7 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 
 	@BindView(R.id.browse_products_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.default_progressbar) ProgressBar progressBar;
-	private BrowseAdapter mAdapter;
+	private ProductAdapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private BrowseProductsPresenter mPresenter;
 	OnFragmentInteractionListener listener;
@@ -63,7 +63,7 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 		// Inflate the layout for this fragment
 		View rootView =  inflater.inflate(R.layout.fragment_browse_product, container, false);
 		ButterKnife.bind(this,rootView);
-		mAdapter = new BrowseAdapter();
+		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE);
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mRecyclerView.setAdapter(mAdapter);

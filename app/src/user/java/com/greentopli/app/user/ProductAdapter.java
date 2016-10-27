@@ -29,32 +29,37 @@ import butterknife.OnClick;
  * Created by rnztx on 20/10/16.
  */
 
-public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder>{
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
 	private List<Product> mProducts;
 	CartDbHandler cartDbHandler;
-	private boolean extraControls;
+	public enum Mode {
+		BROWSE, CART, HISTORY
+	}
+	private Mode adapterMode;
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 		@BindView(R.id.item_product_image) ImageView image;
 		@BindView(R.id.item_product_checkbox) CheckBox checkBox;
 		@BindView(R.id.item_product_name) TextView name;
 		@BindView(R.id.item_product_price) TextView price;
-		@BindView(R.id.subtract_image_button)ImageButton subtract;
-		@BindView(R.id.add_image_button)ImageButton add;
+		@BindView(R.id.subtract_image_button)ImageButton subtractButton;
+		@BindView(R.id.add_image_button)ImageButton addButton;
 		private Product product;
 		private PurchasedItem cartItem;
+
 		public ViewHolder(View itemView) {
 			super(itemView);
 			ButterKnife.bind(this,itemView);
 			itemView.setOnClickListener(this);
-			checkBox.setVisibility(extraControls ?View.GONE:View.VISIBLE);
-			subtract.setVisibility(extraControls ?View.VISIBLE:View.GONE);
-			add.setVisibility(extraControls ?View.VISIBLE:View.GONE);
 		}
 
 		@Override
 		public void onClick(View v) {
-			if (v.getId()==R.id.item_product_view && !extraControls)
+			/**
+			 * In Browse mode Direct click to checkbox is DISABLED,
+			 * so we manually handle the tick & correspondingly addButton / remove item from cart
+			 */
+			if (v.getId()==R.id.item_product_view && adapterMode.equals(Mode.BROWSE))
 				updateToCart();
 		}
 
@@ -76,7 +81,6 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 		}
 
 		private void updateToCart(){
-			Product product = mProducts.get(getAdapterPosition());
 			if (checkBox.isChecked()){
 				cartDbHandler.removeProductFromCart(product.getId());
 				checkBox.setChecked(false);
@@ -95,17 +99,12 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 		}
 	}
 
-	public BrowseAdapter(){
+	public ProductAdapter(Mode adapterMode){
 		this(new ArrayList<Product>());
-		extraControls = false;
+		this.adapterMode = adapterMode;
 	}
 
-	public BrowseAdapter(boolean extraControls){
-		this(new ArrayList<Product>());
-		this.extraControls = extraControls;
-	}
-
-	public BrowseAdapter(List<Product> products) {
+	private ProductAdapter(List<Product> products) {
 		this.mProducts = products;
 		notifyDataSetChanged();
 	}
@@ -123,7 +122,7 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Product product = mProducts.get(position);
-
+		holder.setProduct(product);
 		holder.name.setText(String.format(Locale.ENGLISH,
 						"%s / %s",product.getName_english(),product.getName_hinglish()));
 
@@ -132,20 +131,29 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 				.diskCacheStrategy(DiskCacheStrategy.SOURCE)
 				.into(holder.image);
 
-		if (extraControls){
-			PurchasedItem purchasedItem = cartDbHandler.getCartItem(product.getId(),true);
-			holder.price.setText(String.format(Locale.ENGLISH,
-					"Rs. %d / %d %s",purchasedItem.getTotalPrice(),purchasedItem.getVolume(),product.getVolume().getExtension()));
+		String formattedPrice = "";
 
-			holder.setCartItem(purchasedItem);
-			holder.setProduct(product);
-		}else {
-			holder.price.setText(String.format(Locale.ENGLISH,
-					"Rs. %s / %d %s",product.getPrice(),product.getMinimumVolume(),product.getVolume().getExtension()));
-
-			if (cartDbHandler.isProductAddedToCart(product.getId()))
+		// When Browsing through Items & adding them to carts
+		if (adapterMode.equals(Mode.BROWSE)){
+			formattedPrice = String.format(Locale.ENGLISH,
+					"Rs. %s / %s",product.getPrice(),
+					CommonUtils.getVolumeExtension(product.getMinimumVolume(),product.getVolume()));
+			holder.checkBox.setVisibility(View.VISIBLE);
+			if (cartDbHandler.isProductAddedToCart(product.getId())) {
 				holder.checkBox.setChecked(true);
+			}
 		}
+		// when managing Items present in cart
+		else if (adapterMode.equals(Mode.CART)){
+			PurchasedItem item = cartDbHandler.getCartItem(product.getId(),false);
+			formattedPrice = String.format(Locale.ENGLISH,
+					"Rs. %d / %s",item.getTotalPrice(),
+					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
+			holder.setCartItem(item);
+			holder.addButton.setVisibility(View.VISIBLE);
+			holder.subtractButton.setVisibility(View.VISIBLE);
+		}
+		holder.price.setText(formattedPrice);
 	}
 
 	@Override
@@ -157,10 +165,6 @@ public class BrowseAdapter extends RecyclerView.Adapter<BrowseAdapter.ViewHolder
 		if (cartDbHandler==null)
 			return 0;
 		return cartDbHandler.getProductIdsFromCart().size();
-	}
-	public void addProduct(Product product){
-		mProducts.add(product);
-		notifyDataSetChanged();
 	}
 
 	public void addNewProducts(List<Product> list){

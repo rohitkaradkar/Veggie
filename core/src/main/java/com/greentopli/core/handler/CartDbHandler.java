@@ -85,10 +85,10 @@ public class CartDbHandler {
 		return productDbHandler.retrieveProductsFromDatabase(ids);
 	}
 
-	public List<PurchasedItem> getPurchasedItemList(boolean fromCart){
+	public List<PurchasedItem> getPurchasedItemList(boolean acceptedBySeller){
 		List<PurchasedItem> purchasedItems = new ArrayList<>();
 		PurchasedItemSelection selection = new PurchasedItemSelection();
-		selection.accepted(!fromCart); // cart items are not accepted
+		selection.accepted(acceptedBySeller); // cart items are not accepted
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
 		while (cursor.moveToNext()){
 			purchasedItems.add(getPOJOFromCursor(cursor));
@@ -96,10 +96,10 @@ public class CartDbHandler {
 		cursor.close();
 		return purchasedItems;
 	}
-	public PurchasedItem getCartItem(@NonNull String product_id, boolean fromCart){
+	public PurchasedItem getCartItem(@NonNull String product_id, boolean acceptedBySeller){
 		PurchasedItemSelection selection = new PurchasedItemSelection();
 		selection.productId(product_id)
-			.and().accepted(!fromCart);
+			.and().accepted(acceptedBySeller);
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
 	    PurchasedItem item = new PurchasedItem();
 		while (cursor.moveToNext()){
@@ -110,7 +110,7 @@ public class CartDbHandler {
 	}
 
 	public int getCartSubtotal(){
-		List<PurchasedItem> purchasedItems = getPurchasedItemList(true);
+		List<PurchasedItem> purchasedItems = getPurchasedItemList(false);
 		int totalOrderPrice = 0;
 		for (PurchasedItem item : purchasedItems)
 			totalOrderPrice = totalOrderPrice + item.getTotalPrice();

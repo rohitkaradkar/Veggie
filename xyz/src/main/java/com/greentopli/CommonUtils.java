@@ -1,6 +1,9 @@
 package com.greentopli;
 
+import com.greentopli.model.Product;
+
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -30,5 +33,17 @@ public class CommonUtils {
 	public static int calculatePrice(int priceForMinVolume , int minVolume, int requiredVolume){
 		double result = Double.valueOf(requiredVolume)*(Double.valueOf(priceForMinVolume)/Double.valueOf(minVolume));
 		return (int) Math.ceil(result); // Rs. 16.45 becomes 17
+	}
+
+	public static String getVolumeExtension(int volumeCount , Product.Volume volumeType){
+		if (volumeType.equals(Product.Volume.QUANTITY)){
+			return String.format(Locale.ENGLISH,"%d %s",volumeCount,Product.Volume.QUANTITY.getExtension());
+		}
+		else if (volumeType.equals(Product.Volume.WEIGHT)){
+			double count = Double.valueOf(volumeCount)/Double.valueOf(1000);
+			// 0.25 kg
+			return String.format(Locale.ENGLISH,"%.2f %s",count,"kg");
+		}
+		return null;
 	}
 }

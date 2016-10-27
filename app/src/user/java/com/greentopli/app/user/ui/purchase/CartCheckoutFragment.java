@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.greentopli.app.R;
-import com.greentopli.app.user.BrowseAdapter;
+import com.greentopli.app.user.ProductAdapter;
 import com.greentopli.core.OrderHistoryService;
 import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
 import com.greentopli.core.presenter.cart.CartView;
@@ -36,7 +36,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@BindView(R.id.progressbar_cartCheckout_fragment) ProgressBar progressBar;
 	private CartCheckoutPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
-	private BrowseAdapter mAdapter;
+	private ProductAdapter mAdapter;
 	private PurchasedItemObserver contentObserver;
 
 	private static final String TAG = CartCheckoutFragment.class.getSimpleName();
@@ -68,7 +68,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		// Inflate the layout for this fragment
 		View rootView =  inflater.inflate(R.layout.fragment_cart_checkout, container, false);
 		ButterKnife.bind(this,rootView);
-		mAdapter = new BrowseAdapter(true);
+		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART);
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mRecyclerView.setAdapter(mAdapter);
