@@ -5,11 +5,11 @@
               android:id="@+id/item_product_view"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="70dp">
+              android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/item_product_image"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="@dimen/product_item_icon_size"
+        android:layout_height="@dimen/product_item_icon_size"
         android:src="@drawable/ic_photo_default"/>
     <LinearLayout
         android:orientation="vertical"
@@ -19,7 +19,9 @@
             android:id="@+id/item_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/product_item_name_textSize"
+            android:maxLines="@integer/product_item_name_max_lines"
+            android:ellipsize="end"
             tools:text="Landy Finger / Bhindi"/>
         <LinearLayout
             android:orientation="horizontal"
@@ -37,7 +39,7 @@
                 android:id="@+id/item_product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
+                android:textSize="@dimen/product_item_price_textSize"
                 android:layout_gravity="center"
                 tools:text="Rs 10 / 6 pcs"/>
             <ImageButton

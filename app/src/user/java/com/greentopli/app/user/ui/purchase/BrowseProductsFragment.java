@@ -98,7 +98,6 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 		}else {
 			Toast.makeText(getContext(),R.string.message_empty_cart,Toast.LENGTH_SHORT).show();
 		}
-
 	}
 	@Override
 	public void showProgressbar(boolean show) {

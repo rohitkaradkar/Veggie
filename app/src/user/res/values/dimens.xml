@@ -4,4 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="item_product_view_height">64dp</dimen>
+
+    <integer name="product_item_name_max_lines">1</integer>
+    <dimen name="product_item_name_textSize">20sp</dimen>
+    <dimen name="product_item_price_textSize">17sp</dimen>
+    <dimen name="product_item_icon_size">64dp</dimen>
 </resources>

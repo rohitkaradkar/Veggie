@@ -55,10 +55,18 @@ public class CartDbHandler {
 		return selection.delete(context.getContentResolver());
 	}
 
-	public List<String> getProductIdsFromCart(){
+	public List<String> getProductIdsFromCart(boolean isAcceptedBySeller){
+		return getProductIdsFromCart(isAcceptedBySeller,0);
+	}
+	public List<String> getProductIdsFromCart(boolean isAcceptedBySeller, long dateRequested){
 		List<String> list = new ArrayList<>();
 		PurchasedItemSelection selection = new PurchasedItemSelection();
-		selection.accepted(false); // items only added to cart
+
+		if (dateRequested>0) // products accepted by seller
+			selection.dateRequested(dateRequested).and().accepted(isAcceptedBySeller);
+		else // only added to cart
+			selection.accepted(isAcceptedBySeller);
+
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),
 				new String[]{PurchasedItemColumns.PRODUCT_ID});
 		while (cursor.moveToNext()){
@@ -80,8 +88,11 @@ public class CartDbHandler {
 		return isAdded;
 	}
 
-	public List<Product> getProductsFromCart(){
-		List<String> ids = getProductIdsFromCart();
+	public List<Product> getProductsFromCart(boolean acceptedBySeller){
+		return getProductsFromCart(acceptedBySeller,0);
+	}
+	public List<Product> getProductsFromCart(boolean acceptedBySeller, long dateRequested){
+		List<String> ids = getProductIdsFromCart(acceptedBySeller,dateRequested);
 		return productDbHandler.retrieveProductsFromDatabase(ids);
 	}
 

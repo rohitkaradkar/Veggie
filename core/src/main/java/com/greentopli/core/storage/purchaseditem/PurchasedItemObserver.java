@@ -41,10 +41,9 @@ public class PurchasedItemObserver extends ContentObserver {
 
 	public void updateCartInformation(){
 		int totalOrderPrice = cartDbHandler.getCartSubtotal();
-		List<Product> cartProducts = cartDbHandler.getProductsFromCart();
+		List<Product> cartProducts = cartDbHandler.getProductsFromCart(false);
 		if (cartProducts!=null && cartProducts.size() > 0){
-			int item_count = cartDbHandler.getProductsFromCart().size();
-			listener.onCartItemsChanged(totalOrderPrice,item_count);
+			listener.onCartItemsChanged(totalOrderPrice,cartProducts.size());
 		}
 	}
 

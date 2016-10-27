@@ -86,7 +86,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 	}
 
 	public void getProductsFromCart(){
-		List<Product> products = dbHandler.getProductsFromCart();
+		List<Product> products = dbHandler.getProductsFromCart(false);
 		if (products.size()>0)
 			getmMvpView().onCartItemsReceived(products);
 	}

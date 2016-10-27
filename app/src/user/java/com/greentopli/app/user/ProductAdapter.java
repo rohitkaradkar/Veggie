@@ -164,7 +164,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 	public int getCartItemCount(){
 		if (cartDbHandler==null)
 			return 0;
-		return cartDbHandler.getProductIdsFromCart().size();
+		return cartDbHandler.getProductIdsFromCart(false).size();
 	}
 
 	public void addNewProducts(List<Product> list){

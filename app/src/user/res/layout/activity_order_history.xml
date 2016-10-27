@@ -10,5 +10,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.greentopli.app.user.ui.OrderHistoryActivity">
-
+    <Button
+        android:id="@+id/test_order_dialog_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Check Order"/>
 </RelativeLayout>
