@@ -1,15 +1,4 @@
 <resources>
     <string name="app_name">Green Topli</string>
     <string name="menu_sign_out">Sign Out</string>
-
-    <string name="volume_set_quantity">6</string>
-    <string name="volume_set_weight">250</string>
-
-    <string name="volume_max_quantity">48</string>
-    <string name="volume_max_weight">5000</string>
-    <string name="title_activity_sign_up">SignUpActivity</string>
-
-    <string name="error_empty_field">Empty Field Not Allowed</string>
-    <string name="error_mobile_digit">Mobile Number should be 10 digit</string>
-    <string name="error_picCode_digit">Pin Code should be 6 digit</string>
 </resources>

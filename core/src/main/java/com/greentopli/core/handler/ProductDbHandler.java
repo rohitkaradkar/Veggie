@@ -61,6 +61,8 @@ public class ProductDbHandler {
 		return list;
 	}
 	public List<Product> retrieveProductsFromDatabase(List<String> product_ids){
+		if(product_ids.size()<=0)
+			return null;
 		ProductSelection selection = new ProductSelection();
 		String[] ids = product_ids.toArray(new String[product_ids.size()]);
 		selection.productId(ids);

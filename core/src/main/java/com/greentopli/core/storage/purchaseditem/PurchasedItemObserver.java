@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.os.Handler;
 
 import com.greentopli.core.handler.CartDbHandler;
+import com.greentopli.model.Product;
+
+import java.util.List;
 
 /**
  * Created by rnztx on 25/10/16.
@@ -38,8 +41,11 @@ public class PurchasedItemObserver extends ContentObserver {
 
 	public void updateCartInformation(){
 		int totalOrderPrice = cartDbHandler.getCartSubtotal();
-		int item_count = cartDbHandler.getProductsFromCart().size();
-		listener.onCartItemsChanged(totalOrderPrice,item_count);
+		List<Product> cartProducts = cartDbHandler.getProductsFromCart();
+		if (cartProducts!=null && cartProducts.size() > 0){
+			int item_count = cartDbHandler.getProductsFromCart().size();
+			listener.onCartItemsChanged(totalOrderPrice,item_count);
+		}
 	}
 
 	public interface Listener{

@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">User Green Topli</string>
+    <string name="title_order_history">Order History</string>
+    <string name="title_activity_sign_up">Personal Details</string>
 
-    <string name="message_empty_cart">Cart is empty</string>
+    <!--Menus-->
 
     <!--Edit text hits-->
     <string name="hint_name">Name</string>
@@ -13,4 +15,16 @@
     <string name="message_checkout_success">Orders Placed</string>
     <string name="message_checkout_error">Error</string>
     <string name="message_duplicate_orders">Duplicate Orders Not Allowed</string>
+    <string name="message_empty_cart">Cart is empty</string>
+
+    <string name="error_empty_field">Empty Field Not Allowed</string>
+    <string name="error_mobile_digit">Mobile Number should be 10 digit</string>
+    <string name="error_picCode_digit">Pin Code should be 6 digit</string>
+
+    <!--default values-->
+    <string name="volume_set_quantity">6</string>
+    <string name="volume_set_weight">250</string>
+
+    <string name="volume_max_quantity">48</string>
+    <string name="volume_max_weight">5000</string>
 </resources>

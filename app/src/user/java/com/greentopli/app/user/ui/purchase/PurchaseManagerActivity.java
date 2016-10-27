@@ -1,4 +1,4 @@
-package com.greentopli.app.user;
+package com.greentopli.app.user.ui.purchase;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
 import com.greentopli.app.SignUpActivity;
+import com.greentopli.app.user.OnFragmentInteractionListener;
+import com.greentopli.app.user.ui.OrderHistoryActivity;
 
 public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 	private static final int REQUEST_SIGNIN = 210;
@@ -47,7 +49,9 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 			case R.id.menu_sign_out:
 				signOut();
 				return true;
-
+			case R.id.menu_order_history:
+				startActivity(new Intent(getApplicationContext(), OrderHistoryActivity.class));
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

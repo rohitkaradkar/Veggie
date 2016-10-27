@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.greentopli.app.user.BrowseProductsFragment">
+             tools:context="com.greentopli.app.user.ui.purchase.BrowseProductsFragment">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/browse_products_recyclerView"
         android:layout_width="match_parent"

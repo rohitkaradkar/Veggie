@@ -1,9 +1,8 @@
-package com.greentopli.app.user;
+package com.greentopli.app.user.ui.purchase;
 
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.greentopli.app.R;
+import com.greentopli.app.user.BrowseAdapter;
+import com.greentopli.app.user.OnFragmentInteractionListener;
 import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
 import com.greentopli.core.presenter.browse.BrowseProductsView;
 import com.greentopli.model.Product;

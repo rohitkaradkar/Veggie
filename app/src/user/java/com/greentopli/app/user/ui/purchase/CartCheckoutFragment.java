@@ -1,4 +1,4 @@
-package com.greentopli.app.user;
+package com.greentopli.app.user.ui.purchase;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.greentopli.app.R;
+import com.greentopli.app.user.BrowseAdapter;
 import com.greentopli.core.OrderHistoryService;
 import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
 import com.greentopli.core.presenter.cart.CartView;
