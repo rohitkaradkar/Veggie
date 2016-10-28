@@ -1,4 +1,4 @@
-package com.greentopli.core.presenter;
+package com.greentopli.core.presenter.signup;
 
 import com.greentopli.core.presenter.base.MvpView;
 

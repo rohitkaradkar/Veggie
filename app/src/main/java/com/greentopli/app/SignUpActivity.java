@@ -16,8 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.greentopli.core.presenter.SignUpView;
-import com.greentopli.core.presenter.UserSignUpPresenter;
+import com.greentopli.core.presenter.signup.SignUpView;
+import com.greentopli.core.presenter.signup.UserSignUpPresenter;
 import com.greentopli.model.User;
 
 import java.util.List;

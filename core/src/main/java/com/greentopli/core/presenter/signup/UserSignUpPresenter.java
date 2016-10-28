@@ -1,4 +1,4 @@
-package com.greentopli.core.presenter;
+package com.greentopli.core.presenter.signup;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

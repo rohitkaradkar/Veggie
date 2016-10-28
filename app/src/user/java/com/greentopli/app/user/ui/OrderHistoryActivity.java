@@ -9,6 +9,9 @@ import com.greentopli.app.R;
 import com.greentopli.app.user.ProductAdapter;
 import com.greentopli.core.handler.CartDbHandler;
 import com.greentopli.core.handler.ProductDbHandler;
+import com.greentopli.core.presenter.OrderHistoryPresenter;
+import com.greentopli.core.presenter.OrderHistoryView;
+import com.greentopli.model.OrderHistory;
 import com.greentopli.model.Product;
 
 import java.util.List;
@@ -17,14 +20,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class OrderHistoryActivity extends AppCompatActivity {
+public class OrderHistoryActivity extends AppCompatActivity implements OrderHistoryView {
+	OrderHistoryPresenter presenter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_history);
 		ButterKnife.bind(this);
+		presenter = OrderHistoryPresenter.bind(this,getApplicationContext());
+		presenter.requestOrderHistory();
 	}
 
+	//TODO: remove this test code
 	@OnClick(R.id.test_order_dialog_button)
 	void onClickTestButton(){
 		long dateRequested = 1477506600000L;
@@ -40,5 +47,26 @@ public class OrderHistoryActivity extends AppCompatActivity {
 				.negativeText("Close")
 				.adapter(adapter,new LinearLayoutManager(getApplicationContext()))
 				.show();
+	}
+
+	@Override
+	public void onDataReceived(List<OrderHistory> orderHistoryList) {
+		//TODO: remove this test code
+		for (OrderHistory order: orderHistoryList){
+			ProductAdapter adapter = new ProductAdapter(ProductAdapter.Mode.HISTORY,order.getOrderDate());
+			adapter.addNewProducts(order.getProducts());
+
+			MaterialDialog dialog = new MaterialDialog.Builder(this)
+					.title(R.string.title_order_history)
+					.negativeText("Close")
+					.adapter(adapter,new LinearLayoutManager(getApplicationContext()))
+					.show();
+		}
+
+	}
+
+	@Override
+	public void showProgressbar(boolean show) {
+
 	}
 }

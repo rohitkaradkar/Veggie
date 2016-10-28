@@ -4,6 +4,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.greentopli.CommonUtils;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
@@ -12,8 +13,11 @@ import com.greentopli.core.storage.purchaseditem.PurchasedItemCursor;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemSelection;
 import com.greentopli.model.Product;
 import com.greentopli.model.PurchasedItem;
+import com.greentopli.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +26,7 @@ import java.util.UUID;
  */
 
 public class CartDbHandler {
+	private static String TAG = CartDbHandler.class.getSimpleName();
 	private Context context;
 	private ProductDbHandler productDbHandler;
 	private UserDbHandler userDbHandler;
@@ -135,6 +140,7 @@ public class CartDbHandler {
 			totalOrderPrice = totalOrderPrice + item.getTotalPrice();
 		return totalOrderPrice;
 	}
+
 	private PurchasedItem getPOJOFromCursor(PurchasedItemCursor cursor){
 		PurchasedItem item = new PurchasedItem();
 		item.setOrderId(cursor.getPurchaseId());
@@ -175,6 +181,7 @@ public class CartDbHandler {
 			ContentUris.parseId(uri);
 		}
 	}
+
 	public int updateVolume(@NonNull String product_id, @NonNull int updated_volume){
 		PurchasedItemSelection where = new PurchasedItemSelection();
 		where.productId(product_id).and().accepted(false);
@@ -196,5 +203,39 @@ public class CartDbHandler {
 		PurchasedItemSelection allItems = new PurchasedItemSelection();
 		allItems.accepted(false);
 		return allItems.delete(context);
+	}
+
+	// returns Date & price in pair
+	public HashMap<Long,Integer> getOrderHistoryDates(String userId){
+		// pairing - order Date & total price
+		HashMap<Long,Integer> pair = new HashMap<>();
+		List<PurchasedItem> list = new ArrayList<>();
+
+		// get accepted Purchased Items
+		PurchasedItemSelection selection = new PurchasedItemSelection();
+		selection.accepted(true).and().userId(userId).orderByDateRequested();
+		PurchasedItemCursor cursor = selection.query(context,PurchasedItemColumns.ALL_COLUMNS);
+		while (cursor.moveToNext()){
+			list.add(getPOJOFromCursor(cursor));
+		}
+		cursor.close();
+
+		// Calculate price
+		for (PurchasedItem item: list){
+			long dateRequested = item.getDateRequested();
+			int price = item.getTotalPrice();
+
+			if (pair.containsKey(dateRequested)){
+				int priceSum = pair.get(dateRequested) + price;
+				pair.put(dateRequested,priceSum);
+			}else {
+				pair.put(dateRequested,price);
+			}
+		}
+
+		if (pair.size()>0)
+			return pair;
+
+		return null;
 	}
 }
