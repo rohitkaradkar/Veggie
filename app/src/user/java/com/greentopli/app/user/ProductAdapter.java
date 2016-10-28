@@ -36,6 +36,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		BROWSE, CART, HISTORY
 	}
 	private Mode adapterMode;
+	private long dateOfRequest;
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 		@BindView(R.id.item_product_image) ImageView image;
@@ -100,10 +101,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 	}
 
 	public ProductAdapter(Mode adapterMode){
+		this(adapterMode,0);
+	}
+	public ProductAdapter(Mode adapterMode, long dateOfRequest){
 		this(new ArrayList<Product>());
 		this.adapterMode = adapterMode;
+		this.dateOfRequest = dateOfRequest;
 	}
-
 	private ProductAdapter(List<Product> products) {
 		this.mProducts = products;
 		notifyDataSetChanged();
@@ -152,6 +156,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 			holder.setCartItem(item);
 			holder.addButton.setVisibility(View.VISIBLE);
 			holder.subtractButton.setVisibility(View.VISIBLE);
+		}
+		// just checking order history
+		else if(adapterMode.equals(Mode.HISTORY)){
+			PurchasedItem item = cartDbHandler.getCartItem(product.getId(),true,dateOfRequest);
+			formattedPrice = String.format(Locale.ENGLISH,
+					"Rs. %d / %s",item.getTotalPrice(),
+					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
 		}
 		holder.price.setText(formattedPrice);
 	}

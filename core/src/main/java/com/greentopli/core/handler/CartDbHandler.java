@@ -107,12 +107,20 @@ public class CartDbHandler {
 		cursor.close();
 		return purchasedItems;
 	}
+
 	public PurchasedItem getCartItem(@NonNull String product_id, boolean acceptedBySeller){
+		return getCartItem(product_id,acceptedBySeller,0);
+	}
+
+	public PurchasedItem getCartItem(@NonNull String product_id, boolean acceptedBySeller, long dateRequested){
 		PurchasedItemSelection selection = new PurchasedItemSelection();
-		selection.productId(product_id)
-			.and().accepted(acceptedBySeller);
+		if (acceptedBySeller)
+			selection.productId(product_id).and().accepted(acceptedBySeller).and().dateRequested(dateRequested);
+		else
+			selection.productId(product_id).and().accepted(acceptedBySeller);
+
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
-	    PurchasedItem item = new PurchasedItem();
+		PurchasedItem item = new PurchasedItem();
 		while (cursor.moveToNext()){
 			item = getPOJOFromCursor(cursor);
 		}

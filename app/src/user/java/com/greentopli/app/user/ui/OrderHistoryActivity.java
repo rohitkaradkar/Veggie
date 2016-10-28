@@ -27,12 +27,12 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
 	@OnClick(R.id.test_order_dialog_button)
 	void onClickTestButton(){
-		long dateRequsted = 1477506600000L;
+		long dateRequested = 1477506600000L;
 		CartDbHandler cartDbHandler = new CartDbHandler(getApplicationContext());
 
-		List<Product> products = cartDbHandler.getProductsFromCart(true,dateRequsted);
+		List<Product> products = cartDbHandler.getProductsFromCart(true,dateRequested);
 
-		ProductAdapter adapter = new ProductAdapter(ProductAdapter.Mode.BROWSE);
+		ProductAdapter adapter = new ProductAdapter(ProductAdapter.Mode.HISTORY,dateRequested);
 		adapter.addNewProducts(products);
 
 		MaterialDialog dialog = new MaterialDialog.Builder(this)
