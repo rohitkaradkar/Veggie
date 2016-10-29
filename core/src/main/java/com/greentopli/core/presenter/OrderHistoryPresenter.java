@@ -9,6 +9,11 @@ import com.greentopli.model.OrderHistory;
 import com.greentopli.model.Product;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,7 +56,19 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 			}
 		}
 
-		if (orderHistoryList.size()>0)
+		if (orderHistoryList.size()>0){
+			// sort by date
+			Collections.sort(orderHistoryList, new Comparator<OrderHistory>() {
+				@Override
+				public int compare(OrderHistory o1, OrderHistory o2) {
+					Date d1 = new Date(o1.getOrderDate());
+					Date d2 = new Date(o2.getOrderDate());
+//					return d1.compareTo(d2); // Ascending order
+					return d2.compareTo(d1); // Descending order
+				}
+			});
+
 			getmMvpView().onDataReceived(orderHistoryList);
+		}
 	}
 }

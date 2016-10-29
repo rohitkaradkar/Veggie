@@ -213,7 +213,7 @@ public class CartDbHandler {
 
 		// get accepted Purchased Items
 		PurchasedItemSelection selection = new PurchasedItemSelection();
-		selection.accepted(true).and().userId(userId).orderByDateRequested();
+		selection.accepted(true).and().userId(userId);
 		PurchasedItemCursor cursor = selection.query(context,PurchasedItemColumns.ALL_COLUMNS);
 		while (cursor.moveToNext()){
 			list.add(getPOJOFromCursor(cursor));
