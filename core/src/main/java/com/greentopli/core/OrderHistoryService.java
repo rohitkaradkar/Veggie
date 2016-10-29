@@ -20,9 +20,14 @@ import retrofit2.Response;
 
 public class OrderHistoryService extends IntentService {
 	private static final String TAG = OrderHistoryService.class.getSimpleName();
+	public static final String ACTION_PROCESSING = "SERVICE_PROCESSING";
+	public static final String ACTION_PROCESSING_COMPLETE = "SERVICE_PROCESSING_COMPLETE";
+	public static final String ACTION_PROCESSING_FAILED = "SERVICE_PROCESSING_FAILED";
+
 	public OrderHistoryService(){
 		super(OrderHistoryService.class.getSimpleName());
 	}
+
 	CartDbHandler cartDbHandler ;
 	@Override
 	protected void onHandleIntent(Intent intent) {
@@ -30,6 +35,7 @@ public class OrderHistoryService extends IntentService {
 		String user_id = intent.getDataString();
 
 		if (user_id!=null && !user_id.isEmpty()){
+			broadcast(ACTION_PROCESSING);
 			UserService service = ServiceGenerator.createService(UserService.class);
 			Call<EntityList<PurchasedItem>> call = service.getUserOrderHistory(user_id);
 			cartDbHandler = new CartDbHandler(getApplicationContext());
@@ -42,13 +48,22 @@ public class OrderHistoryService extends IntentService {
 									response.body().getItems()
 							);
 					}
+					// empty case will be handled by presenter
+					broadcast(ACTION_PROCESSING_COMPLETE);
 				}
 
 				@Override
 				public void onFailure(Call<EntityList<PurchasedItem>> call, Throwable t) {
+					broadcast(ACTION_PROCESSING_FAILED);
 					t.printStackTrace();
 				}
 			});
 		}
+	}
+
+	private void broadcast(String action){
+		Intent broadcastIntent = new Intent();
+		broadcastIntent.setAction(action);
+		sendBroadcast(broadcastIntent);
 	}
 }

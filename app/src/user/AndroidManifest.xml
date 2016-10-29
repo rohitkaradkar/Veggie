@@ -19,9 +19,13 @@
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"/>
-        </activity>
+    </activity>
+    <!--Intent Services-->
     <service
         android:name="com.greentopli.core.OrderHistoryService"
         android:exported="false"/>
+
+    <!--Broadcast receivers-->
+
 </application>
 </manifest>

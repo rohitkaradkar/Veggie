@@ -34,6 +34,7 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 	}
 
 	public void requestOrderHistory(){
+		getmMvpView().showProgressbar(true);
 		String userId = new UserDbHandler(getContext()).getSignedUserInfo().getEmail();
 		requestOrderHistory(userId);
 	}
@@ -42,6 +43,7 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 		HashMap<Long,Integer> pair = cartDbHandler.getOrderHistoryDates(userId);
 		if (pair.size()==0){
 			getmMvpView().onEmpty(true);
+			getmMvpView().showProgressbar(false);
 			return;
 		}
 
@@ -72,6 +74,8 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 			});
 
 			getmMvpView().onDataReceived(orderHistoryList);
+			getmMvpView().onEmpty(false);
 		}
+		getmMvpView().showProgressbar(false);
 	}
 }

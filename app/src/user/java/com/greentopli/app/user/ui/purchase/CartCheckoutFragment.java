@@ -113,10 +113,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	public void onCartCheckoutSuccess(String user_id) {
 		Log.e(TAG,"Checkout Success");
 		Toast.makeText(getContext(),R.string.message_checkout_success,Toast.LENGTH_SHORT).show();
-		// notify to save orders
-		Intent orderHistoryService = new Intent(getContext(), OrderHistoryService.class);
-		orderHistoryService.setData(Uri.parse(user_id));
-		getActivity().startService(orderHistoryService);
+		// open activity to list orders
 		startActivity(new Intent(getContext(),OrderHistoryActivity.class));
 	}
 
