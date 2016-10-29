@@ -18,11 +18,13 @@ import android.widget.Toast;
 
 import com.greentopli.app.R;
 import com.greentopli.app.user.ProductAdapter;
+import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.OrderHistoryService;
 import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
 import com.greentopli.core.presenter.cart.CartView;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemObserver;
+import com.greentopli.model.OrderHistory;
 import com.greentopli.model.Product;
 
 import java.util.List;
@@ -115,7 +117,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		Intent orderHistoryService = new Intent(getContext(), OrderHistoryService.class);
 		orderHistoryService.setData(Uri.parse(user_id));
 		getActivity().startService(orderHistoryService);
-		startActivity(new Intent(getContext(),PurchaseManagerActivity.class));
+		startActivity(new Intent(getContext(),OrderHistoryActivity.class));
 	}
 
 	@Override

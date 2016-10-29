@@ -16,6 +16,7 @@
     <string name="message_checkout_error">Error</string>
     <string name="message_duplicate_orders">Duplicate Orders Not Allowed</string>
     <string name="message_empty_cart">Cart is empty</string>
+    <string name="message_empty_orderHistory">No Orders Placed Yet!</string>
 
     <string name="error_empty_field">Empty Field Not Allowed</string>
     <string name="error_mobile_digit">Mobile Number should be 10 digit</string>

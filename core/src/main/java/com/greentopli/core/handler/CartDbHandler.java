@@ -169,7 +169,7 @@ public class CartDbHandler {
 		return values;
 	}
 
-	public void storeOrderHistory(List<PurchasedItem> purchasedItems){
+	public void storeOrderHistory(@NonNull List<PurchasedItem> purchasedItems){
 		// delete all orders except from cart order
 		PurchasedItemSelection selection = new PurchasedItemSelection();
 		selection.accepted(true);
@@ -233,9 +233,6 @@ public class CartDbHandler {
 			}
 		}
 
-		if (pair.size()>0)
-			return pair;
-
-		return null;
+		return pair;
 	}
 }

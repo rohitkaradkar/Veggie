@@ -1,16 +1,20 @@
 package com.greentopli.app.user.ui.purchase;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.googlecode.objectify.annotation.Index;
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
 import com.greentopli.app.SignUpActivity;
 import com.greentopli.app.user.OnFragmentInteractionListener;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
+import com.greentopli.core.OrderHistoryService;
 
 public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 	private static final int REQUEST_SIGNIN = 210;
@@ -70,8 +74,16 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK){
 			if (requestCode == REQUEST_SIGNIN){
+				// request user information
 				if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
 					signUp();
+
+				// get Current user mail
+				String user_id = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+				// download User Order history in background
+				Intent orderHistoryService = new Intent(getApplicationContext(), OrderHistoryService.class);
+				orderHistoryService.setData(Uri.parse(user_id));
+				startService(orderHistoryService);
 			}
 			else if (requestCode == REQUEST_SIGNOUT){
 				signIn();

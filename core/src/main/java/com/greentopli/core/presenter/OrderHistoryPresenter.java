@@ -9,8 +9,6 @@ import com.greentopli.model.OrderHistory;
 import com.greentopli.model.Product;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -42,6 +40,11 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 	
 	public void requestOrderHistory(String userId){
 		HashMap<Long,Integer> pair = cartDbHandler.getOrderHistoryDates(userId);
+		if (pair.size()==0){
+			getmMvpView().onEmpty(true);
+			return;
+		}
+
 		List<OrderHistory> orderHistoryList = new ArrayList<>();
 
 		for (long date : pair.keySet()){

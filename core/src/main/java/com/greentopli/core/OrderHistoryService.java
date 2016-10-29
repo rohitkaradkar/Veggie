@@ -28,6 +28,7 @@ public class OrderHistoryService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		Log.e(TAG,intent.getDataString());
 		String user_id = intent.getDataString();
+
 		if (user_id!=null && !user_id.isEmpty()){
 			UserService service = ServiceGenerator.createService(UserService.class);
 			Call<EntityList<PurchasedItem>> call = service.getUserOrderHistory(user_id);
@@ -36,16 +37,16 @@ public class OrderHistoryService extends IntentService {
 			call.enqueue(new Callback<EntityList<PurchasedItem>>() {
 				@Override
 				public void onResponse(Call<EntityList<PurchasedItem>> call, Response<EntityList<PurchasedItem>> response) {
-					if (response.body()!=null && !response.body().getItems().isEmpty()){
-						cartDbHandler.storeOrderHistory(
-								response.body().getItems()
-						);
+					if (response.body()!=null && response.body().getItems()!=null && !response.body().getItems().isEmpty()){
+							cartDbHandler.storeOrderHistory(
+									response.body().getItems()
+							);
 					}
 				}
 
 				@Override
 				public void onFailure(Call<EntityList<PurchasedItem>> call, Throwable t) {
-
+					t.printStackTrace();
 				}
 			});
 		}
