@@ -2,6 +2,8 @@
     <string name="app_name">User Green Topli</string>
     <string name="title_order_history">Order History</string>
     <string name="title_activity_sign_up">Personal Details</string>
+    <string name="text_product_search">Search Products</string>
+    <string name="text_product_category">Product Category</string>
     <string name="text_order_dialog_close">Close</string>
     <!--Menus-->
 

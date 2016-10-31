@@ -2,7 +2,9 @@ package com.greentopli;
 
 import com.greentopli.model.Product;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -45,5 +47,15 @@ public class CommonUtils {
 			return String.format(Locale.ENGLISH,"%.2f %s",count,"kg");
 		}
 		return null;
+	}
+
+	public static List<String> getFoodCategories(){
+		List<String> types = new ArrayList<>();
+		for(Product.Type type: Product.Type.values()){
+			String value = String.valueOf(type.toString().charAt(0)).toUpperCase() +
+							type.toString().substring(1).toLowerCase();
+			types.add(value);
+		}
+		return types;
 	}
 }
