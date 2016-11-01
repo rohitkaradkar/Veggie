@@ -7,10 +7,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -36,6 +42,8 @@ import butterknife.OnClick;
 public class CartCheckoutFragment extends Fragment implements CartView,PurchasedItemObserver.Listener{
 	@BindView(R.id.cartItem_fragment_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.progressbar_cartCheckout_fragment) ProgressBar progressBar;
+	@BindView(R.id.toolbar_cartCheckout_fragment) Toolbar mToolbar;
+	private static final String FORMAT_CART_OVERVIEW = "Rs %d for %d items";
 	private CartCheckoutPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private ProductAdapter mAdapter;
@@ -70,6 +78,18 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		// Inflate the layout for this fragment
 		View rootView =  inflater.inflate(R.layout.fragment_cart_checkout, container, false);
 		ButterKnife.bind(this,rootView);
+
+		//set toolbar as Actionbar
+		((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+		ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+		if (actionBar!=null){
+			//actionBar.setTitle(R.string.title_fragment_cartCheckout);
+			mToolbar.setTitle(R.string.title_fragment_cartCheckout);
+			actionBar.setDisplayShowHomeEnabled(true);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+		setHasOptionsMenu(true);
+
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART);
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
@@ -104,6 +124,15 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 				.unregisterContentObserver(contentObserver);
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home){
+			getFragmentManager().popBackStack();
+			return true;
+		}
+		return false;
+	}
+
 	@OnClick(R.id.fab_cart_items_fragment)
 	void onFabClick(){
 		mPresenter.checkOutOrders();
@@ -135,7 +164,17 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	}
 
 	@Override
-	public void onCartItemsChanged(int total_price, int item_count) {
+	public void onCartItemsChanged(final int total_price, final int item_count) {
+		/**
+		 * This call is made from background thread
+		 * Only the original thread that created a view hierarchy can touch its views.
+		 */
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mToolbar.setSubtitle(String.format(FORMAT_CART_OVERVIEW,total_price,item_count));
+			}
+		});
 		Log.e(TAG,"Cart Total: "+total_price+" Count: "+item_count);
 	}
 

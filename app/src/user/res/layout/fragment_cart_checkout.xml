@@ -1,22 +1,26 @@
 <android.support.design.widget.CoordinatorLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.greentopli.app.user.ui.purchase.CartCheckoutFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.greentopli.app.user.ui.purchase.CartCheckoutFragment">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_cartCheckout_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"/>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cartItem_fragment_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/cartItem_fragment_empty_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/message_empty_cart"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:layout_gravity="center"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
     <ProgressBar
         android:id="@+id/progressbar_cartCheckout_fragment"
         style="@style/Widget.AppCompat.ProgressBar"

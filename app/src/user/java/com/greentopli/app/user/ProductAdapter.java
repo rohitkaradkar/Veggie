@@ -32,6 +32,7 @@ import butterknife.OnClick;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
 	private List<Product> mProducts;
 	CartDbHandler cartDbHandler;
+	private static final String FORMAT_PRICE_PER_VOLUME = "Rs %d / %s";
 	public enum Mode {
 		BROWSE, CART, HISTORY
 	}
@@ -127,8 +128,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Product product = mProducts.get(position);
 		holder.setProduct(product);
-		holder.name.setText(String.format(Locale.ENGLISH,
-						"%s / %s",product.getName_english(),product.getName_hinglish()));
+		String productName = product.getName_english();
+		holder.name.setText(String.format(Locale.ENGLISH,"%s",
+				String.valueOf(productName.charAt(0)).toUpperCase()+
+				productName.substring(1).toLowerCase()));
 
 		Glide.with(holder.image.getContext())
 				.load(product.getImageUrl())
@@ -140,7 +143,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		// When Browsing through Items & adding them to carts
 		if (adapterMode.equals(Mode.BROWSE)){
 			formattedPrice = String.format(Locale.ENGLISH,
-					"Rs. %s / %s",product.getPrice(),
+					FORMAT_PRICE_PER_VOLUME,product.getPrice(),
 					CommonUtils.getVolumeExtension(product.getMinimumVolume(),product.getVolume()));
 			holder.checkBox.setVisibility(View.VISIBLE);
 			if (cartDbHandler.isProductAddedToCart(product.getId())) {
@@ -151,7 +154,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		else if (adapterMode.equals(Mode.CART)){
 			PurchasedItem item = cartDbHandler.getCartItem(product.getId(),false);
 			formattedPrice = String.format(Locale.ENGLISH,
-					"Rs. %d / %s",item.getTotalPrice(),
+					FORMAT_PRICE_PER_VOLUME,item.getTotalPrice(),
 					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
 			holder.setCartItem(item);
 			holder.addButton.setVisibility(View.VISIBLE);
@@ -161,7 +164,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		else if(adapterMode.equals(Mode.HISTORY)){
 			PurchasedItem item = cartDbHandler.getCartItem(product.getId(),true,dateOfRequest);
 			formattedPrice = String.format(Locale.ENGLISH,
-					"Rs. %d / %s",item.getTotalPrice(),
+					FORMAT_PRICE_PER_VOLUME,item.getTotalPrice(),
 					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
 		}
 		holder.price.setText(formattedPrice);
