@@ -20,20 +20,24 @@
             android:value="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"/>
     </activity>
 
-    <!--Intent Services-->
+    <!--Order history Intent Services-->
     <service
         android:name="com.greentopli.core.OrderHistoryService"
         android:exported="false"/>
 
-    <!--Widget-->
+    <!--Widget Provider-->
     <receiver android:name="com.greentopli.app.user.ui.widget.ProductWidgetProvider" >
         <intent-filter>
+            <!--broadcast actions-->
             <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             <action android:name="com.greentopli.app.user.ITEMS_PURCHASED" />
+            <action android:name="com.greentopli.app.user.ACTION_WIDGET_HEADER_CLICK"/>
         </intent-filter>
         <meta-data android:name="android.appwidget.provider"
                    android:resource="@xml/widget_info" />
     </receiver>
+
+    <!--widget service that creates list items-->
     <service android:name="com.greentopli.app.user.ui.widget.WidgetRemoteViewsService"
              android:enabled="true"
              android:exported="true"

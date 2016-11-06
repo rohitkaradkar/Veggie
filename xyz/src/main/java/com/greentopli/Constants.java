@@ -14,4 +14,7 @@ public final class Constants {
 
 	public static final String ACTION_ITEMS_PURCHASED =
 			"com.greentopli.app.user.ITEMS_PURCHASED";
+
+	public static final String ACTION_WIDGET_HEADER_CLICK =
+			"com.greentopli.app.user.ACTION_WIDGET_HEADER_CLICK";
 }
