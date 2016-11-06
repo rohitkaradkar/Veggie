@@ -14,6 +14,7 @@ import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.handler.CartDbHandler;
+import com.greentopli.model.OrderHistory;
 
 import java.util.Locale;
 
@@ -42,12 +43,11 @@ public class ProductWidgetProvider extends AppWidgetProvider {
 			views.setTextViewText(R.id.widget_product_count_textView,
 					String.format(Locale.ENGLISH,FORMAT_ITEM_COUNT,count,totalPrice));
 
-			// open order history on widget click
-			Intent orderHistoryIntent = new Intent(context,OrderHistoryActivity.class);
-			PendingIntent pendingIntent = TaskStackBuilder.create(context)
-					.addNextIntentWithParentStack(orderHistoryIntent)
-					.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
-			views.setPendingIntentTemplate(R.id.widget_purchased_item_container,pendingIntent);
+			// Broadcast intent for OnClick widget header
+			Intent orderHistoryIntent = new Intent(context,ProductWidgetProvider.class);
+			orderHistoryIntent.setAction(Constants.ACTION_WIDGET_HEADER_CLICK);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0,orderHistoryIntent,0);
+			views.setOnClickPendingIntent(R.id.widget_purchased_item_container,pendingIntent);
 
 			//Update Widget on Home screen
 			appWidgetManager.updateAppWidget(widgetId,views);
@@ -66,6 +66,12 @@ public class ProductWidgetProvider extends AppWidgetProvider {
 			this.onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds);
 			// update list content
 			appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.listView_widget_layout);
+		}
+		else if (intent.getAction().equals(Constants.ACTION_WIDGET_HEADER_CLICK)){
+			// on widget header click
+			Intent orderHistoryIntent = new Intent(context, OrderHistoryActivity.class);
+			orderHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(orderHistoryIntent);
 		}
 	}
 }
