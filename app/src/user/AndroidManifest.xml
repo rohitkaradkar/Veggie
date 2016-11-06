@@ -19,12 +19,25 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"/>
     </activity>
+
     <!--Intent Services-->
     <service
         android:name="com.greentopli.core.OrderHistoryService"
         android:exported="false"/>
 
-    <!--Broadcast receivers-->
-
+    <!--Widget-->
+    <receiver android:name="com.greentopli.app.user.ui.widget.ProductWidgetProvider" >
+        <intent-filter>
+            <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            <action android:name="com.greentopli.app.user.ITEMS_PURCHASED" />
+        </intent-filter>
+        <meta-data android:name="android.appwidget.provider"
+                   android:resource="@xml/widget_info" />
+    </receiver>
+    <service android:name="com.greentopli.app.user.ui.widget.WidgetRemoteViewsService"
+             android:enabled="true"
+             android:exported="true"
+             android:permission="android.permission.BIND_REMOTEVIEWS">
+    </service>
 </application>
 </manifest>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.greentopli.Constants;
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
 import com.greentopli.app.user.OrderHistoryAdapter;
@@ -67,16 +68,21 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 	public void onDataReceived(List<OrderHistory> orderHistoryList) {
 		mAdapter.addNewData(orderHistoryList);
 	}
+
+	// Broadcast Receivers
 	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-//			Toast.makeText(context,intent.getAction(),Toast.LENGTH_SHORT).show();
 			switch (intent.getAction()){
 				case OrderHistoryService.ACTION_PROCESSING:
 					showProgressbar(true);
+					onEmpty(false);
 					break;
 				case OrderHistoryService.ACTION_PROCESSING_COMPLETE:
 					mPresenter.requestOrderHistory();
+					// send broadcast for WidgetUpdate
+					Intent intentWidgetNotify = new Intent(Constants.ACTION_ITEMS_PURCHASED);
+					context.sendBroadcast(intentWidgetNotify);
 					break;
 				case OrderHistoryService.ACTION_PROCESSING_FAILED:
 					// retry

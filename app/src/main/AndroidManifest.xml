@@ -14,7 +14,7 @@
         <provider
             android:name="com.greentopli.core.storage.DatabaseProvider"
             android:authorities="com.greentopli.core.storage"
-            android:exported="false"/>
+            android:exported="true"/>
 
         <activity
             android:name=".SignUpActivity"
