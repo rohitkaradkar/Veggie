@@ -125,7 +125,8 @@ import java.util.UUID;
 	}
 
 	public String getName_english() {
-		return name_english;
+		return (String.valueOf(name_english.charAt(0)).toUpperCase()
+				.concat(name_english.substring(1).toLowerCase()));
 	}
 
 	public String getName_hinglish() {

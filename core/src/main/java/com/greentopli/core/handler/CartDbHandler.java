@@ -134,7 +134,11 @@ public class CartDbHandler {
 	}
 
 	public int getCartSubtotal(){
-		List<PurchasedItem> purchasedItems = getPurchasedItemList(false);
+		return getCartSubtotal(false);
+	}
+
+	public int getCartSubtotal(boolean acceptedBySeller){
+		List<PurchasedItem> purchasedItems = getPurchasedItemList(acceptedBySeller);
 		int totalOrderPrice = 0;
 		for (PurchasedItem item : purchasedItems)
 			totalOrderPrice = totalOrderPrice + item.getTotalPrice();

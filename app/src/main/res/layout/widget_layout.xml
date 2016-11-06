@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_purchased_item_container"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background">
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:text="@string/title_widget"
-        android:gravity="center_horizontal"
+        android:orientation="horizontal"
         android:background="@color/colorPrimary"
-        android:textColor="@color/cardview_light_background"/>
+        android:layout_height="?android:attr/actionBarSize">
+        <ImageView
+            android:layout_width="@dimen/product_item_icon_size"
+            android:layout_height="@dimen/product_item_icon_size"
+            android:src="@drawable/ic_photo_default"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:text="@string/title_widget"
+                android:textColor="@android:color/white"/>
+            <TextView
+                android:id="@+id/widget_product_count_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@android:color/white"
+                tools:text="9 items purchased"/>
+        </LinearLayout>
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listView_widget_layout"
         android:layout_width="match_parent"

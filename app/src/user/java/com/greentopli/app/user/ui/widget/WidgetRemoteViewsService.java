@@ -3,12 +3,11 @@ package com.greentopli.app.user.ui.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.greentopli.CommonUtils;
 import com.greentopli.app.R;
@@ -16,6 +15,7 @@ import com.greentopli.core.handler.CartDbHandler;
 import com.greentopli.model.Product;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by rnztx on 4/11/16.
@@ -64,6 +64,22 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
 				RemoteViews remoteView = new RemoteViews(mContext.getPackageName(), R.layout.item_widget_view);
 				final Product product = mProducts.get(position);
 				remoteView.setTextViewText(R.id.item_widget_product_name,product.getName_english());
+
+				try {
+					// As we have already Cached images while using Glide in App
+					Bitmap bitmap = Glide.with(mContext)
+							.load(product.getImageUrl())
+							.asBitmap()
+							.diskCacheStrategy(DiskCacheStrategy.SOURCE)
+							.into(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL)
+							.get();
+
+					if (bitmap!=null)
+						remoteView.setBitmap(R.id.item_widget_product_image,"setImageBitmap",bitmap);
+
+				}catch (Exception e){
+					e.printStackTrace();
+				}
 				return remoteView;
 			}
 			return null;
