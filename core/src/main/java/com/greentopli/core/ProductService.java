@@ -10,6 +10,8 @@ import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.model.EntityList;
 import com.greentopli.model.Product;
 
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,7 +34,7 @@ public class ProductService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		BackendService service = ServiceGenerator.createService(BackendService.class);
 		final ProductDbHandler dbHandler = new ProductDbHandler(getApplicationContext());
-		Log.d(TAG,"started");
+		Log.d(TAG,"started "+ Calendar.getInstance().getTime());
 		Call<EntityList<Product>> call = service.getProductInfoList();
 		call.enqueue(new Callback<EntityList<Product>>() {
 			@Override
@@ -68,6 +70,6 @@ public class ProductService extends IntentService {
 		Intent broadcastIntent = new Intent();
 		broadcastIntent.setAction(action);
 		sendBroadcast(broadcastIntent);
-		Log.d(TAG,"completed");
+		Log.d(TAG,"completed with "+action);
 	}
 }

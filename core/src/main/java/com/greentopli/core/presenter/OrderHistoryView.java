@@ -11,6 +11,6 @@ import java.util.List;
  */
 
 public interface OrderHistoryView extends MvpView{
-	void onDataReceived(List<OrderHistory> orderHistoryList);
+	void onHistoryReceived(List<OrderHistory> orderHistoryList);
 	void onEmpty(boolean show);
 }

@@ -68,8 +68,8 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 	@Override
 	public void attachView(BrowseProductsView mvpView,Context context) {
 		super.attachView(mvpView,context);
-		dbHandler = new ProductDbHandler(context);
-		context.registerReceiver(mBroadcastReceiver,mIntentFilter);
+		dbHandler = new ProductDbHandler(getContext());
+		getContext().registerReceiver(mBroadcastReceiver,mIntentFilter);
 		mProducts = dbHandler.getProducts();
 		getProductItems(); // sends product list to MVP view
 	}
@@ -84,45 +84,6 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			getContext().startService(intentService);
 		}
 	}
-	/*public void getProductItems(){
-		getmMvpView().showProgressbar(true);
-		BackendService service = ServiceGenerator.createService(BackendService.class);
-		Call<EntityList<Product>> call = service.getProductInfoList();
-		call.enqueue(new Callback<com.greentopli.model.EntityList<Product>>() {
-			@Override
-			public void onResponse(Call<EntityList<Product>> call, Response<EntityList<Product>> response) {
-
-				if (response.body()!=null && response.body().getItems()!=null){
-
-					// we get Items
-					if (response.body().getItems().size()>0) {
-						// store to database
-						dbHandler.storeProducts(response.body().getItems());
-						// retrieve to show
-						getmMvpView().showProducts(dbHandler.getProducts());
-					}
-					else // server sends empty list
-						getmMvpView().showEmpty();
-
-				}else// bad response
-					getmMvpView().showError("Bad Response");
-
-				getmMvpView().showProgressbar(false);
-			}
-
-			@Override
-			public void onFailure(Call<EntityList<Product>> call, Throwable t) {
-				getmMvpView().showError("Connection Error");
-				Log.e(TAG,"Connection Error "+t.getMessage());
-				// retrieve to show
-				getmMvpView().showProducts(dbHandler.getProducts());
-				getmMvpView().showProgressbar(false);
-			}
-		});
-	}
-*/
-
-
 
 	public void deleteProduct(final String product_id){
 		BackendService service = ServiceGenerator.createService(BackendService.class);

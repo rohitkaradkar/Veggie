@@ -50,8 +50,6 @@ public class UserSignUpPresenter extends BasePresenter<SignUpView> {
 				}
 				else { // Failed to store on server
 					getmMvpView().onSignUpError("Error uploading data");
-					signUpCall.cancel();
-					signUpCall.enqueue(this);
 				}
 
 				getmMvpView().showProgressbar(false);

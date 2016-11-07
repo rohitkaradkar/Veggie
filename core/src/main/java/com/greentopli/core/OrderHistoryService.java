@@ -10,6 +10,8 @@ import com.greentopli.core.remote.UserService;
 import com.greentopli.model.EntityList;
 import com.greentopli.model.PurchasedItem;
 
+import java.util.Calendar;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,9 +22,9 @@ import retrofit2.Response;
 
 public class OrderHistoryService extends IntentService {
 	private static final String TAG = OrderHistoryService.class.getSimpleName();
-	public static final String ACTION_PROCESSING = "SERVICE_PROCESSING";
-	public static final String ACTION_PROCESSING_COMPLETE = "SERVICE_PROCESSING_COMPLETE";
-	public static final String ACTION_PROCESSING_FAILED = "SERVICE_PROCESSING_FAILED";
+	public static final String ACTION_PROCESSING = "com.greentopli.core.OrderHistoryService.SERVICE_PROCESSING";
+	public static final String ACTION_PROCESSING_COMPLETE = "com.greentopli.core.OrderHistoryService.SERVICE_PROCESSING_COMPLETE";
+	public static final String ACTION_PROCESSING_FAILED = "com.greentopli.core.OrderHistoryService.SERVICE_PROCESSING_FAILED";
 
 	public OrderHistoryService(){
 		super(OrderHistoryService.class.getSimpleName());
@@ -31,7 +33,7 @@ public class OrderHistoryService extends IntentService {
 	CartDbHandler cartDbHandler ;
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.e(TAG,intent.getDataString());
+		Log.d(TAG,"Started "+ Calendar.getInstance().getTime());
 		String user_id = intent.getDataString();
 
 		if (user_id!=null && !user_id.isEmpty()){
@@ -65,5 +67,6 @@ public class OrderHistoryService extends IntentService {
 		Intent broadcastIntent = new Intent();
 		broadcastIntent.setAction(action);
 		sendBroadcast(broadcastIntent);
+		Log.d(TAG,"finished with "+action);
 	}
 }

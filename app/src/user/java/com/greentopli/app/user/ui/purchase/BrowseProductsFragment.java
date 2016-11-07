@@ -97,9 +97,9 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 	}
 
 	@Override
-	public void onStop() {
-		super.onStop();
+	public void onDestroy() {
 		mPresenter.detachView();
+		super.onDestroy();
 	}
 
 	@Override

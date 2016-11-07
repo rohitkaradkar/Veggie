@@ -36,7 +36,6 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 	private OrderHistoryPresenter mPresenter;
 	private LinearLayoutManager mLayoutManager;
 	private OrderHistoryAdapter mAdapter;
-	private IntentFilter intentFilter = new IntentFilter();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,60 +46,11 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mRecyclerView.setAdapter(mAdapter);
 		mPresenter = OrderHistoryPresenter.bind(this,getApplicationContext());
-		mPresenter.requestOrderHistory();
-		initService();
 	}
-	private void initService(){
-		if (AuthenticatorActivity.isUserSignedIn()){
-			// create filters
-			intentFilter.addAction(OrderHistoryService.ACTION_PROCESSING);
-			intentFilter.addAction(OrderHistoryService.ACTION_PROCESSING_COMPLETE);
-			intentFilter.addAction(OrderHistoryService.ACTION_PROCESSING_FAILED);
 
-			// Start service to request user orders
-			String user_id = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-			Intent orderHistoryService = new Intent(getApplicationContext(), OrderHistoryService.class);
-			orderHistoryService.setData(Uri.parse(user_id));
-			startService(orderHistoryService);
-		}
-	}
 	@Override
-	public void onDataReceived(List<OrderHistory> orderHistoryList) {
+	public void onHistoryReceived(List<OrderHistory> orderHistoryList) {
 		mAdapter.addNewData(orderHistoryList);
-	}
-
-	// Broadcast Receivers
-	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			switch (intent.getAction()){
-				case OrderHistoryService.ACTION_PROCESSING:
-					showProgressbar(true);
-					onEmpty(false);
-					break;
-				case OrderHistoryService.ACTION_PROCESSING_COMPLETE:
-					mPresenter.requestOrderHistory();
-					// send broadcast for WidgetUpdate
-					Intent intentWidgetNotify = new Intent(Constants.ACTION_ITEMS_PURCHASED);
-					context.sendBroadcast(intentWidgetNotify);
-					break;
-				case OrderHistoryService.ACTION_PROCESSING_FAILED:
-					// retry
-					break;
-			}
-		}
-	};
-
-	@Override // Register Broadcast receiver
-	protected void onResume() {
-		super.onResume();
-		registerReceiver(broadcastReceiver,intentFilter);
-	}
-
-	@Override// UnRegister Broadcast receiver
-	protected void onPause() {
-		super.onPause();
-		unregisterReceiver(broadcastReceiver);
 	}
 
 	@Override
@@ -111,5 +61,11 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 	@Override
 	public void showProgressbar(boolean show) {
 		progressBar.setVisibility(show? View.VISIBLE:View.GONE);
+	}
+
+	@Override
+	protected void onDestroy() {
+		mPresenter.detachView();
+		super.onDestroy();
 	}
 }
