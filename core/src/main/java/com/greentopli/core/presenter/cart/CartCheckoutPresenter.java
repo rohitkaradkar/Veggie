@@ -1,19 +1,14 @@
 package com.greentopli.core.presenter.cart;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
 
-import com.greentopli.Constants;
-import com.greentopli.core.handler.CartDbHandler;
-import com.greentopli.core.handler.UserDbHandler;
+import com.greentopli.core.dbhandler.CartDbHandler;
+import com.greentopli.core.dbhandler.UserDbHandler;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.UserService;
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.EntityList;
 import com.greentopli.model.Product;
-import com.greentopli.model.PurchasedItem;
 import com.greentopli.model.UserOrders;
 
 import java.util.List;

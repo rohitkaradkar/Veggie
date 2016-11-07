@@ -13,7 +13,7 @@ import com.greentopli.CommonUtils;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
-import com.greentopli.core.handler.CartDbHandler;
+import com.greentopli.core.dbhandler.CartDbHandler;
 
 import java.util.Locale;
 

@@ -1,4 +1,4 @@
-package com.greentopli.core.handler;
+package com.greentopli.core.dbhandler;
 
 import android.content.ContentUris;
 import android.content.Context;

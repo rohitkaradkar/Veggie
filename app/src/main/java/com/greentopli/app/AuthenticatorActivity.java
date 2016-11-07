@@ -28,7 +28,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.greentopli.core.handler.UserDbHandler;
+import com.greentopli.core.dbhandler.UserDbHandler;
 import com.greentopli.core.presenter.base.MvpView;
 
 import butterknife.BindView;

@@ -7,9 +7,9 @@ import android.content.IntentFilter;
 import android.net.Uri;
 
 import com.greentopli.Constants;
-import com.greentopli.core.OrderHistoryService;
-import com.greentopli.core.handler.CartDbHandler;
-import com.greentopli.core.handler.UserDbHandler;
+import com.greentopli.core.service.OrderHistoryService;
+import com.greentopli.core.dbhandler.CartDbHandler;
+import com.greentopli.core.dbhandler.UserDbHandler;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.model.OrderHistory;
 import com.greentopli.model.Product;

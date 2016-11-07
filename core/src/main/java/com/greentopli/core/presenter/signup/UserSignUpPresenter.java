@@ -3,7 +3,7 @@ package com.greentopli.core.presenter.signup;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.greentopli.core.handler.UserDbHandler;
+import com.greentopli.core.dbhandler.UserDbHandler;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.UserService;

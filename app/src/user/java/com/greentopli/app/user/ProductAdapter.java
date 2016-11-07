@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.greentopli.CommonUtils;
 import com.greentopli.app.R;
-import com.greentopli.core.handler.CartDbHandler;
+import com.greentopli.core.dbhandler.CartDbHandler;
 import com.greentopli.model.Product;
 import com.greentopli.model.PurchasedItem;
 

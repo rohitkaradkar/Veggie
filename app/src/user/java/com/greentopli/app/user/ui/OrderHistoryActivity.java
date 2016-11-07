@@ -1,10 +1,5 @@
 package com.greentopli.app.user.ui;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.greentopli.Constants;
-import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
 import com.greentopli.app.user.OrderHistoryAdapter;
-import com.greentopli.core.OrderHistoryService;
 import com.greentopli.core.presenter.OrderHistoryPresenter;
 import com.greentopli.core.presenter.OrderHistoryView;
 import com.greentopli.model.OrderHistory;
@@ -38,6 +28,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 	private OrderHistoryAdapter mAdapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// todo: check auth as user can directly launch this activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_history);
 		ButterKnife.bind(this);

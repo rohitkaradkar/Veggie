@@ -21,12 +21,12 @@
     </activity>
     <!--Product downloader service-->
     <service
-        android:name="com.greentopli.core.ProductService"
+        android:name="com.greentopli.core.service.ProductService"
         android:exported="false"/>
 
     <!--Order history Intent Services-->
     <service
-        android:name="com.greentopli.core.OrderHistoryService"
+        android:name="com.greentopli.core.service.OrderHistoryService"
         android:exported="false"/>
 
     <!--Widget Provider-->

@@ -1,10 +1,10 @@
-package com.greentopli.core;
+package com.greentopli.core.service;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.greentopli.core.handler.ProductDbHandler;
+import com.greentopli.core.dbhandler.ProductDbHandler;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.model.EntityList;
@@ -23,9 +23,9 @@ import retrofit2.Response;
 public class ProductService extends IntentService {
 	private static final String TAG = ProductService.class.getSimpleName();
 
-	public static final String ACTION_ERROR ="com.greentopli.core.ProductService.ERROR";
-	public static final String ACTION_SUCCESS ="com.greentopli.core.ProductService.SUCCESS";
-	public static final String ACTION_EMPTY ="com.greentopli.core.ProductService.EMPTY";
+	public static final String ACTION_ERROR ="com.greentopli.core.service.ProductService.ERROR";
+	public static final String ACTION_SUCCESS ="com.greentopli.core.service.ProductService.SUCCESS";
+	public static final String ACTION_EMPTY ="com.greentopli.core.service.ProductService.EMPTY";
 	public ProductService() {
 		super(ProductService.class.getSimpleName());
 	}

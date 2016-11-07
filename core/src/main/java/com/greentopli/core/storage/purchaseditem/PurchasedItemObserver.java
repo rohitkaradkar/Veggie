@@ -5,7 +5,7 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 
-import com.greentopli.core.handler.CartDbHandler;
+import com.greentopli.core.dbhandler.CartDbHandler;
 import com.greentopli.model.Product;
 
 import java.util.List;

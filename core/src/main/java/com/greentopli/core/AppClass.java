@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.facebook.stetho.Stetho;
+import com.greentopli.core.service.ProductService;
 
 /**
  * Created by rnztx on 21/10/16.

@@ -4,15 +4,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
-import com.greentopli.core.ProductService;
-import com.greentopli.core.handler.ProductDbHandler;
+import com.greentopli.core.service.ProductService;
+import com.greentopli.core.dbhandler.ProductDbHandler;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.BackendService;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.EntityList;
 import com.greentopli.model.Product;
 
 import java.util.List;

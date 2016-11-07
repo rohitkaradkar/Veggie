@@ -8,13 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.googlecode.objectify.annotation.Index;
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
 import com.greentopli.app.SignUpActivity;
 import com.greentopli.app.user.OnFragmentInteractionListener;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
-import com.greentopli.core.OrderHistoryService;
+import com.greentopli.core.service.OrderHistoryService;
 
 public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 	private static final int REQUEST_SIGNIN = 210;

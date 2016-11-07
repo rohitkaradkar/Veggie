@@ -1,10 +1,10 @@
-package com.greentopli.core;
+package com.greentopli.core.service;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.greentopli.core.handler.CartDbHandler;
+import com.greentopli.core.dbhandler.CartDbHandler;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.UserService;
 import com.greentopli.model.EntityList;
@@ -22,9 +22,9 @@ import retrofit2.Response;
 
 public class OrderHistoryService extends IntentService {
 	private static final String TAG = OrderHistoryService.class.getSimpleName();
-	public static final String ACTION_PROCESSING = "com.greentopli.core.OrderHistoryService.SERVICE_PROCESSING";
-	public static final String ACTION_PROCESSING_COMPLETE = "com.greentopli.core.OrderHistoryService.SERVICE_PROCESSING_COMPLETE";
-	public static final String ACTION_PROCESSING_FAILED = "com.greentopli.core.OrderHistoryService.SERVICE_PROCESSING_FAILED";
+	public static final String ACTION_PROCESSING = "com.greentopli.core.service.OrderHistoryService.SERVICE_PROCESSING";
+	public static final String ACTION_PROCESSING_COMPLETE = "com.greentopli.core.service.OrderHistoryService.SERVICE_PROCESSING_COMPLETE";
+	public static final String ACTION_PROCESSING_FAILED = "com.greentopli.core.service.OrderHistoryService.SERVICE_PROCESSING_FAILED";
 
 	public OrderHistoryService(){
 		super(OrderHistoryService.class.getSimpleName());

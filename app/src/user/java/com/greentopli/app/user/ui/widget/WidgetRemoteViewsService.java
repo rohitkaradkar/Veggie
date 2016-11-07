@@ -11,11 +11,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.greentopli.CommonUtils;
 import com.greentopli.app.R;
-import com.greentopli.core.handler.CartDbHandler;
+import com.greentopli.core.dbhandler.CartDbHandler;
 import com.greentopli.model.Product;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by rnztx on 4/11/16.
