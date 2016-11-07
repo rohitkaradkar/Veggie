@@ -4,6 +4,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.greentopli.CommonUtils;
@@ -102,9 +103,17 @@ public class CartDbHandler {
 	}
 
 	public List<PurchasedItem> getPurchasedItemList(boolean acceptedBySeller){
+		return getPurchasedItemList(acceptedBySeller,0);
+	}
+
+	public List<PurchasedItem> getPurchasedItemList(boolean acceptedBySeller, long dateRequested){
 		List<PurchasedItem> purchasedItems = new ArrayList<>();
 		PurchasedItemSelection selection = new PurchasedItemSelection();
+
 		selection.accepted(acceptedBySeller); // cart items are not accepted
+		if (dateRequested > 0)
+			selection.and().dateRequested(dateRequested);
+
 		PurchasedItemCursor cursor = selection.query(context.getContentResolver(),PurchasedItemColumns.ALL_COLUMNS);
 		while (cursor.moveToNext()){
 			purchasedItems.add(getPOJOFromCursor(cursor));
@@ -119,7 +128,7 @@ public class CartDbHandler {
 
 	public PurchasedItem getCartItem(@NonNull String product_id, boolean acceptedBySeller, long dateRequested){
 		PurchasedItemSelection selection = new PurchasedItemSelection();
-		if (acceptedBySeller)
+		if (acceptedBySeller && dateRequested > 0)
 			selection.productId(product_id).and().accepted(acceptedBySeller).and().dateRequested(dateRequested);
 		else
 			selection.productId(product_id).and().accepted(acceptedBySeller);
@@ -133,16 +142,29 @@ public class CartDbHandler {
 		return item;
 	}
 
+	/**
+	 * calculates total price of cart items
+	 */
 	public int getCartSubtotal(){
-		return getCartSubtotal(false);
-	}
-
-	public int getCartSubtotal(boolean acceptedBySeller){
-		List<PurchasedItem> purchasedItems = getPurchasedItemList(acceptedBySeller);
+		List<PurchasedItem> purchasedItems = getPurchasedItemList(false);
 		int totalOrderPrice = 0;
 		for (PurchasedItem item : purchasedItems)
 			totalOrderPrice = totalOrderPrice + item.getTotalPrice();
 		return totalOrderPrice;
+	}
+
+	/**
+	 * get order subtotal for given date
+	 */
+	public Pair<Integer,Integer> getOrderSubtotal(long dateOfOrder){
+		List<PurchasedItem> purchasedItems = getPurchasedItemList(true,dateOfOrder);
+		int totalOrderPrice = 0;
+
+		for (PurchasedItem item : purchasedItems)
+			totalOrderPrice = totalOrderPrice + item.getTotalPrice();
+
+		Pair<Integer,Integer> countSubtotalPair = new Pair<>(purchasedItems.size(),totalOrderPrice);
+		return countSubtotalPair;
 	}
 
 	private PurchasedItem getPOJOFromCursor(PurchasedItemCursor cursor){

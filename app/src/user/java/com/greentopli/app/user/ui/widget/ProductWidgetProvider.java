@@ -6,7 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.util.Pair;
 import android.widget.RemoteViews;
 
 import com.greentopli.CommonUtils;
@@ -14,7 +14,6 @@ import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.handler.CartDbHandler;
-import com.greentopli.model.OrderHistory;
 
 import java.util.Locale;
 
@@ -23,8 +22,8 @@ import java.util.Locale;
  */
 
 public class ProductWidgetProvider extends AppWidgetProvider {
-	private static final String FORMAT_ITEM_COUNT = "%d items purchased for %d Rs.";
-
+	private static final String FORMAT_PURCHASE = "%d items purchased for %d Rs.";
+	private static final String FORMAT_NO_PURCHASE = "No items purchased today";
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		// number of Widgets
@@ -35,13 +34,19 @@ public class ProductWidgetProvider extends AppWidgetProvider {
 			// Create Widget
 			RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 			views.setRemoteAdapter(R.id.listView_widget_layout,intent);
+
 			// create sub head text
 			CartDbHandler cartDbHandler =new CartDbHandler(context);
 			long date = CommonUtils.getDateExcludingTime();
-			int count = cartDbHandler.getProductsFromCart(true,date).size();
-			int totalPrice = cartDbHandler.getCartSubtotal(true);
-			views.setTextViewText(R.id.widget_product_count_textView,
-					String.format(Locale.ENGLISH,FORMAT_ITEM_COUNT,count,totalPrice));
+			Pair<Integer,Integer> countSubtotalPair = cartDbHandler.getOrderSubtotal(date);
+			if (countSubtotalPair!=null && countSubtotalPair.first>0 && countSubtotalPair.second>0){
+				int count = countSubtotalPair.first;
+				int totalPrice = countSubtotalPair.second;
+				views.setTextViewText(R.id.widget_product_count_textView,
+						String.format(Locale.ENGLISH, FORMAT_PURCHASE,count,totalPrice));
+			}else {
+				views.setTextViewText(R.id.widget_product_count_textView,FORMAT_NO_PURCHASE);
+			}
 
 			// Broadcast intent for OnClick widget header
 			Intent orderHistoryIntent = new Intent(context,ProductWidgetProvider.class);
