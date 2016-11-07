@@ -92,10 +92,14 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mRecyclerView.setAdapter(mAdapter);
-		mPresenter = new BrowseProductsPresenter();
-		mPresenter.attachView(this,getContext());
-		mPresenter.getProductItems();
+		mPresenter = BrowseProductsPresenter.bind(this,getContext());
 		return rootView;
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		mPresenter.detachView();
 	}
 
 	@Override
