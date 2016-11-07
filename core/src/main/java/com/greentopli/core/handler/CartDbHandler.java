@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
-import android.util.Log;
 
 import com.greentopli.CommonUtils;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
@@ -14,13 +13,10 @@ import com.greentopli.core.storage.purchaseditem.PurchasedItemCursor;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemSelection;
 import com.greentopli.model.Product;
 import com.greentopli.model.PurchasedItem;
-import com.greentopli.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by rnztx on 21/10/16.
@@ -42,7 +38,7 @@ public class CartDbHandler {
 
 		PurchasedItem item = new PurchasedItem(userDbHandler.getSignedUserInfo().getEmail(),product_id);
 		item.setVolume(volume);
-		Product product = productDbHandler.getProductFromDatabase(product_id);
+		Product product = productDbHandler.getProduct(product_id);
 		if (!product.isEmpty()){
 			int price = CommonUtils.calculatePrice(
 					product.getPrice(),product.getMinimumVolume(),item.getVolume()
@@ -99,7 +95,7 @@ public class CartDbHandler {
 	}
 	public List<Product> getProductsFromCart(boolean acceptedBySeller, long dateRequested){
 		List<String> ids = getProductIdsFromCart(acceptedBySeller,dateRequested);
-		return productDbHandler.retrieveProductsFromDatabase(ids);
+		return productDbHandler.getProducts(ids);
 	}
 
 	public List<PurchasedItem> getPurchasedItemList(boolean acceptedBySeller){
@@ -215,7 +211,7 @@ public class CartDbHandler {
 		PurchasedItemContentValues values = new PurchasedItemContentValues();
 		values.putVolume(updated_volume);
 
-		Product product = productDbHandler.getProductFromDatabase(product_id);
+		Product product = productDbHandler.getProduct(product_id);
 		if (!product.isEmpty()){
 			int price = CommonUtils.calculatePrice(
 					product.getPrice(),product.getMinimumVolume(),updated_volume

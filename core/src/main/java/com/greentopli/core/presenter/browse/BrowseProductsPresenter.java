@@ -43,9 +43,9 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 					// we get Items
 					if (response.body().getItems().size()>0) {
 						// store to database
-						dbHandler.storeProductListToDatabase(response.body().getItems());
+						dbHandler.storeProducts(response.body().getItems());
 						// retrieve to show
-						getmMvpView().showProducts(dbHandler.retrieveProductsFromDatabase());
+						getmMvpView().showProducts(dbHandler.getProducts());
 					}
 					else // server sends empty list
 						getmMvpView().showEmpty();
@@ -61,7 +61,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 				getmMvpView().showError("Connection Error");
 				Log.e(TAG,"Connection Error "+t.getMessage());
 				// retrieve to show
-				getmMvpView().showProducts(dbHandler.retrieveProductsFromDatabase());
+				getmMvpView().showProducts(dbHandler.getProducts());
 				getmMvpView().showProgressbar(false);
 			}
 		});

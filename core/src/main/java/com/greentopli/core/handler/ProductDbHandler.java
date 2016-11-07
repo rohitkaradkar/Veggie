@@ -26,7 +26,7 @@ public class ProductDbHandler {
 		this.context = context;
 	}
 
-	public long storeProductToDatabase(@NonNull Product product){
+	public long storeProduct(@NonNull Product product){
 		ProductContentValues values = new ProductContentValues();
 		values.putProductId(product.getId());
 		values.putNameEnglish(product.getName_english());
@@ -43,13 +43,18 @@ public class ProductDbHandler {
 		return ContentUris.parseId(uri);
 	}
 
-	public void storeProductListToDatabase(@NonNull List<Product> productList){
+	public void storeProducts(@NonNull List<Product> productList){
 		for (Product item : productList){
-			long id = storeProductToDatabase(item);
+			long id = storeProduct(item);
 		}
 	}
 
-	public List<Product> retrieveProductsFromDatabase(ProductSelection selection){
+	public List<Product> getProducts(){
+		ProductSelection selection = new ProductSelection();
+		return getProducts(selection);
+	}
+
+	private List<Product> getProducts(ProductSelection selection){
 		ProductCursor cursor = selection.query(context.getContentResolver(), ProductColumns.ALL_COLUMNS);
 		List<Product> list = new ArrayList<>();
 		while (cursor.moveToNext()){
@@ -60,18 +65,15 @@ public class ProductDbHandler {
 		cursor.close();
 		return list;
 	}
-	public List<Product> retrieveProductsFromDatabase(List<String> product_ids){
+	public List<Product> getProducts(List<String> product_ids){
 		if(product_ids.size()<=0)
 			return null;
 		ProductSelection selection = new ProductSelection();
 		String[] ids = product_ids.toArray(new String[product_ids.size()]);
 		selection.productId(ids);
-		return retrieveProductsFromDatabase(selection);
+		return getProducts(selection);
 	}
-	public List<Product> retrieveProductsFromDatabase(){
-		ProductSelection selection = new ProductSelection();
-		return retrieveProductsFromDatabase(selection);
-	}
+
 	public Product getProductFromCursor(ProductCursor cursor){
 		Product product = new Product();
 		product.setId(cursor.getProductId());
@@ -89,7 +91,7 @@ public class ProductDbHandler {
 		return product;
 	}
 
-	public Product getProductFromDatabase(@NonNull String product_id){
+	public Product getProduct(@NonNull String product_id){
 		ProductSelection where = new ProductSelection();
 		where.productId(product_id);
 		Product product =  new Product();
