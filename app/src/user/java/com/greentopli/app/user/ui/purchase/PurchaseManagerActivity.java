@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
-import com.greentopli.app.SignUpActivity;
+import com.greentopli.app.user.ui.SignUpActivity;
 import com.greentopli.app.user.OnFragmentInteractionListener;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.service.OrderHistoryService;

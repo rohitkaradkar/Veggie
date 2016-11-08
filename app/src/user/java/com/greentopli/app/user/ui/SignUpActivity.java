@@ -1,4 +1,4 @@
-package com.greentopli.app;
+package com.greentopli.app.user.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.greentopli.app.R;
 import com.greentopli.core.presenter.signup.SignUpView;
 import com.greentopli.core.presenter.signup.UserSignUpPresenter;
 import com.greentopli.model.User;

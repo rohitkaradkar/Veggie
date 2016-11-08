@@ -10,7 +10,7 @@
     <dimen name="product_item_name_textSize">20sp</dimen>
     <dimen name="product_item_price_textSize">17sp</dimen>
     <dimen name="product_item_icon_size">64dp</dimen>
-    <dimen name="widget_product_item_icon_size">44dp</dimen>
+    <dimen name="widget_product_item_icon_size">64dp</dimen>
 
     <dimen name="widget_min_width">350dp</dimen>
     <dimen name="widget_min_height">250dp</dimen>
