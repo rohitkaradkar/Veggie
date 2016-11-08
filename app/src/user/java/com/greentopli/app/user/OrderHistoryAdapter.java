@@ -50,7 +50,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 		public void onClick(View v) {
 			if (v.getId() == R.id.item_orderHistory_view){
 
-				ProductAdapter adapter = new ProductAdapter(ProductAdapter.Mode.HISTORY,order.getOrderDate());
+				ProductAdapter adapter = new ProductAdapter(ProductAdapter.Mode.HISTORY,order.getOrderDate(),v.getContext());
 				adapter.addNewProducts(order.getProducts());
 
 				// format date - Sun, 20 Dec 92

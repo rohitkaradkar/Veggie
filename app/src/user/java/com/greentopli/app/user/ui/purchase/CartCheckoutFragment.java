@@ -85,7 +85,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		}
 		setHasOptionsMenu(true);
 
-		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART);
+		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART,getContext());
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mRecyclerView.setAdapter(mAdapter);

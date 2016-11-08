@@ -1,5 +1,6 @@
 package com.greentopli.app.user;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,8 @@ import butterknife.OnClick;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
 	private List<Product> mProducts;
-	CartDbHandler cartDbHandler;
+	private Context mContext;
+	private CartDbHandler mCartDbHandler;
 	private static final String FORMAT_PRICE_PER_VOLUME = "Rs %d / %s";
 	public enum Mode {
 		BROWSE, CART, HISTORY
@@ -69,7 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		void onVolumeAdded(){
 			int newVolume = cartItem.getVolume() + product.getVolumeSet();
 			if (newVolume <= product.getMaximumVolume()) {
-				cartDbHandler.updateVolume(product.getId(), newVolume);
+				mCartDbHandler.updateVolume(product.getId(), newVolume);
 				notifyItemChanged(getAdapterPosition());
 			}
 		}
@@ -77,17 +79,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		void onVolumeSubtracted(){
 			int newVolume = cartItem.getVolume() - product.getVolumeSet();
 			if (newVolume >= product.getMinimumVolume()) {
-				cartDbHandler.updateVolume(product.getId(), newVolume);
+				mCartDbHandler.updateVolume(product.getId(), newVolume);
 				notifyItemChanged(getAdapterPosition());
 			}
 		}
 
 		private void updateToCart(){
-			if (checkBox.isChecked()){
-				cartDbHandler.removeProductFromCart(product.getId());
+			if (mCartDbHandler.isProductAddedToCart(product.getId())){
+				mCartDbHandler.removeProductFromCart(product.getId());
 				checkBox.setChecked(false);
 			}else {
-				cartDbHandler.addProductToCart(product.getId(),product.getMinimumVolume());
+				mCartDbHandler.addProductToCart(product.getId(),product.getMinimumVolume());
 				checkBox.setChecked(true);
 			}
 		}
@@ -101,24 +103,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		}
 	}
 
-	public ProductAdapter(Mode adapterMode){
-		this(adapterMode,0);
+	public ProductAdapter(Mode adapterMode, Context context){
+		this(adapterMode,0,context);
 	}
-	public ProductAdapter(Mode adapterMode, long dateOfRequest){
-		this(new ArrayList<Product>());
+
+	public ProductAdapter(Mode adapterMode, long dateOfRequest, Context context){
+		this(new ArrayList<Product>(),context);
 		this.adapterMode = adapterMode;
 		this.dateOfRequest = dateOfRequest;
 	}
-	private ProductAdapter(List<Product> products) {
+	private ProductAdapter(List<Product> products, Context context) {
 		this.mProducts = products;
-		notifyDataSetChanged();
+		this.mContext = context;
+		mCartDbHandler = new CartDbHandler(context);
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		if (cartDbHandler == null)
-			cartDbHandler = new CartDbHandler(parent.getContext());
-
 		View view = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.item_product_view,parent,false);
 		return new ViewHolder(view);
@@ -146,13 +147,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 					FORMAT_PRICE_PER_VOLUME,product.getPrice(),
 					CommonUtils.getVolumeExtension(product.getMinimumVolume(),product.getVolume()));
 			holder.checkBox.setVisibility(View.VISIBLE);
-			if (cartDbHandler.isProductAddedToCart(holder.product.getId())) {
+			if (mCartDbHandler.isProductAddedToCart(holder.product.getId())) {
 				holder.checkBox.setChecked(true);
 			}
 		}
 		// when managing Items present in cart
 		else if (adapterMode.equals(Mode.CART)){
-			PurchasedItem item = cartDbHandler.getCartItem(product.getId(),false);
+			PurchasedItem item = mCartDbHandler.getCartItem(product.getId(),false);
 			formattedPrice = String.format(Locale.ENGLISH,
 					FORMAT_PRICE_PER_VOLUME,item.getTotalPrice(),
 					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
@@ -162,7 +163,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		}
 		// just checking order history
 		else if(adapterMode.equals(Mode.HISTORY)){
-			PurchasedItem item = cartDbHandler.getCartItem(product.getId(),true,dateOfRequest);
+			PurchasedItem item = mCartDbHandler.getCartItem(product.getId(),true,dateOfRequest);
 			formattedPrice = String.format(Locale.ENGLISH,
 					FORMAT_PRICE_PER_VOLUME,item.getTotalPrice(),
 					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
@@ -176,9 +177,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 	}
 
 	public int getCartItemCount(){
-		if (cartDbHandler==null)
-			return 0;
-		return cartDbHandler.getProductIdsFromCart(false).size();
+		return mCartDbHandler.getProductIdsFromCart(false).size();
 	}
 
 	public void addNewProducts(List<Product> list){

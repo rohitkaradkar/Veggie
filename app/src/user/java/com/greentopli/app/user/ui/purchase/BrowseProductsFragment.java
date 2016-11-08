@@ -91,14 +91,17 @@ SearchView.OnCloseListener{
 		mSearchView = new SearchView(getContext());
 		mSearchView.setOnQueryTextListener(this);
 		mSearchView.setOnCloseListener(this);
-		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE);
-		mLayoutManager = new LinearLayoutManager(getContext());
-		mRecyclerView.setLayoutManager(mLayoutManager);
-		mRecyclerView.setAdapter(mAdapter);
+		initRecyclerView(); // TODO: remove this line, let Presenter handle it.
 		mPresenter = BrowseProductsPresenter.bind(this,getContext());
 		return rootView;
 	}
-
+	private void initRecyclerView(){
+		// prepare recycler view for incoming data
+		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE,getContext());
+		mLayoutManager = new LinearLayoutManager(getContext());
+		mRecyclerView.setLayoutManager(mLayoutManager);
+		mRecyclerView.setAdapter(mAdapter);
+	}
 	@Override
 	public void onDestroy() {
 		mPresenter.detachView();
@@ -142,6 +145,8 @@ SearchView.OnCloseListener{
 
 	@Override
 	public void showProducts(List<Product> list) {
+		// Reinitialise RecyclerView so, it will avoid duplication
+		initRecyclerView();
 		mAdapter.addNewProducts(list);
 	}
 
