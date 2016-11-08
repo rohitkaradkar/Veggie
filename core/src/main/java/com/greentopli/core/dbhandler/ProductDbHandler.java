@@ -53,7 +53,11 @@ public class ProductDbHandler {
 		ProductSelection selection = new ProductSelection();
 		return getProducts(selection);
 	}
-
+	public List<Product> getProducts(String query){
+		ProductSelection selection = new ProductSelection();
+		selection.nameEnglishContains(query);
+		return getProducts(selection);
+	}
 	private List<Product> getProducts(ProductSelection selection){
 		ProductCursor cursor = selection.query(context.getContentResolver(), ProductColumns.ALL_COLUMNS);
 		List<Product> list = new ArrayList<>();
@@ -85,7 +89,7 @@ public class ProductDbHandler {
 		product.setMinimumVolume(cursor.getMinVolume());
 		product.setMaximumVolume(cursor.getMaxVolume());
 		product.setTime(cursor.getTime());
-		// convert String to Enums & ensure stringa are in upper case
+		// convert String to Enums & ensure string are in upper case
 		product.setVolume(Product.Volume.valueOf(cursor.getVolume().toUpperCase(Locale.ENGLISH)));
 		product.setType(Product.Type.valueOf(cursor.getType().toUpperCase(Locale.ENGLISH)));
 		return product;

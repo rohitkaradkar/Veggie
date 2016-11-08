@@ -36,6 +36,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 		mIntentFilter.addAction(ProductService.ACTION_EMPTY);
 	}
 
+	// receive ProductService Broadcast
 	BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -73,6 +74,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 	}
 
 	public void getProductItems(){
+		//Sends Product list to View
 		getmMvpView().showProgressbar(true);
 		if (mProducts.size()>0) {
 			getmMvpView().showProducts(mProducts);
@@ -83,6 +85,14 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 		}
 	}
 
+	public void searchProduct(String query){
+		// search products & send them to View
+		if (mProducts.size()>0){
+			List<Product> queryResultList = dbHandler.getProducts(query);
+			if (queryResultList.size()>0)
+				getmMvpView().showProducts(queryResultList);
+		}
+	}
 	public void deleteProduct(final String product_id){
 		BackendService service = ServiceGenerator.createService(BackendService.class);
 		getmMvpView().showProgressbar(true);

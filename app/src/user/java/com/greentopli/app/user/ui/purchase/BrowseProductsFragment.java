@@ -40,7 +40,8 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BrowseProductsFragment extends Fragment implements BrowseProductsView, SearchView.OnQueryTextListener{
+public class BrowseProductsFragment extends Fragment implements BrowseProductsView, SearchView.OnQueryTextListener,
+SearchView.OnCloseListener{
 
 	@BindView(R.id.browse_products_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.default_progressbar) ProgressBar mProgressBar;
@@ -88,6 +89,7 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 		setHasOptionsMenu(true);
 		mSearchView = new SearchView(getContext());
 		mSearchView.setOnQueryTextListener(this);
+		mSearchView.setOnCloseListener(this);
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE);
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
@@ -112,7 +114,7 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
 				R.layout.spinner_row, CommonUtils.getFoodCategories());
 		mSpinnerVegitableType.setAdapter(adapter);
-//		spinner.setOnItemClickListener(null); // TODO: set listener
+//		spinner.setOnItemClickListener(null); // TODO: create category sort
 	}
 
 	@Override
@@ -149,12 +151,19 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 	// Search Query Handler
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		// TODO: handle Search here
 		return false;
 	}
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
+		mPresenter.searchProduct(newText);
+		return false;
+	}
+
+	// when user finishes using searchBar
+	@Override
+	public boolean onClose() {
+		mPresenter.getProductItems();
 		return false;
 	}
 }
