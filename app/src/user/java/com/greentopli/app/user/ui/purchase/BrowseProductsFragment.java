@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -46,7 +47,7 @@ SearchView.OnCloseListener{
 	@BindView(R.id.browse_products_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.default_progressbar) ProgressBar mProgressBar;
 	@BindView(R.id.toolbar_browseProduct_fragment)Toolbar mToolbar;
-	@BindView(R.id.spinner_browse_fragment) Spinner mSpinnerVegitableType;
+	@BindView(R.id.spinner_browse_fragment) Spinner mSpinnerVegetableType;
 	private ProductAdapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private BrowseProductsPresenter mPresenter;
@@ -113,8 +114,20 @@ SearchView.OnCloseListener{
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
 				R.layout.spinner_row, CommonUtils.getFoodCategories());
-		mSpinnerVegitableType.setAdapter(adapter);
-//		spinner.setOnItemClickListener(null); // TODO: create category sort
+		mSpinnerVegetableType.setAdapter(adapter);
+		mSpinnerVegetableType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (position>=0 && position<CommonUtils.getFoodCategories().size()){
+					mPresenter.sortProducts(CommonUtils.getFoodCategories().get(position));
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
+			}
+		}); // TODO: create category sort
 	}
 
 	@Override
@@ -166,4 +179,7 @@ SearchView.OnCloseListener{
 		mPresenter.getProductItems();
 		return false;
 	}
+
+	// On selection vegetable category
+
 }

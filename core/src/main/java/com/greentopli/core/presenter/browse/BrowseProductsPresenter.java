@@ -14,6 +14,7 @@ import com.greentopli.model.BackendResult;
 import com.greentopli.model.Product;
 
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,7 +71,6 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 		dbHandler = new ProductDbHandler(getContext());
 		getContext().registerReceiver(mBroadcastReceiver,mIntentFilter);
 		mProducts = dbHandler.getProducts();
-		getProductItems(); // sends product list to MVP view
 	}
 
 	public void getProductItems(){
@@ -89,6 +89,17 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 		// search products & send them to View
 		if (mProducts.size()>0){
 			List<Product> queryResultList = dbHandler.getProducts(query);
+			if (queryResultList.size()>0)
+				getmMvpView().showProducts(queryResultList);
+		}
+	}
+
+	public void sortProducts(String productTypeString){
+		Product.Type productType = Product.Type.valueOf(productTypeString.toUpperCase(Locale.ENGLISH));
+		if (productType.equals(Product.Type.ALL))
+			getProductItems();
+		else if (mProducts.size()>0){
+			List<Product> queryResultList = dbHandler.getProducts(productType);
 			if (queryResultList.size()>0)
 				getmMvpView().showProducts(queryResultList);
 		}

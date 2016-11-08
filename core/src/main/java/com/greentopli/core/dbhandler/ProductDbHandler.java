@@ -58,6 +58,11 @@ public class ProductDbHandler {
 		selection.nameEnglishContains(query);
 		return getProducts(selection);
 	}
+	public List<Product> getProducts(Product.Type productType){
+		ProductSelection selection = new ProductSelection();
+		selection.type(productType.name());
+		return getProducts(selection);
+	}
 	private List<Product> getProducts(ProductSelection selection){
 		ProductCursor cursor = selection.query(context.getContentResolver(), ProductColumns.ALL_COLUMNS);
 		List<Product> list = new ArrayList<>();

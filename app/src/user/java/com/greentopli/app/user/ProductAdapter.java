@@ -146,7 +146,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 					FORMAT_PRICE_PER_VOLUME,product.getPrice(),
 					CommonUtils.getVolumeExtension(product.getMinimumVolume(),product.getVolume()));
 			holder.checkBox.setVisibility(View.VISIBLE);
-			if (cartDbHandler.isProductAddedToCart(product.getId())) {
+			if (cartDbHandler.isProductAddedToCart(holder.product.getId())) {
 				holder.checkBox.setChecked(true);
 			}
 		}
