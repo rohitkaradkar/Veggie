@@ -23,7 +23,9 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.CommonUtils;
+import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.app.user.ProductAdapter;
 import com.greentopli.app.user.OnFragmentInteractionListener;
@@ -38,9 +40,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class BrowseProductsFragment extends Fragment implements BrowseProductsView, SearchView.OnQueryTextListener,
 SearchView.OnCloseListener{
 
@@ -71,7 +70,6 @@ SearchView.OnCloseListener{
 			throw new RuntimeException(context.toString()+" Must implement "+
 			OnFragmentInteractionListener.class.getSimpleName());
 		}
-
 	}
 
 	@Override
@@ -91,7 +89,7 @@ SearchView.OnCloseListener{
 		mSearchView = new SearchView(getContext());
 		mSearchView.setOnQueryTextListener(this);
 		mSearchView.setOnCloseListener(this);
-		initRecyclerView(); // TODO: remove this line, let Presenter handle it.
+		initRecyclerView(); // TODO: remove this line, let Presenter handle it as Spinner calls presenter on initialization
 		mPresenter = BrowseProductsPresenter.bind(this,getContext());
 		return rootView;
 	}
@@ -118,10 +116,14 @@ SearchView.OnCloseListener{
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
 				R.layout.spinner_row, CommonUtils.getFoodCategories());
 		mSpinnerVegetableType.setAdapter(adapter);
+		/**
+		 * View gets updated when user selects Vegetable category from spinner.
+		 * Also executed once on initialization
+		 */
 		mSpinnerVegetableType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (position>=0 && position<CommonUtils.getFoodCategories().size()){
+				if (position>=0 && position < CommonUtils.getFoodCategories().size()){
 					mPresenter.sortProducts(CommonUtils.getFoodCategories().get(position));
 				}
 			}
@@ -130,17 +132,19 @@ SearchView.OnCloseListener{
 			public void onNothingSelected(AdapterView<?> parent) {
 
 			}
-		}); // TODO: create category sort
+		});
 	}
 
 	@Override
 	public void showEmpty() {
-
+		//TODO: Show view is empty
 	}
 
 	@Override
 	public void showError(String message) {
+		//TODO: display abstract error.. avoid details
 		Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
+		FirebaseCrash.log(Constants.ERROR_PRODUCT_LOADING+message);
 	}
 
 	@Override
@@ -151,7 +155,9 @@ SearchView.OnCloseListener{
 	}
 
 	@Override
-	public void onProductDeleted(boolean deleted, String product_id) {}
+	public void onProductDeleted(boolean deleted, String product_id) {
+		//TODO: remove Admin flavor & get rid of this used function
+	}
 
 	@OnClick(R.id.fab_browse_product_fragment)
 	void onFabClick(){
@@ -164,6 +170,7 @@ SearchView.OnCloseListener{
 	@Override
 	public void showProgressbar(boolean show) {
 		mProgressBar.setVisibility(show?View.VISIBLE:View.GONE);
+		//TODO: disable other view
 	}
 
 	// Search Query Handler
@@ -178,13 +185,11 @@ SearchView.OnCloseListener{
 		return false;
 	}
 
-	// when user finishes using searchBar
+	// On closing SearchBar
 	@Override
 	public boolean onClose() {
 		mPresenter.getProductItems();
 		return false;
 	}
-
-	// On selection vegetable category
 
 }

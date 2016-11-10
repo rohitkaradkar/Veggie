@@ -17,4 +17,11 @@ public final class Constants {
 
 	public static final String ACTION_WIDGET_HEADER_CLICK =
 			"com.greentopli.app.user.ACTION_WIDGET_HEADER_CLICK";
+
+	public static final String ERROR_AUTHTOKEN= "Error Obtaining AuthToken: ";
+	public static final String ERROR_INSTANCEID= "Error Obtaining InstanceID: ";
+	public static final String ERROR_REGISTERING_USERINFO= "Error Registering UserInfo: ";
+	public static final String ERROR_SIGNIN= "Error SignIn: ";
+	public static final String ERROR_PRODUCT_LOADING= "Error Product Loading: ";
+	public static final String ERROR_CART_CHECKOUT= "Error Cart Checkout: ";
 }

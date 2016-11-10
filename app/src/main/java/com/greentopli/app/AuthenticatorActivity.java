@@ -28,6 +28,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.crash.FirebaseCrash;
+import com.greentopli.Constants;
 import com.greentopli.core.dbhandler.UserDbHandler;
 import com.greentopli.core.presenter.base.MvpView;
 
@@ -97,7 +99,8 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 			} else {
 				// Google Sign In failed, update UI appropriately
 				showProgressbar(false);
-				Toast.makeText(getApplicationContext(),"SignIn Failed",Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), Constants.ERROR_SIGNIN,Toast.LENGTH_LONG).show();
+				FirebaseCrash.log(Constants.ERROR_SIGNIN);
 			}
 		}
 
@@ -138,6 +141,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 							Log.e(TAG, "signInWithCredential", task.getException());
 							Toast.makeText(getApplicationContext(), "Authentication failed.",
 									Toast.LENGTH_SHORT).show();
+							FirebaseCrash.report(task.getException());
 						}
 					}
 				});
@@ -197,15 +201,14 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	public void onConnectionSuspended(int i) {
+	public void onConnectionSuspended(int i) {}
 
-	}
 	public static boolean isUserSignedIn(){
 		return FirebaseAuth.getInstance().getCurrentUser()!=null;
 	}
 	public static boolean isUserSignedUp(Context context){
-		UserDbHandler userDbHandler = new UserDbHandler(context);
 		if (isUserSignedIn()){
+			UserDbHandler userDbHandler = new UserDbHandler(context);
 			return userDbHandler.isUserInfoAvailable(
 					FirebaseAuth.getInstance().getCurrentUser().getEmail()
 			);

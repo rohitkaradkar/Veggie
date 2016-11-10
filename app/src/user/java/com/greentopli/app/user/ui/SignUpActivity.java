@@ -9,13 +9,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.core.presenter.signup.SignUpView;
 import com.greentopli.core.presenter.signup.UserSignUpPresenter;
@@ -107,27 +110,33 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 					public void onFailure(@NonNull Exception e) {
 						e.printStackTrace();
 						showProgressbar(false);
+						// Report Firebase Crash
+						FirebaseCrash.report(e);
 					}
 				});
 	}
 
 	private void setInstanceId(){
-		if (FirebaseInstanceId.getInstance()!=null)
-			if(FirebaseInstanceId.getInstance().getToken()!=null){
-				mUser.setInstanceId(
-						FirebaseInstanceId.getInstance().getToken()
-				);
+		if (FirebaseInstanceId.getInstance()!=null) {
+			String token = FirebaseInstanceId.getInstance().getToken();
+			if (token != null && !token.isEmpty()) {
+				mUser.setInstanceId(token);
 				mPresenter.signUp(mUser);
-			}
-		else{
+			} else {
 				showProgressbar(false);
-				Log.e(TAG,"Failed to get Instance Id");
+				Log.e(TAG, "Failed to get Instance Id");
+				// log Firebase Crash
+				FirebaseCrash.log(Constants.ERROR_INSTANCEID);
+			}
 		}
 	}
 
 	@Override
 	public void onSignUpError(String message) {
-		Log.e(TAG, "SignUp "+message);
+		Log.e(TAG, Constants.ERROR_REGISTERING_USERINFO+message);
+		Toast.makeText(getApplicationContext(),Constants.ERROR_REGISTERING_USERINFO,Toast.LENGTH_SHORT).show();
+		// log Firebase Crash
+		FirebaseCrash.log(Constants.ERROR_REGISTERING_USERINFO+message);
 	}
 
 	@Override

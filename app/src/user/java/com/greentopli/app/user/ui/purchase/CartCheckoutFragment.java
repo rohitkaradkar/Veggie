@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.crash.FirebaseCrash;
+import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.app.user.ProductAdapter;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
@@ -63,8 +65,8 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 
 	@Override
 	public void onDetach() {
-		super.onDetach();
 		mPresenter.detachView();
+		super.onDetach();
 	}
 
 	@Override
@@ -143,14 +145,19 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 
 	@Override
 	public void onCartCheckoutFailed(List<String> failedProductIds) {
+		//TODO: ensure user doesn't add already purchased product in CART &
+		// TODO: remove this method.
 		Log.e(TAG,"Checkout Failed");
 		Toast.makeText(getContext(),R.string.message_duplicate_orders,Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onCartCheckoutError(String error_message) {
+		//TODO: get Exception from presenter & fwd it to Firebase Crash reporting
+		//TODO: change method parameter like, onError(Throwable t)
 		Log.e(TAG,"Checkout Error"+error_message);
 		Toast.makeText(getContext(),R.string.message_checkout_error,Toast.LENGTH_SHORT).show();
+		FirebaseCrash.log(Constants.ERROR_CART_CHECKOUT+error_message);
 	}
 
 	@Override
@@ -161,7 +168,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@Override
 	public void onCartItemsChanged(final int total_price, final int item_count) {
 		/**
-		 * This call is made from background thread
+		 * This call is made from background thread EVERY TIME cart items are changed.
 		 * Only the original thread that created a view hierarchy can touch its views.
 		 */
 		getActivity().runOnUiThread(new Runnable() {
@@ -170,7 +177,6 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 				mToolbar.setSubtitle(String.format(FORMAT_CART_OVERVIEW,total_price,item_count));
 			}
 		});
-		Log.e(TAG,"Cart Total: "+total_price+" Count: "+item_count);
 	}
 
 	@Override
