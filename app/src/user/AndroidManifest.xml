@@ -1,5 +1,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 <application>
     <activity
         android:name="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"

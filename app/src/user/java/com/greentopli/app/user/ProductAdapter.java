@@ -1,6 +1,7 @@
 package com.greentopli.app.user;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.greentopli.CommonUtils;
+import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.core.dbhandler.CartDbHandler;
 import com.greentopli.model.Product;
@@ -34,6 +37,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 	private List<Product> mProducts;
 	private Context mContext;
 	private CartDbHandler mCartDbHandler;
+	private FirebaseAnalytics mFirebaseAnalytics;
+
 	private static final String FORMAT_PRICE_PER_VOLUME = "Rs %d / %s";
 	public enum Mode {
 		BROWSE, CART, HISTORY
@@ -85,9 +90,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		}
 
 		private void updateToCart(){
+			/**
+			 * using analytics we track which items are removed from Cart.
+			 */
+			Bundle analyticsData = new Bundle();
+			analyticsData.putString(FirebaseAnalytics.Param.ITEM_NAME,product.getName_english());
+			analyticsData.putInt(Constants.ITEM_PRICE,product.getPrice());
+			analyticsData.putInt(Constants.ITEM_VOLUME,product.getMinimumVolume());
+
 			if (mCartDbHandler.isProductAddedToCart(product.getId())){
 				mCartDbHandler.removeProductFromCart(product.getId());
 				checkBox.setChecked(false);
+				mFirebaseAnalytics.logEvent(Constants.EVENT_CART_ITEM_REMOVED,analyticsData);
 			}else {
 				mCartDbHandler.addProductToCart(product.getId(),product.getMinimumVolume());
 				checkBox.setChecked(true);
@@ -116,6 +130,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		this.mProducts = products;
 		this.mContext = context;
 		mCartDbHandler = new CartDbHandler(context);
+		mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 	}
 
 	@Override

@@ -24,4 +24,12 @@ public final class Constants {
 	public static final String ERROR_SIGNIN= "Error SignIn: ";
 	public static final String ERROR_PRODUCT_LOADING= "Error Product Loading: ";
 	public static final String ERROR_CART_CHECKOUT= "Error Cart Checkout: ";
+
+	/**
+	 * Firebase Analytics Events
+	 */
+	public static final String EVENT_CART_ITEM_REMOVED = "item_removed_from_cart";
+	public static final String EVENT_CATEGORY_SELECTED = "category_selected";
+	public static final String ITEM_PRICE = "item_price";
+	public static final String ITEM_VOLUME = "item_volume";
 }

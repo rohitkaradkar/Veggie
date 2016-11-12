@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.CommonUtils;
 import com.greentopli.Constants;
@@ -50,6 +51,8 @@ SearchView.OnCloseListener{
 	private ProductAdapter mAdapter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private BrowseProductsPresenter mPresenter;
+	private FirebaseAnalytics mAnalytics;
+
 	SearchView mSearchView;
 	OnFragmentInteractionListener listener;
 
@@ -89,8 +92,8 @@ SearchView.OnCloseListener{
 		mSearchView = new SearchView(getContext());
 		mSearchView.setOnQueryTextListener(this);
 		mSearchView.setOnCloseListener(this);
-		initRecyclerView(); // TODO: remove this line, let Presenter handle it as Spinner calls presenter on initialization
 		mPresenter = BrowseProductsPresenter.bind(this,getContext());
+		mAnalytics = FirebaseAnalytics.getInstance(getContext());
 		return rootView;
 	}
 	private void initRecyclerView(){
@@ -119,19 +122,26 @@ SearchView.OnCloseListener{
 		/**
 		 * View gets updated when user selects Vegetable category from spinner.
 		 * Also executed once on initialization
+		 *
+		 * Also it reports selected category to Analytics
 		 */
 		mSpinnerVegetableType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position>=0 && position < CommonUtils.getFoodCategories().size()){
-					mPresenter.sortProducts(CommonUtils.getFoodCategories().get(position));
+					String vegetableType = CommonUtils.getFoodCategories().get(position);
+					mPresenter.sortProducts(vegetableType);
+					// report category selection to analytics
+					if (!vegetableType.toLowerCase().equals(Product.Type.ALL.name().toLowerCase())){
+						Bundle argument = new Bundle();
+						argument.putString(FirebaseAnalytics.Param.ITEM_CATEGORY,vegetableType);
+						mAnalytics.logEvent(Constants.EVENT_CATEGORY_SELECTED,argument);
+					}
 				}
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-
-			}
+			public void onNothingSelected(AdapterView<?> parent) {}
 		});
 	}
 
@@ -156,7 +166,7 @@ SearchView.OnCloseListener{
 
 	@Override
 	public void onProductDeleted(boolean deleted, String product_id) {
-		//TODO: remove Admin flavor & get rid of this used function
+		//TODO: remove Admin flavor & get rid of this unused function
 	}
 
 	@OnClick(R.id.fab_browse_product_fragment)
