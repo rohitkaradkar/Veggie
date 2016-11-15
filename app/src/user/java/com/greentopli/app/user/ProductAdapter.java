@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +41,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 	private FirebaseAnalytics mFirebaseAnalytics;
 
 	private static final String FORMAT_PRICE_PER_VOLUME = "Rs %d / %s";
+	private static final String FORMAT_PRICE = "₹ %d";
+	private static final String FORMAT_VOLUME = "%s";
 	public enum Mode {
 		BROWSE, CART, HISTORY
 	}
@@ -51,8 +54,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		@BindView(R.id.item_product_checkbox) CheckBox checkBox;
 		@BindView(R.id.item_product_name) TextView name;
 		@BindView(R.id.item_product_price) TextView price;
+		@BindView(R.id.item_product_volume) TextView volume;
 		@BindView(R.id.subtract_image_button)ImageButton subtractButton;
-		@BindView(R.id.add_image_button)ImageButton addButton;
+		@BindView(R.id.add_image_button) ImageButton addButton;
+		@BindView(R.id.item_product_volume_controls) RelativeLayout volumeControls;
+
 		private Product product;
 		private PurchasedItem cartItem;
 
@@ -68,7 +74,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 			 * In Browse mode Direct click to checkbox is DISABLED,
 			 * so we manually handle the tick & correspondingly addButton / remove item from cart
 			 */
-			if (v.getId()==R.id.item_product_view && adapterMode.equals(Mode.BROWSE))
+			if (v.getId()==R.id.item_product_view_container && adapterMode.equals(Mode.BROWSE))
 				updateToCart();
 		}
 
@@ -155,7 +161,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 				.into(holder.image);
 
 		String formattedPrice = "";
-
+		String formattedVolume = "";
 		// When Browsing through Items & adding them to carts
 		if (adapterMode.equals(Mode.BROWSE)){
 			formattedPrice = String.format(Locale.ENGLISH,
@@ -169,12 +175,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		// when managing Items present in cart
 		else if (adapterMode.equals(Mode.CART)){
 			PurchasedItem item = mCartDbHandler.getCartItem(product.getId(),false);
-			formattedPrice = String.format(Locale.ENGLISH,
-					FORMAT_PRICE_PER_VOLUME,item.getTotalPrice(),
+			formattedVolume = String.format(Locale.ENGLISH,
+					FORMAT_VOLUME,
 					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
+			formattedPrice = String.format(Locale.ENGLISH,
+					FORMAT_PRICE,
+					item.getTotalPrice()
+					);
 			holder.setCartItem(item);
-			holder.addButton.setVisibility(View.VISIBLE);
-			holder.subtractButton.setVisibility(View.VISIBLE);
+			holder.volumeControls.setVisibility(View.VISIBLE);
+			holder.volume.setText(formattedVolume);
+			holder.price.setText(formattedPrice);
 		}
 		// just checking order history
 		else if(adapterMode.equals(Mode.HISTORY)){
@@ -183,7 +194,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 					FORMAT_PRICE_PER_VOLUME,item.getTotalPrice(),
 					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
 		}
-		holder.price.setText(formattedPrice);
+//		holder.price.setText(formattedPrice);
 	}
 
 	@Override

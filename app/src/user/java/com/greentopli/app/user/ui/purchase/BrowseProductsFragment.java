@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -36,6 +37,7 @@ import com.greentopli.model.Product;
 
 import java.util.List;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,8 +50,8 @@ SearchView.OnCloseListener{
 	@BindView(R.id.default_progressbar) ProgressBar mProgressBar;
 	@BindView(R.id.toolbar_browseProduct_fragment)Toolbar mToolbar;
 	@BindView(R.id.spinner_browse_fragment) Spinner mSpinnerVegetableType;
+	@BindInt(R.integer.product_list_columns) int mColumnCount;
 	private ProductAdapter mAdapter;
-	private RecyclerView.LayoutManager mLayoutManager;
 	private BrowseProductsPresenter mPresenter;
 	private FirebaseAnalytics mAnalytics;
 
@@ -99,13 +101,14 @@ SearchView.OnCloseListener{
 	private void initRecyclerView(){
 		// prepare recycler view for incoming data
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE,getContext());
-		mLayoutManager = new LinearLayoutManager(getContext());
-		mRecyclerView.setLayoutManager(mLayoutManager);
+		GridLayoutManager layoutManager = new GridLayoutManager(getContext(),mColumnCount);
+		mRecyclerView.setLayoutManager(layoutManager);
 		mRecyclerView.setAdapter(mAdapter);
 	}
 	@Override
 	public void onDestroy() {
-		mPresenter.detachView();
+		if (mPresenter!=null) // to avoid instant run errors
+			mPresenter.detachView();
 		super.onDestroy();
 	}
 

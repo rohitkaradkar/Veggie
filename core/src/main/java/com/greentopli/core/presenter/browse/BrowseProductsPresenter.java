@@ -125,7 +125,8 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 
 	@Override
 	public void detachView() {
-		getContext().unregisterReceiver(mBroadcastReceiver);
+		if (getContext()!=null)
+			getContext().unregisterReceiver(mBroadcastReceiver);
 		mBroadcastReceiver = null; mIntentFilter =null; dbHandler = null;
 		super.detachView();
 	}

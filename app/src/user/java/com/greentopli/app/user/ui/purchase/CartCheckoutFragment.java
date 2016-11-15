@@ -8,7 +8,7 @@ import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,6 +32,7 @@ import com.greentopli.model.Product;
 
 import java.util.List;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,6 +41,8 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@BindView(R.id.cartItem_fragment_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.progressbar_cartCheckout_fragment) ProgressBar progressBar;
 	@BindView(R.id.toolbar_cartCheckout_fragment) Toolbar mToolbar;
+	@BindInt(R.integer.product_list_columns) int mColumnCount;
+
 	private static final String FORMAT_CART_OVERVIEW = "Rs %d for %d items";
 	private CartCheckoutPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
@@ -86,15 +89,16 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 			actionBar.setDisplayHomeAsUpEnabled(true);
 		}
 		setHasOptionsMenu(true);
-
-		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART,getContext());
-		mLayoutManager = new LinearLayoutManager(getContext());
-		mRecyclerView.setLayoutManager(mLayoutManager);
-		mRecyclerView.setAdapter(mAdapter);
+		initRecyclerView();
 		mPresenter.getProductsFromCart();
 		return rootView;
 	}
-
+	private void initRecyclerView(){
+		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART,getContext());
+		mLayoutManager = new GridLayoutManager(getContext(),mColumnCount);
+		mRecyclerView.setLayoutManager(mLayoutManager);
+		mRecyclerView.setAdapter(mAdapter);
+	}
 	@Override
 	public void onResume() {
 		super.onResume();

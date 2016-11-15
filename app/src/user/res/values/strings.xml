@@ -4,9 +4,12 @@
     <string name="title_activity_sign_up">Personal Details</string>
     <string name="title_fragment_cartCheckout">Cart Items</string>
     <string name="title_widget">Green Basket</string>
+
     <string name="text_product_search">Search Products</string>
     <string name="text_product_category">Product Category</string>
     <string name="text_order_dialog_close">Close</string>
+    <string name="text_add_to_cart">Add to cart</string>
+    <string name="text_added_to_cart">Added to cart</string>
 
 
     <!--Edit text hits-->
