@@ -28,7 +28,7 @@
     <style name="TextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:maxLines">@integer/product_item_name_max_lines</item>
+        <item name="android:maxLines">@integer/product_item_text_max_lines</item>
         <item name="android:ellipsize">end</item>
     </style>
 

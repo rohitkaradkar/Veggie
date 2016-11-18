@@ -4,81 +4,92 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:tool="http://schemas.android.com/apk/res-auto"
-    android:layout_width="@dimen/product_item_cardView_width"
-    android:layout_height="@dimen/product_item_cardView_height"
-    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:elevation="@dimen/cardview_default_elevation"
-    tool:cardCornerRadius="@dimen/cardview_default_radius">
+    tool:cardCornerRadius="@dimen/cardview_default_radius"
+    tools:layout_margin="@dimen/product_item_cardView_margin"
+    >
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_gravity="center">
+        android:padding="@dimen/product_item_cardView_padding">
         <ImageView
             android:id="@+id/item_product_image"
             android:layout_width="@dimen/product_item_icon_size"
             android:layout_height="@dimen/product_item_icon_size"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_photo_default"/>
-
-        <TextView
-            android:id="@+id/item_product_price"
-            style="@style/TextStyle"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="@dimen/product_item_price_textSize"
-            android:textColor="@color/colorAccent"
-            tools:text="​₹ 150"/>
-
-        <TextView
-            android:id="@+id/item_product_name"
-            style="@style/TextStyle"
-            android:textSize="@dimen/product_item_name_textSize"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            tools:text="Lady Finger"/>
-
-        <!--product volume control-->
         <RelativeLayout
-            android:id="@+id/item_product_volume_controls"
-            android:visibility="gone"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageButton
-                android:id="@+id/subtract_image_button"
-                android:src="@drawable/ic_remove_circle_outline"
-                android:layout_width="@dimen/volume_control_size"
-                android:layout_height="@dimen/volume_control_size"
-                android:scaleType="fitCenter"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/item_product_price"
+                style="@style/TextStyle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textSize="@dimen/product_item_price_textSize"
+                android:textColor="@color/colorAccent"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:background="@android:color/transparent"/>
+                android:layout_alignParentBottom="true"
+                tools:text="​₹ 150"/>
 
             <TextView
-                android:id="@+id/item_product_volume"
+                android:id="@+id/item_product_name"
                 style="@style/TextStyle"
-                android:layout_centerHorizontal="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                tools:text="0.25 kg"/>
+                android:textSize="@dimen/product_item_name_textSize"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                tools:text="Lady Finger"/>
 
-            <ImageButton
-                android:id="@+id/add_image_button"
-                android:src="@drawable/ic_add_circle_outline"
-                android:layout_width="@dimen/volume_control_size"
-                android:layout_height="@dimen/volume_control_size"
-                android:scaleType="fitCenter"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:background="@android:color/transparent"/>
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@android:color/darker_gray"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:layout_marginBottom="4dp"/>-->
+            <!--product volume control-->
+            <RelativeLayout
+                android:id="@+id/item_product_volume_controls"
+                android:orientation="horizontal"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true">
+                <ImageButton
+                    android:id="@+id/subtract_image_button"
+                    android:src="@drawable/ic_remove_circle_outline"
+                    android:layout_width="@dimen/volume_control_size"
+                    android:layout_height="@dimen/volume_control_size"
+                    android:scaleType="fitCenter"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@android:color/transparent"/>
+
+                <TextView
+                    android:id="@+id/item_product_volume"
+                    style="@style/TextStyle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    tools:text="0.25 kg"/>
+
+                <ImageButton
+                    android:id="@+id/add_image_button"
+                    android:src="@drawable/ic_add_circle_outline"
+                    android:layout_width="@dimen/volume_control_size"
+                    android:layout_height="@dimen/volume_control_size"
+                    android:scaleType="fitCenter"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"/>
+            </RelativeLayout>
         </RelativeLayout>
+
     </LinearLayout>
     <CheckBox
         android:visibility="gone"
-        tools:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"

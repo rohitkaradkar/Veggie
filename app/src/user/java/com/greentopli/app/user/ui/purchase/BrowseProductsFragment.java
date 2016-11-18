@@ -101,7 +101,7 @@ SearchView.OnCloseListener{
 	private void initRecyclerView(){
 		// prepare recycler view for incoming data
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE,getContext());
-		GridLayoutManager layoutManager = new GridLayoutManager(getContext(),mColumnCount);
+		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(layoutManager);
 		mRecyclerView.setAdapter(mAdapter);
 	}

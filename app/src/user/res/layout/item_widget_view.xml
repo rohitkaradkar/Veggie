@@ -13,7 +13,7 @@
         android:id="@+id/item_widget_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="@integer/product_item_name_max_lines"
+        android:maxLines="@integer/product_item_text_max_lines"
         android:ellipsize="end"
         android:textAppearance="@style/TextAppearance.AppCompat.Inverse"
         android:textSize="@dimen/product_item_name_textSize"

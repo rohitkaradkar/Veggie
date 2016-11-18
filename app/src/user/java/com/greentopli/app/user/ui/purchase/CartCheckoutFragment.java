@@ -8,7 +8,7 @@ import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
+import com.greentopli.app.user.ListItemDecoration;
 import com.greentopli.app.user.ProductAdapter;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
@@ -95,8 +96,9 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	}
 	private void initRecyclerView(){
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART,getContext());
-		mLayoutManager = new GridLayoutManager(getContext(),mColumnCount);
+		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
+		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
 		mRecyclerView.setAdapter(mAdapter);
 	}
 	@Override
