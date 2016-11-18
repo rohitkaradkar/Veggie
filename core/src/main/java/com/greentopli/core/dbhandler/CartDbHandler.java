@@ -226,7 +226,11 @@ public class CartDbHandler {
 		allItems.accepted(false);
 		return allItems.delete(context);
 	}
-
+	public int removeCartItem(String id){
+		PurchasedItemSelection selection = new PurchasedItemSelection();
+		selection.purchaseId(id).and().accepted(false);
+		return selection.delete(context);
+	}
 	// returns Date & price in pair
 	public HashMap<Long,Integer> getOrderHistoryDates(String userId){
 		// pairing - order Date & total price

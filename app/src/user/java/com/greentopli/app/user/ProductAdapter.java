@@ -40,7 +40,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 	private CartDbHandler mCartDbHandler;
 	private FirebaseAnalytics mFirebaseAnalytics;
 
-	private static final String FORMAT_PRICE_PER_VOLUME = "Rs %d / %s";
+	private static final String FORMAT_PRICE_AND_VOLUME = "%s is ₹ %d";
 	private static final String FORMAT_PRICE = "₹ %d";
 	private static final String FORMAT_VOLUME = "%s";
 	public enum Mode {
@@ -55,10 +55,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		@BindView(R.id.item_product_name) TextView name;
 		@BindView(R.id.item_product_price) TextView price;
 		@BindView(R.id.item_product_volume) TextView volume;
-		@BindView(R.id.subtract_image_button)ImageButton subtractButton;
-		@BindView(R.id.add_image_button) ImageButton addButton;
 		@BindView(R.id.item_product_volume_controls) RelativeLayout volumeControls;
-
+		@BindView(R.id.item_product_remove_button) ImageButton removeCartItemButton;
 		private Product product;
 		private PurchasedItem cartItem;
 
@@ -78,7 +76,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 				updateToCart();
 		}
 
-		@OnClick(R.id.add_image_button)
+		@OnClick(R.id.item_product_volume_add_button)
 		void onVolumeAdded(){
 			int newVolume = cartItem.getVolume() + product.getVolumeSet();
 			if (newVolume <= product.getMaximumVolume()) {
@@ -86,12 +84,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 				notifyItemChanged(getAdapterPosition());
 			}
 		}
-		@OnClick(R.id.subtract_image_button)
+
+		@OnClick(R.id.item_product_volume_subtract_button)
 		void onVolumeSubtracted(){
 			int newVolume = cartItem.getVolume() - product.getVolumeSet();
 			if (newVolume >= product.getMinimumVolume()) {
 				mCartDbHandler.updateVolume(product.getId(), newVolume);
 				notifyItemChanged(getAdapterPosition());
+			}
+		}
+
+		@OnClick(R.id.item_product_remove_button)
+		void onCartItemRemoved(){
+			if (mCartDbHandler.removeProductFromCart(product.getId())>0){
+				for (int i=0; i<mProducts.size();i++){
+					Product item = mProducts.get(i);
+					if (item.getId().equals(product.getId())) {
+						mProducts.remove(i);
+						notifyItemRemoved(getAdapterPosition());
+					}
+				}
 			}
 		}
 
@@ -141,8 +153,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		// while displaying history - don't use CardView
+		int resourceId = (this.adapterMode.equals(Mode.HISTORY)?
+				R.layout.item_product_view_content:R.layout.item_product_view);
 		View view = LayoutInflater.from(parent.getContext())
-				.inflate(R.layout.item_product_view,parent,false);
+				.inflate(resourceId,parent,false);
 		return new ViewHolder(view);
 	}
 
@@ -150,27 +165,24 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		Product product = mProducts.get(position);
 		holder.setProduct(product);
-		String productName = product.getName_english();
-		holder.name.setText(String.format(Locale.ENGLISH,"%s",
-				String.valueOf(productName.charAt(0)).toUpperCase()+
-				productName.substring(1).toLowerCase()));
+		holder.name.setText(product.getName_english());
 
 		Glide.with(holder.image.getContext())
 				.load(product.getImageUrl())
 				.diskCacheStrategy(DiskCacheStrategy.SOURCE)
 				.into(holder.image);
 
-		String formattedPrice = "";
-		String formattedVolume = "";
+		String formattedPrice="", formattedVolume="";
 		// When Browsing through Items & adding them to carts
 		if (adapterMode.equals(Mode.BROWSE)){
 			formattedPrice = String.format(Locale.ENGLISH,
-					FORMAT_PRICE_PER_VOLUME,product.getPrice(),
-					CommonUtils.getVolumeExtension(product.getMinimumVolume(),product.getVolume()));
+					FORMAT_PRICE_AND_VOLUME,
+					CommonUtils.getVolumeExtension(product.getMinimumVolume(),product.getVolume()),
+					product.getPrice());
 			holder.checkBox.setVisibility(View.VISIBLE);
-			if (mCartDbHandler.isProductAddedToCart(holder.product.getId())) {
-				holder.checkBox.setChecked(true);
-			}
+			holder.checkBox.setChecked(
+					mCartDbHandler.isProductAddedToCart(holder.product.getId())
+			);
 		}
 		// when managing Items present in cart
 		else if (adapterMode.equals(Mode.CART)){
@@ -185,16 +197,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 			holder.setCartItem(item);
 			holder.volumeControls.setVisibility(View.VISIBLE);
 			holder.volume.setText(formattedVolume);
-			holder.price.setText(formattedPrice);
+			holder.removeCartItemButton.setVisibility(View.VISIBLE);
 		}
 		// just checking order history
 		else if(adapterMode.equals(Mode.HISTORY)){
 			PurchasedItem item = mCartDbHandler.getCartItem(product.getId(),true,dateOfRequest);
 			formattedPrice = String.format(Locale.ENGLISH,
-					FORMAT_PRICE_PER_VOLUME,item.getTotalPrice(),
-					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()));
+					FORMAT_PRICE_AND_VOLUME,
+					CommonUtils.getVolumeExtension(item.getVolume(),product.getVolume()),
+					item.getTotalPrice()
+			);
 		}
-//		holder.price.setText(formattedPrice);
+		holder.price.setText(formattedPrice);
 	}
 
 	@Override

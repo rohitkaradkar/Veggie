@@ -31,7 +31,12 @@
         <item name="android:maxLines">@integer/product_item_text_max_lines</item>
         <item name="android:ellipsize">end</item>
     </style>
-
+    <style name="FloatingControls">
+        <item name="android:layout_gravity">top|end</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_marginTop">@dimen/product_item_cardView_margin</item>
+        <item name="android:layout_marginEnd">@dimen/product_item_cardView_margin</item>
+    </style>
     <style name="AppTheme.CartButton" parent="Widget.AppCompat.Button">
         <item name="android:colorButtonNormal">@android:color/white</item>
     </style>

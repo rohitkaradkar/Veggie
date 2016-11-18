@@ -1,4 +1,4 @@
-package com.greentopli.core.storage.purchaseditem;
+package com.greentopli.core.service;
 
 import android.content.Context;
 import android.database.ContentObserver;
@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Handler;
 
 import com.greentopli.core.dbhandler.CartDbHandler;
+import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.model.Product;
 
 import java.util.List;
@@ -42,8 +43,12 @@ public class PurchasedItemObserver extends ContentObserver {
 	public void updateCartInformation(){
 		int totalOrderPrice = cartDbHandler.getCartSubtotal();
 		List<Product> cartProducts = cartDbHandler.getProductsFromCart(false);
-		if (cartProducts!=null && cartProducts.size() > 0){
+		if (cartProducts!=null){
 			listener.onCartItemsChanged(totalOrderPrice,cartProducts.size());
+		}
+		else {
+			// Cart is empty
+			listener.onCartItemsChanged(0,0);
 		}
 	}
 

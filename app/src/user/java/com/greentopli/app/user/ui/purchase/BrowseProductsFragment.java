@@ -29,6 +29,7 @@ import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.CommonUtils;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
+import com.greentopli.app.user.ListItemDecoration;
 import com.greentopli.app.user.ProductAdapter;
 import com.greentopli.app.user.OnFragmentInteractionListener;
 import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
@@ -50,9 +51,9 @@ SearchView.OnCloseListener{
 	@BindView(R.id.default_progressbar) ProgressBar mProgressBar;
 	@BindView(R.id.toolbar_browseProduct_fragment)Toolbar mToolbar;
 	@BindView(R.id.spinner_browse_fragment) Spinner mSpinnerVegetableType;
-	@BindInt(R.integer.product_list_columns) int mColumnCount;
 	private ProductAdapter mAdapter;
 	private BrowseProductsPresenter mPresenter;
+	private RecyclerView.LayoutManager mLayoutManager;
 	private FirebaseAnalytics mAnalytics;
 
 	SearchView mSearchView;
@@ -96,14 +97,16 @@ SearchView.OnCloseListener{
 		mSearchView.setOnCloseListener(this);
 		mPresenter = BrowseProductsPresenter.bind(this,getContext());
 		mAnalytics = FirebaseAnalytics.getInstance(getContext());
+		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
 		return rootView;
 	}
 	private void initRecyclerView(){
 		// prepare recycler view for incoming data
+		mLayoutManager = new LinearLayoutManager(getContext());
+		mRecyclerView.setLayoutManager(mLayoutManager);
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE,getContext());
-		LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-		mRecyclerView.setLayoutManager(layoutManager);
 		mRecyclerView.setAdapter(mAdapter);
+
 	}
 	@Override
 	public void onDestroy() {

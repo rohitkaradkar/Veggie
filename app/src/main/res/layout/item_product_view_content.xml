@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/product_item_cardView_padding"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/item_product_image"
+            android:layout_width="@dimen/product_item_icon_size"
+            android:layout_height="@dimen/product_item_icon_size"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_photo_default"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/product_item_cardView_margin">
+            <TextView
+                android:id="@+id/item_product_name"
+                style="@style/TextStyle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="@dimen/product_item_name_textSize"
+                tools:text="Lady Finger"/>
+
+            <TextView
+                android:id="@+id/item_product_price"
+                style="@style/TextStyle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textSize="@dimen/product_item_price_textSize"
+                android:textColor="@color/colorAccent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                tools:text="​1.25 kg is ₹ 150"/>
+
+            <RelativeLayout
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:id="@+id/item_product_volume_controls"
+                android:orientation="horizontal"
+                android:layout_width="@dimen/volume_control_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true">
+                <ImageButton
+                    android:id="@+id/item_product_volume_subtract_button"
+                    android:src="@drawable/ic_remove_circle_outline"
+                    android:layout_width="@dimen/image_button_icon_size"
+                    android:layout_height="@dimen/image_button_icon_size"
+                    android:scaleType="fitCenter"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@android:color/transparent"/>
+
+                <TextView
+                    android:id="@+id/item_product_volume"
+                    style="@style/TextStyle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="@dimen/product_item_volume_textSize"
+                    tools:text="0.25 kg"/>
+
+                <ImageButton
+                    android:id="@+id/item_product_volume_add_button"
+                    android:src="@drawable/ic_add_circle_outline"
+                    android:layout_width="@dimen/image_button_icon_size"
+                    android:layout_height="@dimen/image_button_icon_size"
+                    android:scaleType="fitCenter"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@android:color/transparent"/>
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    <CheckBox
+        style="@style/FloatingControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:id="@+id/item_product_checkbox"/>
+
+    <ImageButton
+        style="@style/FloatingControls"
+        tools:visibility="visible"
+        android:id="@+id/item_product_remove_button"
+        android:src="@drawable/ic_close"
+        android:layout_width="@dimen/image_button_icon_size"
+        android:layout_height="@dimen/image_button_icon_size"
+        android:scaleType="fitCenter"
+        android:background="@android:color/transparent"/>
+</FrameLayout>

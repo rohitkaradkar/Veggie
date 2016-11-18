@@ -4,22 +4,21 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="list_horizontal_margin">8dp</dimen>
     <dimen name="list_vertical_margin">8dp</dimen>
-    <dimen name="item_product_view_height">64dp</dimen>
 
     <integer name="product_item_text_max_lines">1</integer>
     <integer name="product_list_columns">3</integer>
 
-    <dimen name="product_item_name_textSize">18sp</dimen>
-    <dimen name="product_item_price_textSize">16sp</dimen>
+    <dimen name="product_item_name_textSize">20sp</dimen>
+    <dimen name="product_item_price_textSize">18sp</dimen>
+    <dimen name="product_item_volume_textSize">18sp</dimen>
 
-    <dimen name="product_item_cardView_width">105dp</dimen>
-    <dimen name="product_item_cardView_height">200dp</dimen>
     <dimen name="product_item_cardView_padding">8dp</dimen>
     <dimen name="product_item_cardView_margin">8dp</dimen>
 
-    <dimen name="product_item_icon_size">96dp</dimen>
+    <dimen name="product_item_icon_size">64dp</dimen>
     <dimen name="widget_product_item_icon_size">96dp</dimen>
-    <dimen name="volume_control_size">24dp</dimen>
+    <dimen name="image_button_icon_size">24dp</dimen>
+    <dimen name="volume_control_width">120dp</dimen>
 
     <dimen name="widget_min_width">350dp</dimen>
     <dimen name="widget_min_height">250dp</dimen>

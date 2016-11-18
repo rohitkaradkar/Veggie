@@ -28,7 +28,7 @@ import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
 import com.greentopli.core.presenter.cart.CartView;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
-import com.greentopli.core.storage.purchaseditem.PurchasedItemObserver;
+import com.greentopli.core.service.PurchasedItemObserver;
 import com.greentopli.model.Product;
 
 import java.util.List;
@@ -180,7 +180,10 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				mToolbar.setSubtitle(String.format(FORMAT_CART_OVERVIEW,total_price,item_count));
+				if (total_price>0 && item_count > 0)
+					mToolbar.setSubtitle(String.format(FORMAT_CART_OVERVIEW,total_price,item_count));
+				else
+					getFragmentManager().popBackStack();
 			}
 		});
 	}
