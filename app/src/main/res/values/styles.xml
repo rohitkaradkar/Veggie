@@ -37,6 +37,18 @@
         <item name="android:layout_marginTop">@dimen/product_item_cardView_margin</item>
         <item name="android:layout_marginEnd">@dimen/product_item_cardView_margin</item>
     </style>
+    <style name="UserInfoFormIconStyle">
+        <item name="android:layout_height">@dimen/image_button_icon_size</item>
+        <item name="android:layout_width">@dimen/image_button_icon_size</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginEnd">@dimen/activity_userInfo_icon_end_margin</item>
+    </style>
+    <style name="UserInfoFormEditTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/activity_userInfo_editText_end_margin</item>
+    </style>
     <style name="AppTheme.CartButton" parent="Widget.AppCompat.Button">
         <item name="android:colorButtonNormal">@android:color/white</item>
     </style>

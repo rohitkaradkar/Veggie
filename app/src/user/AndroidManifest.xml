@@ -24,9 +24,13 @@
     </activity>
 
     <activity
-        android:name="com.greentopli.app.user.ui.SignUpActivity"
+        android:name="com.greentopli.app.user.ui.UserInfoActivity"
         android:label="@string/title_activity_sign_up"
+        android:parentActivityName="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"
         android:theme="@style/AppTheme.NoActionBar" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"/>
     </activity>
 
     <!--Product downloader service-->

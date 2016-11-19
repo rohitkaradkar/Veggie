@@ -20,6 +20,15 @@
     <dimen name="image_button_icon_size">24dp</dimen>
     <dimen name="volume_control_width">120dp</dimen>
 
+    <!--User info form-->
+    <dimen name="form_icon_size">24dp</dimen>
+    <dimen name="activity_userInfo_content_max_width">380dp</dimen>
+    <dimen name="activity_userInfo_content_top_margin">32dp</dimen>
+    <dimen name="activity_userInfo_icon_end_margin">32dp</dimen>
+    <dimen name="activity_userInfo_editText_end_margin">32dp</dimen>
+    <dimen name="user_avatar_size">120dp</dimen>
+
+    <!--Widget-->
     <dimen name="widget_min_width">350dp</dimen>
     <dimen name="widget_min_height">250dp</dimen>
     <dimen name="widget_min_resize_width">180dp</dimen>

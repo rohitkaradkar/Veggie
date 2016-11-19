@@ -1,16 +1,26 @@
 package com.greentopli.app.user.ui;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +30,7 @@ import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
+import com.greentopli.core.dbhandler.UserDbHandler;
 import com.greentopli.core.presenter.signup.SignUpView;
 import com.greentopli.core.presenter.signup.UserSignUpPresenter;
 import com.greentopli.model.User;
@@ -32,8 +43,11 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignUpActivity extends AppCompatActivity implements SignUpView{
-	private static final String TAG = SignUpActivity.class.getSimpleName();
+public class UserInfoActivity extends AppCompatActivity implements SignUpView{
+	private static final String TAG = UserInfoActivity.class.getSimpleName();
+	@BindView(R.id.container_userInfo_activity) CoordinatorLayout mContainer;
+	@BindView(R.id.fab_userInfo_activity) FloatingActionButton fab;
+	@BindView(R.id.user_avatar) ImageView avatarImageView;
 	@BindView(R.id.user_name_editText)EditText userNameEditText;
 	@BindView(R.id.user_address_editText)EditText userAddressEditText;
 	@BindView(R.id.user_pinCode_editText)EditText userPinCodeEditText;
@@ -44,20 +58,63 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 	@BindString(R.string.error_empty_field)String error_empty;
 	@BindString(R.string.error_mobile_digit)String error_mobile_digit;
 	@BindString(R.string.error_picCode_digit)String error_pinCode_digit;
+	@BindString(R.string.error_registration)String error_registration;
+	@BindString(R.string.error_not_registered) String error_not_registered;
+	@BindString(R.string.action_retry)String action_retry;
+
 	private UserSignUpPresenter mPresenter;
 	private FirebaseUser mFirebaseUser;
 	private User mUser;
+	private UserDbHandler mUserDbHandler;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sign_up);
+		setContentView(R.layout.activity_user_info);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		ButterKnife.bind(this);
 		mPresenter = UserSignUpPresenter.bind(this,getApplicationContext());
 		mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-		userNameEditText.setText(mFirebaseUser.getDisplayName());
+		mUserDbHandler = new UserDbHandler(getApplicationContext());
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		User user = mUserDbHandler.getSignedUserInfo();
+		if (user!=null){
+			userNameEditText.setText(user.getName());
+			userAddressEditText.setText(user.getAddress());
+			userPinCodeEditText.setText(String.valueOf(user.getPincode()));
+			userMobileNoEditText.setText(String.valueOf(user.getMobileNo()));
+		}
+		else
+			userNameEditText.setText(mFirebaseUser.getDisplayName());
+
+		Glide.with(getApplicationContext())
+				.load(mFirebaseUser.getPhotoUrl())
+				.asBitmap().into(new BitmapImageViewTarget(avatarImageView){
+			// refer : http://stackoverflow.com/a/32390715/2804351
+			@Override
+			protected void setResource(Bitmap resource) {
+				RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(),resource);
+				drawable.setCircular(true);
+				avatarImageView.setImageDrawable(drawable);
+			}
+		});
 	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home){
+			User user = mUserDbHandler.getSignedUserInfo();
+			if (user==null){
+				Toast.makeText(getApplicationContext(), error_not_registered,Toast.LENGTH_LONG)
+						.show();
+			}else
+				onSignUpSuccess();
+			return true;
+		}
+		return false;
+	}
+
 	private boolean isInputValidated() {
 		boolean valid = true;
 //		If any field is empty
@@ -81,8 +138,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 		}
 		return valid;
 	}
-	@OnClick(R.id.fab_signUp_activity)
-	public void onFabClick(View view) {
+	@OnClick(R.id.fab_userInfo_activity)
+	public void onSaveUserInfo() {
 		if (mFirebaseUser !=null && isInputValidated()){
 			showProgressbar(true);
 			mUser = new User(mFirebaseUser.getEmail());
@@ -93,8 +150,6 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 			mUser.setMobileNo(Long.valueOf(userMobileNoEditText.getText().toString()));
 			setAuthToken();
 		}
-//				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//						.setAction("Action", null).show();
 	}
 	private void setAuthToken(){
 		mFirebaseUser.getToken(true)
@@ -112,6 +167,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 						showProgressbar(false);
 						// Report Firebase Crash
 						FirebaseCrash.report(e);
+						retrySnackbar();
 					}
 				});
 	}
@@ -127,6 +183,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 				Log.e(TAG, "Failed to get Instance Id");
 				// log Firebase Crash
 				FirebaseCrash.log(Constants.ERROR_INSTANCEID);
+				retrySnackbar();
 			}
 		}
 	}
@@ -137,6 +194,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 		Toast.makeText(getApplicationContext(),Constants.ERROR_REGISTERING_USERINFO,Toast.LENGTH_SHORT).show();
 		// log Firebase Crash
 		FirebaseCrash.log(Constants.ERROR_REGISTERING_USERINFO+message);
+		retrySnackbar();
 	}
 
 	@Override
@@ -152,5 +210,18 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView{
 	@Override
 	public void showProgressbar(boolean show) {
 		progressBar.setVisibility(show?View.VISIBLE:View.GONE);
+		fab.setEnabled(!show);
+	}
+
+	private void retrySnackbar(){
+		Snackbar.make(mContainer, error_registration,Snackbar.LENGTH_LONG)
+				.setAction(action_retry, new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						// retry User Registration
+						onSaveUserInfo();
+					}
+				})
+				.show();
 	}
 }

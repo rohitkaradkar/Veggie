@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
-import com.greentopli.app.user.ui.SignUpActivity;
+import com.greentopli.app.user.ui.UserInfoActivity;
 import com.greentopli.app.user.OnFragmentInteractionListener;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.service.OrderHistoryService;
@@ -101,6 +101,6 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		startActivityForResult(signOutIntent,REQUEST_SIGNOUT);
 	}
 	private void signUp(){
-		startActivityForResult(new Intent(getApplicationContext(), SignUpActivity.class),REQUEST_SIGNUP);
+		startActivityForResult(new Intent(getApplicationContext(), UserInfoActivity.class),REQUEST_SIGNUP);
 	}
 }
