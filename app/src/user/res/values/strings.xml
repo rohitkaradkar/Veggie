@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Green Basket</string>
-    <string name="title_order_history">Order History</string>
     <string name="title_activity_sign_up">Personal Details</string>
     <string name="title_fragment_cartCheckout">Cart Items</string>
     <string name="title_widget">Green Basket</string>
@@ -32,7 +31,8 @@
     <string name="error_not_registered">Submit User Details First</string>
 
     <string name="action_retry">Retry</string>
-    <string name="action_show_user_details">My Profile</string>
+    <string name="menu_show_user_details">My Profile</string>
+    <string name="menu_order_history">Order History</string>
 
     <!--default values-->
     <string name="volume_set_quantity">6</string>

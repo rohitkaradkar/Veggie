@@ -55,6 +55,9 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 			case R.id.menu_order_history:
 				startActivity(new Intent(getApplicationContext(), OrderHistoryActivity.class));
 				return true;
+			case R.id.menu_user_details:
+				Intent intent = new Intent(getApplicationContext(),UserInfoActivity.class);
+				startActivityForResult(intent,100);
 			default:
 				return super.onOptionsItemSelected(item);
 		}
