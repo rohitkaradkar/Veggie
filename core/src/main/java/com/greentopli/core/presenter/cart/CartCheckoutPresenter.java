@@ -60,6 +60,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 					getmMvpView().onCartCheckoutSuccess(
 							userDbHandler.getSignedUserInfo().getEmail()
 					);
+					return;
 				}
 				else
 					getmMvpView().onCartCheckoutFailed(null);
@@ -77,9 +78,9 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 
 	@Override
 	public void detachView() {
-		super.detachView();
 		this.userDbHandler = null;
 		this.dbHandler = null;
+		super.detachView();
 	}
 
 	public void getProductsFromCart(){

@@ -97,6 +97,7 @@ SearchView.OnCloseListener{
 		mSearchView.setOnCloseListener(this);
 		mPresenter = BrowseProductsPresenter.bind(this,getContext());
 		mAnalytics = FirebaseAnalytics.getInstance(getContext());
+		initRecyclerView();
 		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
 		return rootView;
 	}

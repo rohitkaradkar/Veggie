@@ -62,18 +62,6 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	}
 
 	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		mPresenter = CartCheckoutPresenter.bind(this,getContext());
-	}
-
-	@Override
-	public void onDetach() {
-		mPresenter.detachView();
-		super.onDetach();
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
@@ -91,7 +79,6 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		}
 		setHasOptionsMenu(true);
 		initRecyclerView();
-		mPresenter.getProductsFromCart();
 		return rootView;
 	}
 	private void initRecyclerView(){
@@ -104,6 +91,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@Override
 	public void onResume() {
 		super.onResume();
+		//http://stackoverflow.com/a/16617831/2804351
 		// Create handler on Background Thread
 		HandlerThread thread = new HandlerThread(TAG);
 		thread.start();
@@ -118,6 +106,10 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 				);
 		// force execute once
 		contentObserver.updateCartInformation();
+
+		// register presenter
+		mPresenter = CartCheckoutPresenter.bind(this,getContext());
+		mPresenter.getProductsFromCart();
 	}
 
 	@Override
@@ -125,12 +117,14 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		super.onPause();
 		getContext().getContentResolver()
 				.unregisterContentObserver(contentObserver);
+
+		mPresenter.detachView();
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home){
-			getFragmentManager().popBackStack();
+			goBack();
 			return true;
 		}
 		return false;
@@ -145,8 +139,8 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	public void onCartCheckoutSuccess(String user_id) {
 		Log.e(TAG,"Checkout Success");
 		Toast.makeText(getContext(),R.string.message_checkout_success,Toast.LENGTH_SHORT).show();
-		// open activity to list orders
-		startActivity(new Intent(getContext(),OrderHistoryActivity.class));
+		// navigate to Main Screen
+		goBack();
 	}
 
 	@Override
@@ -182,8 +176,9 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 			public void run() {
 				if (total_price>0 && item_count > 0)
 					mToolbar.setSubtitle(String.format(FORMAT_CART_OVERVIEW,total_price,item_count));
-				else
-					getFragmentManager().popBackStack();
+				else{
+					goBack();
+				}
 			}
 		});
 	}
@@ -191,5 +186,16 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@Override
 	public void showProgressbar(boolean show) {
 		progressBar.setVisibility(show?View.VISIBLE:View.GONE);
+	}
+
+	private void goBack(){
+		try {
+			if(getActivity().getSupportFragmentManager().getBackStackEntryCount()>0){
+				getActivity().getSupportFragmentManager().popBackStackImmediate();
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+
 	}
 }
