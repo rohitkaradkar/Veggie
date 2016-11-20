@@ -8,6 +8,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:name=".MyAppClass"
         android:theme="@style/AppTheme"
+        android:icon="@drawable/ic_launcher"
         tools:replace="name">
         <activity android:name=".AuthenticatorActivity"/>
 

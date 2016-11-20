@@ -32,4 +32,10 @@ public final class Constants {
 	public static final String EVENT_CATEGORY_SELECTED = "category_selected";
 	public static final String ITEM_PRICE = "item_price";
 	public static final String ITEM_VOLUME = "item_volume";
+
+	//JSON key
+	public static final String JSON_KEY_DATA = "data";
+	public static final String JSON_KEY_TITLE = "title";
+	public static final String JSON_KEY_MESSAGE= "message";
+
 }
