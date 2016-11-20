@@ -61,6 +61,15 @@ public class UserSignUpPresenter extends BasePresenter<SignUpView> {
 				getmMvpView().showProgressbar(false);
 			}
 		});
-
+	}
+	public void updateInstanceId(String instanceId){
+		User user = userDbHandler.getSignedUserInfo();
+		if (user!=null && !user.getInstanceId().equals(instanceId)){
+			user.setInstanceId(instanceId);
+			// update on server
+			signUp(user);
+		}else {
+			getmMvpView().onSignUpError("Not Updating Instance Id");
+		}
 	}
 }
