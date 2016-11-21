@@ -6,7 +6,7 @@
     android:id="@+id/activity_order_history_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/list_vertical_margin"
+    android:background="@color/colorBackground"
     tools:context="com.greentopli.app.user.ui.OrderHistoryActivity">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/orderHistory_recyclerView"

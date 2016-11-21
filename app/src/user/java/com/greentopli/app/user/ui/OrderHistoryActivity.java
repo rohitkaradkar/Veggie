@@ -1,5 +1,6 @@
 package com.greentopli.app.user.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,8 +9,12 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.greentopli.app.AuthenticatorActivity;
+
 import com.greentopli.app.R;
+import com.greentopli.app.user.ListItemDecoration;
 import com.greentopli.app.user.OrderHistoryAdapter;
+import com.greentopli.core.dbhandler.UserDbHandler;
 import com.greentopli.core.presenter.OrderHistoryPresenter;
 import com.greentopli.core.presenter.OrderHistoryView;
 import com.greentopli.model.OrderHistory;
@@ -29,19 +34,27 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// todo: check auth as user can directly launch this activity
+		if (new UserDbHandler(getApplicationContext()).getSignedUserInfo()==null){
+			// user in not logged
+			Intent signInIntent = new Intent(getApplicationContext(),AuthenticatorActivity.class);
+			startActivityForResult(signInIntent,1000);
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_history);
 		ButterKnife.bind(this);
+		mPresenter = OrderHistoryPresenter.bind(this,getApplicationContext());
+		mRecyclerView.addItemDecoration(new ListItemDecoration(getApplicationContext()));
+	}
+	private void initRecyclerView(){
 		mAdapter = new OrderHistoryAdapter();
+		mRecyclerView.setAdapter(mAdapter);
 		mLayoutManager = new LinearLayoutManager(getApplicationContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
-		mRecyclerView.setAdapter(mAdapter);
-		mPresenter = OrderHistoryPresenter.bind(this,getApplicationContext());
 	}
 
 	@Override
 	public void onHistoryReceived(List<OrderHistory> orderHistoryList) {
+		initRecyclerView();
 		mAdapter.addNewData(orderHistoryList);
 	}
 

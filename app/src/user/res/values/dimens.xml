@@ -5,6 +5,9 @@
     <dimen name="list_horizontal_margin">8dp</dimen>
     <dimen name="list_vertical_margin">8dp</dimen>
 
+    <!--Dynamic dimensions-->
+    <dimen name="list_item_dimensions">360dp</dimen>
+    <!--________________________-->
     <integer name="product_item_text_max_lines">1</integer>
     <integer name="product_list_columns">3</integer>
 
