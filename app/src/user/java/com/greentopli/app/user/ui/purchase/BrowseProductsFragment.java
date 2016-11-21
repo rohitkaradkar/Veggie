@@ -39,6 +39,7 @@ import com.greentopli.model.Product;
 import java.util.List;
 
 import butterknife.BindInt;
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -51,6 +52,7 @@ SearchView.OnCloseListener{
 	@BindView(R.id.default_progressbar) ProgressBar mProgressBar;
 	@BindView(R.id.toolbar_browseProduct_fragment)Toolbar mToolbar;
 	@BindView(R.id.spinner_browse_fragment) Spinner mSpinnerVegetableType;
+	@BindString(R.string.app_name) String mAppName;
 	private ProductAdapter mAdapter;
 	private BrowseProductsPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
@@ -88,7 +90,7 @@ SearchView.OnCloseListener{
 		((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
 		ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
 		if (actionBar!=null){
-			actionBar.setTitle("");
+			actionBar.setTitle(mAppName);
 		}
 		// enable menu options
 		setHasOptionsMenu(true);

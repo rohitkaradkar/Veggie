@@ -12,11 +12,16 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_browseProduct_fragment"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize">
+                android:layout_height="?actionBarSize"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                >
                 <Spinner
+                    android:layout_gravity="end"
                     android:id="@+id/spinner_browse_fragment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="@dimen/toolbar_product_category_spinner_size"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"/>
             </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
     <android.support.v7.widget.RecyclerView

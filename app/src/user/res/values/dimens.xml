@@ -21,6 +21,7 @@
     <dimen name="widget_product_item_icon_size">64dp</dimen>
     <dimen name="image_button_icon_size">24dp</dimen>
     <dimen name="volume_control_width">120dp</dimen>
+    <dimen name="toolbar_product_category_spinner_size">80dp</dimen>
 
     <!--User info form-->
     <dimen name="form_icon_size">24dp</dimen>

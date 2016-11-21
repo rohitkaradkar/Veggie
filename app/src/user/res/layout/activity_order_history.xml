@@ -32,4 +32,5 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:visibility="gone"
         tools:visibility="visible"/>
-</FrameLayout>
+</FrameLayout
+>
