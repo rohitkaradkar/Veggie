@@ -30,8 +30,8 @@
     <style name="FloatingControls">
         <item name="android:layout_gravity">top|end</item>
         <item name="android:visibility">gone</item>
-        <item name="android:layout_marginTop">@dimen/product_item_cardView_margin</item>
-        <item name="android:layout_marginEnd">@dimen/product_item_cardView_margin</item>
+        <item name="android:layout_marginTop">@dimen/product_item_element_margin</item>
+        <item name="android:layout_marginEnd">@dimen/product_item_element_margin</item>
     </style>
     <style name="UserInfoFormIconStyle">
         <item name="android:layout_height">@dimen/image_button_icon_size</item>

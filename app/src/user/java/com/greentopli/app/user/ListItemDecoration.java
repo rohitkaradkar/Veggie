@@ -16,7 +16,7 @@ public class ListItemDecoration extends RecyclerView.ItemDecoration {
 	private int margin;
 
 	public ListItemDecoration(Context context) {
-		this.margin = context.getResources().getDimensionPixelSize(R.dimen.product_item_cardView_margin);
+		this.margin = context.getResources().getDimensionPixelSize(R.dimen.product_item_element_margin);
 	}
 
 	@Override

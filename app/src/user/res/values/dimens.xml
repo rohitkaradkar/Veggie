@@ -5,18 +5,16 @@
     <dimen name="list_horizontal_margin">8dp</dimen>
     <dimen name="list_vertical_margin">8dp</dimen>
 
-    <!--Dynamic dimensions-->
-    <dimen name="list_item_dimensions">360dp</dimen>
-    <!--________________________-->
+
     <integer name="product_item_text_max_lines">1</integer>
     <integer name="product_list_columns">3</integer>
 
     <dimen name="product_item_name_textSize">20sp</dimen>
-    <dimen name="product_item_price_textSize">18sp</dimen>
+    <dimen name="product_item_price_textSize">17sp</dimen>
     <dimen name="product_item_volume_textSize">18sp</dimen>
 
     <dimen name="product_item_cardView_padding">8dp</dimen>
-    <dimen name="product_item_cardView_margin">8dp</dimen>
+    <dimen name="product_item_element_margin">8dp</dimen>
     <dimen name="widget_icon_padding">4dp</dimen>
 
     <dimen name="product_item_icon_size">64dp</dimen>
