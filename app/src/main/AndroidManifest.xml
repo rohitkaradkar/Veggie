@@ -10,7 +10,9 @@
         android:theme="@style/AppTheme"
         android:icon="@drawable/ic_launcher"
         tools:replace="name">
-        <activity android:name=".AuthenticatorActivity"/>
+        <activity
+            android:theme="@style/AppTheme.NoActionBar.Dark"
+            android:name=".AuthenticatorActivity"/>
 
         <provider
             android:name="com.greentopli.core.storage.DatabaseProvider"

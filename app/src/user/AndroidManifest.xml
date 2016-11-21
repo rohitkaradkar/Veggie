@@ -6,7 +6,7 @@
 <application>
     <activity
         android:name="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar.Dark">
         <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>
@@ -26,7 +26,7 @@
     <activity
         android:name="com.greentopli.app.user.ui.UserInfoActivity"
         android:label="@string/title_activity_sign_up"
-        android:theme="@style/AppTheme.NoActionBar" >
+        android:theme="@style/AppTheme.NoActionBar.Dark" >
     </activity>
 
     <!--Product downloader service-->

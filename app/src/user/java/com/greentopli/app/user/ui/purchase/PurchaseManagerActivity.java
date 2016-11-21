@@ -1,13 +1,11 @@
 package com.greentopli.app.user.ui.purchase;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
 import com.greentopli.app.user.ui.UserInfoActivity;
@@ -18,7 +16,7 @@ import com.greentopli.core.service.OrderHistoryService;
 public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 	private static final int REQUEST_SIGNIN = 210;
 	private static final int REQUEST_SIGNOUT = 220;
-	private static final int REQUEST_SIGNUP = 230;
+	private static final int REQUEST_REGISTER_USER_DETAILS = 230;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +24,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		if (!AuthenticatorActivity.isUserSignedIn())
 			signIn();
 		else if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
-			signUp();
+			registerUserDetails();
 
 		setContentView(R.layout.activity_purchase_manager);
 
@@ -78,17 +76,16 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 			if (requestCode == REQUEST_SIGNIN){
 				// request user information
 				if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
-					signUp();
+					registerUserDetails();
 
-				// get Current user mail
-				String user_id = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-				// download User Order history in background
-				OrderHistoryService.start(getApplicationContext());
 			}
 			else if (requestCode == REQUEST_SIGNOUT){
 				signIn();
 			}
-
+			else if (requestCode == REQUEST_REGISTER_USER_DETAILS){
+				// download User Order history in background
+				OrderHistoryService.start(getApplicationContext());
+			}
 		}
 	}
 
@@ -101,7 +98,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		signOutIntent.putExtra(AuthenticatorActivity.EXTRA_SIGNOUT,true);
 		startActivityForResult(signOutIntent,REQUEST_SIGNOUT);
 	}
-	private void signUp(){
-		startActivityForResult(new Intent(getApplicationContext(), UserInfoActivity.class),REQUEST_SIGNUP);
+	private void registerUserDetails(){
+		startActivityForResult(new Intent(getApplicationContext(), UserInfoActivity.class), REQUEST_REGISTER_USER_DETAILS);
 	}
 }

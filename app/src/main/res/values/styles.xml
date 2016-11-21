@@ -9,10 +9,6 @@
 
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
     <style name="Toolbar" parent="">
         <!--Title-->
         <item name="android:textColorPrimary">#fff</item>

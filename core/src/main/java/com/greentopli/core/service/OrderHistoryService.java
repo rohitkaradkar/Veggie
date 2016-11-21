@@ -14,6 +14,7 @@ import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.UserService;
 import com.greentopli.model.EntityList;
 import com.greentopli.model.PurchasedItem;
+import com.greentopli.model.User;
 
 import java.util.Calendar;
 
@@ -78,9 +79,10 @@ public class OrderHistoryService extends IntentService {
 	}
 
 	public static void start(Context context){
+		User user = new UserDbHandler(context).getSignedUserInfo();
 		// verify service is not running already
-		if (!Utils.isMyServiceRunning(OrderHistoryService.class,context)){
-			String userId = new UserDbHandler(context).getSignedUserInfo().getEmail();
+		if (user!=null && !Utils.isMyServiceRunning(OrderHistoryService.class,context)){
+			String userId = user.getEmail();
 			// start service to get new data
 			Intent orderHistoryService = new Intent(context, OrderHistoryService.class);
 			orderHistoryService.setData(Uri.parse(userId));
