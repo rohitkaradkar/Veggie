@@ -12,8 +12,8 @@ public final class Constants {
 	public static final String API_GET_PRODUCT_LIST = "getProductInfoList";
 	public static final String API_DELETE_PRODUCT = "deleteProductInfo";
 
-	public static final String ACTION_ITEMS_PURCHASED =
-			"com.greentopli.app.user.ITEMS_PURCHASED";
+	public static final String ACTION_WIDGET_UPDATE =
+			"com.greentopli.app.user.WIDGET_UPDATE";
 
 	public static final String ACTION_WIDGET_HEADER_CLICK =
 			"com.greentopli.app.user.ACTION_WIDGET_HEADER_CLICK";

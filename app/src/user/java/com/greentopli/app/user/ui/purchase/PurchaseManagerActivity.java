@@ -83,9 +83,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 				// get Current user mail
 				String user_id = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 				// download User Order history in background
-				Intent orderHistoryService = new Intent(getApplicationContext(), OrderHistoryService.class);
-				orderHistoryService.setData(Uri.parse(user_id));
-				startService(orderHistoryService);
+				OrderHistoryService.start(getApplicationContext());
 			}
 			else if (requestCode == REQUEST_SIGNOUT){
 				signIn();

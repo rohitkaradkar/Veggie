@@ -14,9 +14,10 @@
 
     <dimen name="product_item_cardView_padding">8dp</dimen>
     <dimen name="product_item_cardView_margin">8dp</dimen>
+    <dimen name="widget_icon_padding">4dp</dimen>
 
     <dimen name="product_item_icon_size">64dp</dimen>
-    <dimen name="widget_product_item_icon_size">96dp</dimen>
+    <dimen name="widget_product_item_icon_size">64dp</dimen>
     <dimen name="image_button_icon_size">24dp</dimen>
     <dimen name="volume_control_width">120dp</dimen>
 

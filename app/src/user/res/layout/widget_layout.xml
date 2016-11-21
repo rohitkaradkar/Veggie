@@ -15,10 +15,12 @@
         android:layout_height="?android:attr/actionBarSize">
         <ImageView
             android:layout_width="@dimen/product_item_icon_size"
-            android:layout_height="@dimen/product_item_icon_size"
-            android:src="@drawable/ic_photo_default"
-            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/widget_icon_padding"
             android:background="@android:color/transparent"/>
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"

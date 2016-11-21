@@ -26,6 +26,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 	private OrderHistoryPresenter mPresenter;
 	private LinearLayoutManager mLayoutManager;
 	private OrderHistoryAdapter mAdapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// todo: check auth as user can directly launch this activity

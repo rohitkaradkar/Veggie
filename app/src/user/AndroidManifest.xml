@@ -44,7 +44,7 @@
         <intent-filter>
             <!--broadcast actions-->
             <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            <action android:name="com.greentopli.app.user.ITEMS_PURCHASED" />
+            <action android:name="com.greentopli.app.user.WIDGET_UPDATE" />
             <action android:name="com.greentopli.app.user.ACTION_WIDGET_HEADER_CLICK"/>
         </intent-filter>
         <meta-data android:name="android.appwidget.provider"

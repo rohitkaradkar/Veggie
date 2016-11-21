@@ -27,6 +27,7 @@ import com.greentopli.app.user.ProductAdapter;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
 import com.greentopli.core.presenter.cart.CartView;
+import com.greentopli.core.service.OrderHistoryService;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.service.PurchasedItemObserver;
 import com.greentopli.model.Product;
@@ -137,7 +138,8 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 
 	@Override
 	public void onCartCheckoutSuccess(String user_id) {
-		Log.e(TAG,"Checkout Success");
+		// update order history
+		OrderHistoryService.start(getContext());
 		Toast.makeText(getContext(),R.string.message_checkout_success,Toast.LENGTH_SHORT).show();
 		// navigate to Main Screen
 		goBack();

@@ -64,7 +64,7 @@ public class ProductWidgetProvider extends AppWidgetProvider {
 	public void onReceive(Context context, Intent intent) {
 		// receive broadcast when new purchase is made.
 		super.onReceive(context, intent);
-		if (intent.getAction().equals(Constants.ACTION_ITEMS_PURCHASED)){
+		if (intent.getAction().equals(Constants.ACTION_WIDGET_UPDATE)){
 			AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 			int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context,getClass()));
 			// update header

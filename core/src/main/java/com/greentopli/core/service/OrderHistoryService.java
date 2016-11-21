@@ -1,10 +1,15 @@
 package com.greentopli.core.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
+import com.greentopli.Constants;
+import com.greentopli.core.Utils;
 import com.greentopli.core.dbhandler.CartDbHandler;
+import com.greentopli.core.dbhandler.UserDbHandler;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.UserService;
 import com.greentopli.model.EntityList;
@@ -52,6 +57,8 @@ public class OrderHistoryService extends IntentService {
 					}
 					// empty case will be handled by presenter
 					broadcast(ACTION_PROCESSING_COMPLETE);
+					// send broadcast for WidgetUpdate
+					broadcast(Constants.ACTION_WIDGET_UPDATE);
 				}
 
 				@Override
@@ -68,5 +75,16 @@ public class OrderHistoryService extends IntentService {
 		broadcastIntent.setAction(action);
 		sendBroadcast(broadcastIntent);
 		Log.d(TAG,"finished with "+action);
+	}
+
+	public static void start(Context context){
+		// verify service is not running already
+		if (!Utils.isMyServiceRunning(OrderHistoryService.class,context)){
+			String userId = new UserDbHandler(context).getSignedUserInfo().getEmail();
+			// start service to get new data
+			Intent orderHistoryService = new Intent(context, OrderHistoryService.class);
+			orderHistoryService.setData(Uri.parse(userId));
+			context.startService(orderHistoryService);
+		}
 	}
 }

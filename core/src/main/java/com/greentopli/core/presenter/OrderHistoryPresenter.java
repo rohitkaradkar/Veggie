@@ -54,9 +54,6 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 				case OrderHistoryService.ACTION_PROCESSING_COMPLETE:
 					// send new data to Views
 					requestOrderHistory();
-					// send broadcast for WidgetUpdate
-					Intent intentWidgetNotify = new Intent(Constants.ACTION_ITEMS_PURCHASED);
-					context.sendBroadcast(intentWidgetNotify);
 					break;
 				case OrderHistoryService.ACTION_PROCESSING_FAILED:
 					// retry
@@ -72,10 +69,6 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 		getContext().registerReceiver(mBroadcastReceiver,mIntentFilter);
 		// send available data
 		requestOrderHistory();
-		// start service to get new data
-		Intent orderHistoryService = new Intent(getContext(), OrderHistoryService.class);
-		orderHistoryService.setData(Uri.parse(mUserId));
-		getContext().startService(orderHistoryService);
 	}
 
 	@Override
