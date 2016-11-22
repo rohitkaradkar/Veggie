@@ -34,6 +34,15 @@
     <string name="menu_show_user_details">My Profile</string>
     <string name="menu_order_history">Order History</string>
 
+    <!--content description-->
+    <string name="desc_product_image">Product Image</string>
+    <string name="desc_button_volume_up">Increase product volume for this item</string>
+    <string name="desc_button_volume_down">Decrease Product Volume for this item</string>
+    <string name="desc_button_cart_remove_item">Remove this item from cart</string>
+    <string name="desc_button_cart_add_item">Add this item to cart</string>
+    <string name="desc_fab_open_cart">Floating action button open cart</string>
+    <string name="desc_fab_checkout_cart">Floating action button place order for cart items</string>
+    <string name="desc_fab_update_user_info">Floating action button update user information</string>
     <!--default values-->
     <string name="volume_set_quantity">6</string>
     <string name="volume_set_weight">250</string>
