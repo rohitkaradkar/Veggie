@@ -13,6 +13,7 @@
                 android:id="@+id/toolbar_browseProduct_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
                 app:theme="@style/Toolbar"
                 app:popupTheme="@style/Menus">
                 <Spinner
