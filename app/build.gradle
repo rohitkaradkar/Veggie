@@ -6,7 +6,7 @@ android {
         Release_1 {
             keyAlias 'GreenTopli'
             keyPassword 'precious'
-            storeFile file('/home/rnztx/Android/green-topli.jks')
+            storeFile file("$rootDir/appSignIn.jks")
             storePassword 'precious'
         }
     }
@@ -45,25 +45,19 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':core')
-
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:cardview-v7:24.2.1'
-
     compile 'com.google.firebase:firebase-auth:9.8.00'
     compile 'com.google.android.gms:play-services-auth:9.8.00'
     compile 'com.google.firebase:firebase-crash:9.8.00'
     compile 'com.google.firebase:firebase-messaging:9.8.00'
     adminCompile 'com.google.firebase:firebase-storage:9.8.00'
-
     testCompile 'junit:junit:4.12'
-
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
-
     compile 'com.afollestad.material-dialogs:core:0.9.0.2'
-
     compile 'com.github.bumptech.glide:glide:3.7.0'
 }
 apply plugin: 'com.google.gms.google-services'

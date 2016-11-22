@@ -9,6 +9,7 @@
         android:name=".MyAppClass"
         android:theme="@style/AppTheme"
         android:icon="@drawable/ic_launcher"
+        android:supportsRtl="true"
         tools:replace="name">
         <activity
             android:theme="@style/AppTheme.NoActionBar.Dark"
