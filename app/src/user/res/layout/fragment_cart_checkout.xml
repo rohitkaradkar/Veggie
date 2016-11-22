@@ -41,7 +41,9 @@
         android:src="@drawable/ic_done"
         android:contentDescription="@string/desc_fab_checkout_cart"
         android:tint="@color/cardview_light_background"
-        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_horizontal_margin"
+        app:layout_anchor="@id/cartItem_fragment_recyclerView"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_behavior="com.greentopli.app.user.ScrollAwareFabBehavior"
         />
 </android.support.design.widget.CoordinatorLayout>

@@ -8,15 +8,13 @@
     tools:context="com.greentopli.app.user.ui.purchase.BrowseProductsFragment">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_browseProduct_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 app:theme="@style/Toolbar"
-                app:popupTheme="@style/Menus"
-                >
+                app:popupTheme="@style/Menus">
                 <Spinner
                     android:layout_gravity="end"
                     android:id="@+id/spinner_browse_fragment"
@@ -47,7 +45,9 @@
         android:src="@drawable/ic_arrow_forward"
         android:contentDescription="@string/desc_fab_open_cart"
         android:tint="@color/cardview_light_background"
-        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_horizontal_margin"
+        app:layout_anchor="@id/browse_products_recyclerView"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_behavior="com.greentopli.app.user.ScrollAwareFabBehavior"
         />
 </android.support.design.widget.CoordinatorLayout>
