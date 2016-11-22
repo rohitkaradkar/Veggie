@@ -80,13 +80,13 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		}
 		setHasOptionsMenu(true);
 		initRecyclerView();
+		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
 		return rootView;
 	}
 	private void initRecyclerView(){
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART,getContext());
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
-		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
 		mRecyclerView.setAdapter(mAdapter);
 	}
 	@Override

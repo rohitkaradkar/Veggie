@@ -4,6 +4,7 @@
     android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.greentopli.app.user.ui.purchase.CartCheckoutFragment">
     <android.support.design.widget.AppBarLayout
@@ -22,7 +23,6 @@
         android:id="@+id/cartItem_fragment_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
