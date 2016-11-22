@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">32dp</dimen>
+
+
+    <dimen name="list_item_width">400dp</dimen>
+    <dimen name="list_item_elevation_margin">4dp</dimen>
+
+    <dimen name="product_item_name_textSize">22sp</dimen>
+    <dimen name="product_item_price_textSize">18sp</dimen>
+    <dimen name="product_item_volume_textSize">18sp</dimen>
+
+    <dimen name="product_item_view_padding">8dp</dimen>
+    <dimen name="product_item_view_margin">16dp</dimen>
+    <dimen name="product_item_icon_size">64dp</dimen>
+
+    <dimen name="image_button_icon_size">24dp</dimen>
+</resources>

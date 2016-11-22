@@ -46,7 +46,7 @@
         android:src="@drawable/ic_arrow_forward"
         android:contentDescription="@string/desc_fab_open_cart"
         android:tint="@color/cardview_light_background"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/browse_products_recyclerView"
         app:layout_anchorGravity="bottom|end"
         app:layout_behavior="com.greentopli.app.user.ScrollAwareFabBehavior"

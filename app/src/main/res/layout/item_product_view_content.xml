@@ -7,7 +7,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/product_item_cardView_padding"
+        android:padding="@dimen/product_item_view_padding"
         android:gravity="center">
         <ImageView
             android:id="@+id/item_product_image"
@@ -19,7 +19,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/product_item_element_margin">
+            android:layout_marginStart="@dimen/product_item_view_margin">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -68,6 +68,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/darkGrey"
                     android:textSize="@dimen/product_item_volume_textSize"
                     tools:text="0.25 kg"/>
 

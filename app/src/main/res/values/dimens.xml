@@ -8,5 +8,4 @@
     <dimen name="spinner_item_height">46dp</dimen>
     <dimen name="spinner_item_textSize">20sp</dimen>
     <dimen name="spinner_item_padding">4dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 </resources>
