@@ -1,27 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
+    android:id="@+id/item_orderHistory_view_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_orderHistory_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/list_vertical_margin">
-        <TextView
-            android:id="@+id/item_orderHistory_heading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            tools:text="Sunday, 20 Dec 1992"/>
-
-        <TextView
-            android:id="@+id/item_orderHistory_subHeading"
-            android:layout_below="@id/item_orderHistory_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-            tools:text="Rs 586 for 6 items"/>
-    </RelativeLayout>
+    <include layout="@layout/item_order_history_view_content"/>
 </android.support.v7.widget.CardView>

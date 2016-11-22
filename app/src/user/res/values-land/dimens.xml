@@ -4,6 +4,6 @@
     <dimen name="list_item_corner_radius">3dp</dimen>
 
     <!--this is used to preserve elevation of cardView in landscape mode-->
-    <dimen name="list_item_bottom_margin">3dp</dimen>
+    <dimen name="list_item_elevation_margin">3dp</dimen>
 
 </resources>

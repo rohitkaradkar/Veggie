@@ -11,7 +11,7 @@
         android:layout_width="@dimen/list_item_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/list_item_bottom_margin"
+        android:layout_marginBottom="@dimen/list_item_elevation_margin"
         android:elevation="@dimen/cardview_default_elevation"
         tool:cardCornerRadius="@dimen/list_item_corner_radius">
         <include layout="@layout/item_product_view_content"/>

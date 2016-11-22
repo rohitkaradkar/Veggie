@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  */
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder>{
-	private static final String SUBHEAD_FORMAT = "Rs %d for %d items";
+	private static final String SUBHEAD_FORMAT = "₹ %d for %d items";
 	private static final String DATE_FORMAT = "EEE, dd MMM yy";
 	private static Calendar todayDate = Calendar.getInstance();
 	private List<OrderHistory> mOrderHistoryList;
@@ -33,7 +33,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 		private OrderHistory order;
 		// date, total 78 Rs.
-		private static final String TITLE_FORMAT = "%s\t\t\t\t\t\t\t\tRs %d";
+		private static final String TITLE_FORMAT = "%s\t\t\t\t\t\t\t\t₹ %d";
 		@BindView(R.id.item_orderHistory_heading) TextView headingTextView;
 		@BindView(R.id.item_orderHistory_subHeading) TextView subheadingTextView;
 		public ViewHolder(View itemView) {
@@ -48,7 +48,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
 		@Override
 		public void onClick(View v) {
-			if (v.getId() == R.id.item_orderHistory_view){
+			if (v.getId() == R.id.item_orderHistory_view_container){
 
 				ProductAdapter adapter = new ProductAdapter(ProductAdapter.Mode.HISTORY,order.getOrderDate(),v.getContext());
 				adapter.addNewProducts(order.getProducts());
