@@ -123,6 +123,7 @@ SearchView.OnCloseListener{
 		inflater.inflate(R.menu.product_option_menu,menu);
 		// add search bar
 		MenuItem itemSearch = menu.findItem(R.id.menu_search_browse_product);
+
 		MenuItemCompat.setActionView(itemSearch, mSearchView);
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
