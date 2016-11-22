@@ -1,6 +1,7 @@
 package com.greentopli.app.user.ui.purchase;
 
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -94,9 +95,6 @@ SearchView.OnCloseListener{
 		}
 		// enable menu options
 		setHasOptionsMenu(true);
-		mSearchView = new SearchView(getContext());
-		mSearchView.setOnQueryTextListener(this);
-		mSearchView.setOnCloseListener(this);
 		mPresenter = BrowseProductsPresenter.bind(this,getContext());
 		mAnalytics = FirebaseAnalytics.getInstance(getContext());
 		initRecyclerView();
@@ -123,9 +121,21 @@ SearchView.OnCloseListener{
 		inflater.inflate(R.menu.product_option_menu,menu);
 		// add search bar
 		MenuItem itemSearch = menu.findItem(R.id.menu_search_browse_product);
+		SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-		MenuItemCompat.setActionView(itemSearch, mSearchView);
-
+//		MenuItemCompat.setActionView(itemSearch, mSearchView);
+//		mSearchView = new SearchView(getContext());
+		if (itemSearch!=null){
+//			mSearchView = (SearchView) itemSearch.getActionView();
+			mSearchView = (SearchView) MenuItemCompat.getActionView(itemSearch);
+			MenuItemCompat.collapseActionView(itemSearch);
+		}
+		if (mSearchView!=null){
+			mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+			mSearchView.setOnQueryTextListener(this);
+			mSearchView.setOnCloseListener(this);
+		}
+		super.onCreateOptionsMenu(menu,inflater);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
 				R.layout.spinner_row, CommonUtils.getFoodCategories());
 		mSpinnerVegetableType.setAdapter(adapter);
@@ -153,6 +163,18 @@ SearchView.OnCloseListener{
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {}
 		});
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()){
+			case R.id.menu_search_browse_product:
+				return false;
+			default:
+				break;
+		}
+		mSearchView.setOnQueryTextListener(this);
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -196,13 +218,13 @@ SearchView.OnCloseListener{
 	// Search Query Handler
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
 		mPresenter.searchProduct(newText);
-		return false;
+		return true;
 	}
 
 	// On closing SearchBar

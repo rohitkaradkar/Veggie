@@ -4,6 +4,6 @@
     <item android:id="@+id/menu_search_browse_product"
           android:title="@string/text_product_search"
           app:showAsAction="always"
-          android:icon="@drawable/menu_search_view"
-          android:actionViewClass="android.widget.SearchView" />
+          android:icon="@drawable/ic_search"
+          app:actionViewClass="android.support.v7.widget.SearchView" />
 </menu>
