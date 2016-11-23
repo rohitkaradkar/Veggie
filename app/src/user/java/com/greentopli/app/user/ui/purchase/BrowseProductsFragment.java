@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -30,16 +29,14 @@ import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.CommonUtils;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
-import com.greentopli.app.user.ListItemDecoration;
-import com.greentopli.app.user.ProductAdapter;
-import com.greentopli.app.user.OnFragmentInteractionListener;
+import com.greentopli.app.user.tool.ListItemDecoration;
+import com.greentopli.app.user.adapter.ProductAdapter;
 import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
 import com.greentopli.core.presenter.browse.BrowseProductsView;
 import com.greentopli.model.Product;
 
 import java.util.List;
 
-import butterknife.BindInt;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -194,11 +191,6 @@ SearchView.OnCloseListener{
 		// Reinitialise RecyclerView so, it will avoid duplication
 		initRecyclerView();
 		mAdapter.addNewProducts(list);
-	}
-
-	@Override
-	public void onProductDeleted(boolean deleted, String product_id) {
-		//TODO: remove Admin flavor & get rid of this unused function
 	}
 
 	@OnClick(R.id.fab_browse_product_fragment)

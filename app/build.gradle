@@ -33,9 +33,6 @@ android {
         user {
             applicationIdSuffix = ".user"
         }
-        admin {
-            applicationIdSuffix = ".admin"
-        }
     }
 }
 
@@ -53,7 +50,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.8.00'
     compile 'com.google.firebase:firebase-crash:9.8.00'
     compile 'com.google.firebase:firebase-messaging:9.8.00'
-    adminCompile 'com.google.firebase:firebase-storage:9.8.00'
+    
     testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'

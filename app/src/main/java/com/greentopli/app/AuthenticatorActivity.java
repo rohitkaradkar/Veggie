@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.Constants;
-import com.greentopli.core.dbhandler.UserDbHandler;
+import com.greentopli.core.storage.helper.UserDbHelper;
 import com.greentopli.core.presenter.base.MvpView;
 
 import butterknife.BindView;
@@ -178,8 +178,8 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 			mGoogleApiClient.connect(); // wait for connection
 
 			// delete local data
-			UserDbHandler userDbHandler = new UserDbHandler(getApplicationContext());
-			userDbHandler.removeUserInfo();
+			UserDbHelper userDbHelper = new UserDbHelper(getApplicationContext());
+			userDbHelper.removeUserInfo();
 
 			returnActivityResult();
 		}catch (Exception e){
@@ -208,8 +208,8 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	}
 	public static boolean isUserSignedUp(Context context){
 		if (isUserSignedIn()){
-			UserDbHandler userDbHandler = new UserDbHandler(context);
-			return userDbHandler.isUserInfoAvailable(
+			UserDbHelper userDbHelper = new UserDbHelper(context);
+			return userDbHelper.isUserInfoAvailable(
 					FirebaseAuth.getInstance().getCurrentUser().getEmail()
 			);
 		}

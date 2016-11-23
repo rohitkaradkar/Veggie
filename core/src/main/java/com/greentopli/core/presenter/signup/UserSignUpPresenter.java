@@ -3,10 +3,10 @@ package com.greentopli.core.presenter.signup;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.greentopli.core.dbhandler.UserDbHandler;
+import com.greentopli.core.storage.helper.UserDbHelper;
 import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.remote.ServiceGenerator;
-import com.greentopli.core.remote.UserService;
+import com.greentopli.core.remote.BackendConnectionService;
 import com.greentopli.model.BackendResult;
 import com.greentopli.model.User;
 
@@ -19,7 +19,7 @@ import retrofit2.Response;
  */
 
 public class UserSignUpPresenter extends BasePresenter<SignUpView> {
-	private UserDbHandler userDbHandler;
+	private UserDbHelper userDbHelper;
 	private Call<BackendResult> signUpCall;
 
 	public static UserSignUpPresenter bind(SignUpView view, Context context){
@@ -31,11 +31,11 @@ public class UserSignUpPresenter extends BasePresenter<SignUpView> {
 	@Override
 	public void attachView(SignUpView mvpView, Context context) {
 		super.attachView(mvpView, context);
-		userDbHandler = new UserDbHandler(context);
+		userDbHelper = new UserDbHelper(context);
 	}
 
 	public void signUp(@NonNull final User user){
-		UserService service = ServiceGenerator.createService(UserService.class);
+		BackendConnectionService service = ServiceGenerator.createService(BackendConnectionService.class);
 		signUpCall = service.signUpUser(user);
 		signUpCall.enqueue(new Callback<BackendResult>() {
 			@Override
@@ -43,7 +43,7 @@ public class UserSignUpPresenter extends BasePresenter<SignUpView> {
 				// Stored on server
 				if (response.body()!=null && response.body().isResult()){
 					// now store locally
-					if (userDbHandler.storeUserInfo(user)<=0)
+					if (userDbHelper.storeUserInfo(user)<=0)
 						getmMvpView().onSignUpError("Failed to store Locally");
 					else
 						getmMvpView().onSignUpSuccess();
@@ -63,7 +63,7 @@ public class UserSignUpPresenter extends BasePresenter<SignUpView> {
 		});
 	}
 	public void updateInstanceId(String instanceId){
-		User user = userDbHandler.getSignedUserInfo();
+		User user = userDbHelper.getSignedUserInfo();
 		if (user!=null && !user.getInstanceId().equals(instanceId)){
 			user.setInstanceId(instanceId);
 			// update on server

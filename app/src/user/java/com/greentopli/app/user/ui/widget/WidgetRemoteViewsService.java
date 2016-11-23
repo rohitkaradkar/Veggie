@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.greentopli.CommonUtils;
 import com.greentopli.app.R;
-import com.greentopli.core.dbhandler.CartDbHandler;
+import com.greentopli.core.storage.helper.CartDbHelper;
 import com.greentopli.model.Product;
 
 import java.util.List;
@@ -105,9 +105,9 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
 		}
 
 		private void updateDataSet(){
-			CartDbHandler cartDbHandler = new CartDbHandler(mContext);
+			CartDbHelper cartDbHelper = new CartDbHelper(mContext);
 			long date = CommonUtils.getDateExcludingTime();
-			mProducts = cartDbHandler.getProductsFromCart(true,date);
+			mProducts = cartDbHelper.getProductsFromCart(true,date);
 		}
 	}
 }

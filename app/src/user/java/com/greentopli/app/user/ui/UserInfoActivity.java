@@ -30,7 +30,7 @@ import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
-import com.greentopli.core.dbhandler.UserDbHandler;
+import com.greentopli.core.storage.helper.UserDbHelper;
 import com.greentopli.core.presenter.signup.SignUpView;
 import com.greentopli.core.presenter.signup.UserSignUpPresenter;
 import com.greentopli.model.User;
@@ -65,7 +65,7 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 	private UserSignUpPresenter mPresenter;
 	private FirebaseUser mFirebaseUser;
 	private User mUser;
-	private UserDbHandler mUserDbHandler;
+	private UserDbHelper mUserDbHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +76,10 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 		ButterKnife.bind(this);
 		mPresenter = UserSignUpPresenter.bind(this,getApplicationContext());
 		mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-		mUserDbHandler = new UserDbHandler(getApplicationContext());
+		mUserDbHelper = new UserDbHelper(getApplicationContext());
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-		User user = mUserDbHandler.getSignedUserInfo();
+		User user = mUserDbHelper.getSignedUserInfo();
 		if (user!=null){
 			userNameEditText.setText(user.getName());
 			userAddressEditText.setText(user.getAddress());
@@ -104,7 +104,7 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home){
-			User user = mUserDbHandler.getSignedUserInfo();
+			User user = mUserDbHelper.getSignedUserInfo();
 			if (user==null){
 				Toast.makeText(getApplicationContext(), error_not_registered,Toast.LENGTH_LONG)
 						.show();

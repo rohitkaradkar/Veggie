@@ -8,11 +8,11 @@ import android.util.Log;
 
 import com.greentopli.Constants;
 import com.greentopli.core.Utils;
-import com.greentopli.core.dbhandler.CartDbHandler;
-import com.greentopli.core.dbhandler.UserDbHandler;
+import com.greentopli.core.storage.helper.CartDbHelper;
+import com.greentopli.core.storage.helper.UserDbHelper;
 import com.greentopli.core.remote.ServiceGenerator;
-import com.greentopli.core.remote.UserService;
-import com.greentopli.model.EntityList;
+import com.greentopli.core.remote.BackendConnectionService;
+import com.greentopli.model.list.EntityList;
 import com.greentopli.model.PurchasedItem;
 import com.greentopli.model.User;
 
@@ -36,7 +36,7 @@ public class OrderHistoryService extends IntentService {
 		super(OrderHistoryService.class.getSimpleName());
 	}
 
-	CartDbHandler cartDbHandler ;
+	CartDbHelper cartDbHelper;
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		Log.d(TAG,"Started "+ Calendar.getInstance().getTime());
@@ -44,15 +44,15 @@ public class OrderHistoryService extends IntentService {
 
 		if (user_id!=null && !user_id.isEmpty()){
 			broadcast(ACTION_PROCESSING);
-			UserService service = ServiceGenerator.createService(UserService.class);
+			BackendConnectionService service = ServiceGenerator.createService(BackendConnectionService.class);
 			Call<EntityList<PurchasedItem>> call = service.getUserOrderHistory(user_id);
-			cartDbHandler = new CartDbHandler(getApplicationContext());
+			cartDbHelper = new CartDbHelper(getApplicationContext());
 
 			call.enqueue(new Callback<EntityList<PurchasedItem>>() {
 				@Override
 				public void onResponse(Call<EntityList<PurchasedItem>> call, Response<EntityList<PurchasedItem>> response) {
 					if (response.body()!=null && response.body().getItems()!=null && !response.body().getItems().isEmpty()){
-							cartDbHandler.storeOrderHistory(
+							cartDbHelper.storeOrderHistory(
 									response.body().getItems()
 							);
 					}
@@ -79,7 +79,7 @@ public class OrderHistoryService extends IntentService {
 	}
 
 	public static void start(Context context){
-		User user = new UserDbHandler(context).getSignedUserInfo();
+		User user = new UserDbHelper(context).getSignedUserInfo();
 		// verify service is not running already
 		if (user!=null && !Utils.isMyServiceRunning(OrderHistoryService.class,context)){
 			String userId = user.getEmail();

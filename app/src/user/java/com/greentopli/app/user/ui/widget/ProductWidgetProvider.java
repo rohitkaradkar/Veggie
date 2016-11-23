@@ -13,7 +13,7 @@ import com.greentopli.CommonUtils;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
-import com.greentopli.core.dbhandler.CartDbHandler;
+import com.greentopli.core.storage.helper.CartDbHelper;
 
 import java.util.Locale;
 
@@ -36,9 +36,9 @@ public class ProductWidgetProvider extends AppWidgetProvider {
 			views.setRemoteAdapter(R.id.listView_widget_layout,intent);
 
 			// create sub head text
-			CartDbHandler cartDbHandler =new CartDbHandler(context);
+			CartDbHelper cartDbHelper =new CartDbHelper(context);
 			long date = CommonUtils.getDateExcludingTime();
-			Pair<Integer,Integer> countSubtotalPair = cartDbHandler.getOrderSubtotal(date);
+			Pair<Integer,Integer> countSubtotalPair = cartDbHelper.getOrderSubtotal(date);
 			if (countSubtotalPair!=null && countSubtotalPair.first>0 && countSubtotalPair.second>0){
 				int count = countSubtotalPair.first;
 				int totalPrice = countSubtotalPair.second;

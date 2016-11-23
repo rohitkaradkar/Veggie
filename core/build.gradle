@@ -30,7 +30,7 @@ dependencies {
     compile 'com.google.code.findbugs:jsr305:2.0.1'
     testCompile 'junit:junit:4.12'
 
-    compile project(":xyz")
+    compile project(':common')
 
     // Cloud DataStore
     compile 'com.googlecode.objectify:objectify:5.0.5'

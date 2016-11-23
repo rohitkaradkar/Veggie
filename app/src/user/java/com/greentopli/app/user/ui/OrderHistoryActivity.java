@@ -12,11 +12,11 @@ import android.widget.TextView;
 import com.greentopli.app.AuthenticatorActivity;
 
 import com.greentopli.app.R;
-import com.greentopli.app.user.ListItemDecoration;
-import com.greentopli.app.user.OrderHistoryAdapter;
-import com.greentopli.core.dbhandler.UserDbHandler;
-import com.greentopli.core.presenter.OrderHistoryPresenter;
-import com.greentopli.core.presenter.OrderHistoryView;
+import com.greentopli.app.user.tool.ListItemDecoration;
+import com.greentopli.app.user.adapter.OrderHistoryAdapter;
+import com.greentopli.core.storage.helper.UserDbHelper;
+import com.greentopli.core.presenter.history.OrderHistoryPresenter;
+import com.greentopli.core.presenter.history.OrderHistoryView;
 import com.greentopli.model.OrderHistory;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (new UserDbHandler(getApplicationContext()).getSignedUserInfo()==null){
+		if (new UserDbHelper(getApplicationContext()).getSignedUserInfo()==null){
 			// user in not logged
 			Intent signInIntent = new Intent(getApplicationContext(),AuthenticatorActivity.class);
 			startActivityForResult(signInIntent,1000);

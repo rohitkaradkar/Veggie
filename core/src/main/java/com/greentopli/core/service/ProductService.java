@@ -4,10 +4,10 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.greentopli.core.dbhandler.ProductDbHandler;
-import com.greentopli.core.remote.BackendService;
+import com.greentopli.core.storage.helper.ProductDbHelper;
 import com.greentopli.core.remote.ServiceGenerator;
-import com.greentopli.model.EntityList;
+import com.greentopli.core.remote.BackendConnectionService;
+import com.greentopli.model.list.EntityList;
 import com.greentopli.model.Product;
 
 import java.util.Calendar;
@@ -32,8 +32,8 @@ public class ProductService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		BackendService service = ServiceGenerator.createService(BackendService.class);
-		final ProductDbHandler dbHandler = new ProductDbHandler(getApplicationContext());
+		BackendConnectionService service = ServiceGenerator.createService(BackendConnectionService.class);
+		final ProductDbHelper dbHandler = new ProductDbHelper(getApplicationContext());
 		Log.d(TAG,"started "+ Calendar.getInstance().getTime());
 		Call<EntityList<Product>> call = service.getProductInfoList();
 		call.enqueue(new Callback<EntityList<Product>>() {

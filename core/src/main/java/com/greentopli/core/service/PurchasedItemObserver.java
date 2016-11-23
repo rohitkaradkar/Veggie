@@ -5,7 +5,7 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 
-import com.greentopli.core.dbhandler.CartDbHandler;
+import com.greentopli.core.storage.helper.CartDbHelper;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.model.Product;
 
@@ -19,12 +19,12 @@ public class PurchasedItemObserver extends ContentObserver {
 	private static final String TAG = PurchasedItemObserver.class.getSimpleName();
 	private Context context;
 	private Listener listener;
-	CartDbHandler cartDbHandler;
+	CartDbHelper cartDbHelper;
 	public PurchasedItemObserver(Handler handler, Context context, Listener listener) {
 		super(handler);
 		this.context = context;
 		this.listener = listener;
-		cartDbHandler = new CartDbHandler(context);
+		cartDbHelper = new CartDbHelper(context);
 	}
 
 	@Override
@@ -41,8 +41,8 @@ public class PurchasedItemObserver extends ContentObserver {
 	}
 
 	public void updateCartInformation(){
-		int totalOrderPrice = cartDbHandler.getCartSubtotal();
-		List<Product> cartProducts = cartDbHandler.getProductsFromCart(false);
+		int totalOrderPrice = cartDbHelper.getCartSubtotal();
+		List<Product> cartProducts = cartDbHelper.getProductsFromCart(false);
 		if (cartProducts!=null){
 			listener.onCartItemsChanged(totalOrderPrice,cartProducts.size());
 		}
@@ -53,6 +53,7 @@ public class PurchasedItemObserver extends ContentObserver {
 	}
 
 	public interface Listener{
+		//TODO: avoid listener, use broadcast
 		void onCartItemsChanged(int total_price, int item_count);
 	}
 }

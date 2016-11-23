@@ -22,14 +22,14 @@
 
         <!--FCM Service on separate process-->
         <service
-            android:name=".user.notifications.FcmService">
+            android:name=".user.notification.FcmService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
         <!--Firebase instance Id service-->
-        <service android:name=".user.notifications.InstanceIdService">
+        <service android:name=".user.notification.InstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

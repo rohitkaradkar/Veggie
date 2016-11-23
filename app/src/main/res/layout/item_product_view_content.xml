@@ -59,7 +59,6 @@
                     android:layout_height="@dimen/image_button_icon_size"
                     android:scaleType="fitCenter"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:background="@android:color/transparent"/>
 
                 <TextView
@@ -80,7 +79,6 @@
                     android:layout_height="@dimen/image_button_icon_size"
                     android:scaleType="fitCenter"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:background="@android:color/transparent"/>
             </RelativeLayout>
         </RelativeLayout>

@@ -1,7 +1,5 @@
 package com.greentopli.app.user.ui.purchase;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -23,11 +21,10 @@ import android.widget.Toast;
 import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
-import com.greentopli.app.user.ListItemDecoration;
-import com.greentopli.app.user.ProductAdapter;
-import com.greentopli.app.user.ui.OrderHistoryActivity;
-import com.greentopli.core.presenter.cart.CartCheckoutPresenter;
-import com.greentopli.core.presenter.cart.CartView;
+import com.greentopli.app.user.tool.ListItemDecoration;
+import com.greentopli.app.user.adapter.ProductAdapter;
+import com.greentopli.core.presenter.checkout.CartCheckoutPresenter;
+import com.greentopli.core.presenter.checkout.CartView;
 import com.greentopli.core.service.OrderHistoryService;
 import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.service.PurchasedItemObserver;
@@ -46,7 +43,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@BindView(R.id.toolbar_cartCheckout_fragment) Toolbar mToolbar;
 	@BindInt(R.integer.product_list_columns) int mColumnCount;
 
-	private static final String FORMAT_CART_OVERVIEW = "Rs %d for %d items";
+	private static final String FORMAT_CART_OVERVIEW = "₹ %d for %d items";
 	private CartCheckoutPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private ProductAdapter mAdapter;
