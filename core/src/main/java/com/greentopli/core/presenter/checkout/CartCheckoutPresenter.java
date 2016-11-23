@@ -23,7 +23,7 @@ import retrofit2.Response;
 
 public class CartCheckoutPresenter extends BasePresenter<CartView>{
 
-	private Call<BackendResult> checkoutCall;
+	private Call<BackendResult> mCall;
 	private CartDbHelper dbHandler;
 	private UserDbHelper userDbHelper;
 	public CartCheckoutPresenter() {}
@@ -39,7 +39,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 		super.attachView(mvpView, context);
 		dbHandler = new CartDbHelper(context);
 		userDbHelper = new UserDbHelper(context);
-		// TODO: detach view in fragment
+
 	}
 
 	public void checkOutOrders(){
@@ -48,11 +48,14 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 		cartItems.setItems(dbHandler.getPurchasedItemList(false));
 
 		BackendConnectionService service = ServiceGenerator.createService(BackendConnectionService.class);
-		checkoutCall = service.storePurchasedItems(cartItems);
+		mCall = service.storePurchasedItems(cartItems);
 
-		checkoutCall.enqueue(new Callback<BackendResult>() {
+		mCall.enqueue(new Callback<BackendResult>() {
 			@Override
 			public void onResponse(Call<BackendResult> call, Response<BackendResult> response) {
+				if (call.isCanceled())
+					return;
+
 				if (response.body()==null)
 					getmMvpView().onCartCheckoutError("Null Pointer "+call.toString());
 				else if (response.body().isResult()){
@@ -70,6 +73,9 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 
 			@Override
 			public void onFailure(Call<BackendResult> call, Throwable t) {
+				if (call.isCanceled())
+					return;
+
 				getmMvpView().onCartCheckoutError(t.getMessage());
 				getmMvpView().showProgressbar(false);
 			}
@@ -80,6 +86,8 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 	public void detachView() {
 		this.userDbHelper = null;
 		this.dbHandler = null;
+		if (mCall!=null)
+			this.mCall.cancel();
 		super.detachView();
 	}
 

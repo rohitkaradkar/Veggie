@@ -1,6 +1,6 @@
 package com.greentopli.app.user.ui;
 
-import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,14 +9,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.greentopli.app.AuthenticatorActivity;
 
 import com.greentopli.app.R;
 import com.greentopli.app.user.tool.ListItemDecoration;
 import com.greentopli.app.user.adapter.OrderHistoryAdapter;
-import com.greentopli.core.storage.helper.UserDbHelper;
 import com.greentopli.core.presenter.history.OrderHistoryPresenter;
 import com.greentopli.core.presenter.history.OrderHistoryView;
+import com.greentopli.core.service.OrderHistoryService;
 import com.greentopli.model.OrderHistory;
 
 import java.util.List;
@@ -24,26 +23,23 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderHistoryActivity extends AppCompatActivity implements OrderHistoryView {
+public class OrderHistoryActivity extends AppCompatActivity implements OrderHistoryView, SwipeRefreshLayout.OnRefreshListener {
 	@BindView(R.id.orderHistory_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.orderHistory_empty_message) TextView emptyMessage;
 	@BindView(R.id.progressbar_orderHistory_activity) ProgressBar progressBar;
+	@BindView(R.id.order_history_swipeRefreshLayout)SwipeRefreshLayout mSwipeRefreshLayout;
 	private OrderHistoryPresenter mPresenter;
 	private LinearLayoutManager mLayoutManager;
 	private OrderHistoryAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (new UserDbHelper(getApplicationContext()).getSignedUserInfo()==null){
-			// user in not logged
-			Intent signInIntent = new Intent(getApplicationContext(),AuthenticatorActivity.class);
-			startActivityForResult(signInIntent,1000);
-		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_order_history);
 		ButterKnife.bind(this);
 		mPresenter = OrderHistoryPresenter.bind(this,getApplicationContext());
 		mRecyclerView.addItemDecoration(new ListItemDecoration(getApplicationContext()));
+		mSwipeRefreshLayout.setOnRefreshListener(this);
 	}
 	private void initRecyclerView(){
 		mAdapter = new OrderHistoryAdapter();
@@ -56,16 +52,24 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 	public void onHistoryReceived(List<OrderHistory> orderHistoryList) {
 		initRecyclerView();
 		mAdapter.addNewData(orderHistoryList);
+		mSwipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
 	public void onEmpty(boolean show) {
 		emptyMessage.setVisibility(show? View.VISIBLE:View.GONE);
+		mSwipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
 	public void showProgressbar(boolean show) {
+		mSwipeRefreshLayout.setRefreshing(false);
 		progressBar.setVisibility(show? View.VISIBLE:View.GONE);
+	}
+
+	@Override
+	public void onRefresh() {
+		OrderHistoryService.start(getApplicationContext());
 	}
 
 	@Override

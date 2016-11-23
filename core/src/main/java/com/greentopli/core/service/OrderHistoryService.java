@@ -75,7 +75,7 @@ public class OrderHistoryService extends IntentService {
 		Intent broadcastIntent = new Intent();
 		broadcastIntent.setAction(action);
 		sendBroadcast(broadcastIntent);
-		Log.d(TAG,"finished with "+action);
+		Log.d(TAG," status "+action);
 	}
 
 	public static void start(Context context){

@@ -8,19 +8,25 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     tools:context="com.greentopli.app.user.ui.OrderHistoryActivity">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/orderHistory_recyclerView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/order_history_swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/orderHistory_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/orderHistory_empty_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:text="@string/message_empty_orderHistory"
+        android:textSize="@dimen/product_item_name_textSize"
         android:layout_gravity="center"
         android:visibility="gone"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         tools:visibility="visible"/>
 
     <ProgressBar

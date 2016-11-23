@@ -54,7 +54,7 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 					requestOrderHistory();
 					break;
 				case OrderHistoryService.ACTION_PROCESSING_FAILED:
-					// retry
+					requestOrderHistory();
 					break;
 			}
 		}
@@ -76,6 +76,7 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 	}
 
 	private void requestOrderHistory(){
+		getmMvpView().showProgressbar(true);
 		HashMap<Long,Integer> pair = mCartDbHelper.getOrderHistoryDates(mUserId);
 		if (pair.size()==0){
 			getmMvpView().onEmpty(true);
