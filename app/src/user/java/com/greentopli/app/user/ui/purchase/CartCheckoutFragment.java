@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -192,8 +193,15 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 
 	private void goBack(){
 		try {
-			if(getActivity().getSupportFragmentManager().getBackStackEntryCount()>0){
-				getActivity().getSupportFragmentManager().popBackStackImmediate();
+			FragmentManager manager = null;
+			if (getActivity()!=null)
+				manager = getActivity().getSupportFragmentManager();
+			/**
+			 * {@link PurchaseManagerActivity} uses two fragments BrowseProductsFragment & this.
+			 * so I want to make sure that all two fragments are present on Stack.
+			 */
+			if(manager!=null && manager.getBackStackEntryCount()==2){
+				manager.popBackStackImmediate();
 			}
 		}catch (Exception e){
 			e.printStackTrace();
