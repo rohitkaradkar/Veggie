@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity public class Product {
 	public enum Type {
-		ALL, LEAF_VEGETABLE, FRUIT_VEGETABLE, FRUIT, FLOUR, SPROUT
+		ALL, LEAFY, FRUITY
 	}
 	public enum Volume {
 		WEIGHT("gms"), QUANTITY("pcs");
