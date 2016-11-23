@@ -145,16 +145,12 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 
 	@Override
 	public void onCartCheckoutFailed(List<String> failedProductIds) {
-		//TODO: ensure user doesn't add already purchased product in CART &
-		// TODO: remove this method.
 		Log.e(TAG,"Checkout Failed");
 		Toast.makeText(getContext(),R.string.message_duplicate_orders,Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onCartCheckoutError(String error_message) {
-		//TODO: get Exception from presenter & fwd it to Firebase Crash reporting
-		//TODO: change method parameter like, onError(Throwable t)
 		Log.e(TAG,"Checkout Error"+error_message);
 		Toast.makeText(getContext(),R.string.message_checkout_error,Toast.LENGTH_SHORT).show();
 		FirebaseCrash.log(Constants.ERROR_CART_CHECKOUT+error_message);

@@ -219,7 +219,6 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 
 	@Override
 	public void showEmpty(boolean show) {
-		//TODO: Show view is empty
 		mSwipeRefreshLayout.setRefreshing(false);
 		mRecyclerView.setVisibility(show?View.GONE:View.VISIBLE);
 		mEmptyMessage.setVisibility(show?View.VISIBLE:View.GONE);
@@ -251,7 +250,6 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 	@Override
 	public void showProgressbar(boolean show) {
 		mProgressBar.setVisibility(show?View.VISIBLE:View.GONE);
-		//TODO: disable other view
 		mSwipeRefreshLayout.setRefreshing(false);
 	}
 

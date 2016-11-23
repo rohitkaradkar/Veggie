@@ -53,7 +53,6 @@ public class PurchasedItemObserver extends ContentObserver {
 	}
 
 	public interface Listener{
-		//TODO: avoid listener, use broadcast
 		void onCartItemsChanged(int total_price, int item_count);
 	}
 }
