@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public interface BrowseProductsView extends MvpView{
-	void showEmpty();
+	void showEmpty(boolean show);
 	void showError(String message);
 	void showProducts(List<Product> list);
 }

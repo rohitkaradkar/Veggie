@@ -44,7 +44,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 						getmMvpView().showProducts(mProducts);
 					break;
 				case ProductService.ACTION_EMPTY:
-					getmMvpView().showEmpty();
+					getmMvpView().showEmpty(true);
 					break;
 			}
 			getmMvpView().showProgressbar(false);
@@ -73,8 +73,8 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			getmMvpView().showProducts(mProducts);
 			getmMvpView().showProgressbar(false);
 		}else{
-			Intent intentService = new Intent(getContext(),ProductService.class);
-			getContext().startService(intentService);
+			getmMvpView().showEmpty(true);
+			ProductService.start(getContext());
 		}
 	}
 

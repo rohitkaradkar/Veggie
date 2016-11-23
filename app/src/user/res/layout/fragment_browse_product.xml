@@ -23,13 +23,25 @@
                     android:layout_height="wrap_content"/>
             </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/browse_products_recyclerView"
+    <TextView
+        android:id="@+id/browse_products_empty_message_textView"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_empty_product_list"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/browse_products_swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
-        android:clipToPadding="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/browse_products_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            android:clipToPadding="true"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
     <ProgressBar
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/default_progressbar"

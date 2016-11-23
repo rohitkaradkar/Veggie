@@ -32,9 +32,6 @@ dependencies {
 
     compile project(':common')
 
-    // Cloud DataStore
-    compile 'com.googlecode.objectify:objectify:5.0.5'
-
     // Retrofit & OkHttp
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'

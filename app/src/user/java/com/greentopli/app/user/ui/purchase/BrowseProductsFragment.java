@@ -3,9 +3,11 @@ package com.greentopli.app.user.ui.purchase;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -33,6 +36,7 @@ import com.greentopli.app.user.tool.ListItemDecoration;
 import com.greentopli.app.user.adapter.ProductAdapter;
 import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
 import com.greentopli.core.presenter.browse.BrowseProductsView;
+import com.greentopli.core.service.ProductService;
 import com.greentopli.model.Product;
 
 import java.util.List;
@@ -44,12 +48,15 @@ import butterknife.OnClick;
 
 
 public class BrowseProductsFragment extends Fragment implements BrowseProductsView, SearchView.OnQueryTextListener,
-SearchView.OnCloseListener{
+SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener{
 
 	@BindView(R.id.browse_products_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.default_progressbar) ProgressBar mProgressBar;
 	@BindView(R.id.toolbar_browseProduct_fragment)Toolbar mToolbar;
 	@BindView(R.id.spinner_browse_fragment) Spinner mSpinnerVegetableType;
+	@BindView(R.id.browse_products_swipeRefreshLayout) SwipeRefreshLayout mSwipeRefreshLayout;
+	@BindView(R.id.browse_products_empty_message_textView) TextView mEmptyMessage;
+
 	@BindString(R.string.app_name) String mAppName;
 	private ProductAdapter mAdapter;
 	private BrowseProductsPresenter mPresenter;
@@ -94,7 +101,7 @@ SearchView.OnCloseListener{
 		setHasOptionsMenu(true);
 		mPresenter = BrowseProductsPresenter.bind(this,getContext());
 		mAnalytics = FirebaseAnalytics.getInstance(getContext());
-		initRecyclerView();
+		mSwipeRefreshLayout.setOnRefreshListener(this);
 		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
 		return rootView;
 	}
@@ -104,7 +111,7 @@ SearchView.OnCloseListener{
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE,getContext());
 		mRecyclerView.setAdapter(mAdapter);
-
+		showEmpty(false);
 	}
 	@Override
 	public void onDestroy() {
@@ -175,15 +182,18 @@ SearchView.OnCloseListener{
 	}
 
 	@Override
-	public void showEmpty() {
+	public void showEmpty(boolean show) {
 		//TODO: Show view is empty
+		mSwipeRefreshLayout.setRefreshing(false);
+		mRecyclerView.setVisibility(show?View.GONE:View.VISIBLE);
+		mEmptyMessage.setVisibility(show?View.VISIBLE:View.GONE);
 	}
 
 	@Override
 	public void showError(String message) {
-		//TODO: display abstract error.. avoid details
-		Toast.makeText(getContext(),message,Toast.LENGTH_LONG).show();
+		Toast.makeText(getContext(),R.string.error_getting_products,Toast.LENGTH_LONG).show();
 		FirebaseCrash.log(Constants.ERROR_PRODUCT_LOADING+message);
+		mSwipeRefreshLayout.setRefreshing(false);
 	}
 
 	@Override
@@ -191,6 +201,7 @@ SearchView.OnCloseListener{
 		// Reinitialise RecyclerView so, it will avoid duplication
 		initRecyclerView();
 		mAdapter.addNewProducts(list);
+		mSwipeRefreshLayout.setRefreshing(false);
 	}
 
 	@OnClick(R.id.fab_browse_product_fragment)
@@ -205,6 +216,13 @@ SearchView.OnCloseListener{
 	public void showProgressbar(boolean show) {
 		mProgressBar.setVisibility(show?View.VISIBLE:View.GONE);
 		//TODO: disable other view
+		mSwipeRefreshLayout.setRefreshing(false);
+	}
+
+	// On Swipe Refresh layout
+	@Override
+	public void onRefresh() {
+		ProductService.start(getContext());
 	}
 
 	// Search Query Handler

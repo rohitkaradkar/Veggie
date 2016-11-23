@@ -1,9 +1,11 @@
 package com.greentopli.core.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.greentopli.core.Utils;
 import com.greentopli.core.storage.helper.ProductDbHelper;
 import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.remote.BackendConnectionService;
@@ -71,5 +73,12 @@ public class ProductService extends IntentService {
 		broadcastIntent.setAction(action);
 		sendBroadcast(broadcastIntent);
 		Log.d(TAG,"completed with "+action);
+	}
+
+	public static void start(Context context){
+		if (!Utils.isMyServiceRunning(ProductService.class,context)){
+			Intent intentService = new Intent(context,ProductService.class);
+			context.startService(intentService);
+		}
 	}
 }

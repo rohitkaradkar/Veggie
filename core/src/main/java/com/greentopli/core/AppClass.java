@@ -1,7 +1,6 @@
 package com.greentopli.core;
 
 import android.app.Application;
-import android.content.Intent;
 
 import com.facebook.stetho.Stetho;
 import com.greentopli.core.service.ProductService;
@@ -16,7 +15,6 @@ public class AppClass extends Application {
 		super.onCreate();
 		Stetho.initializeWithDefaults(this);
 		// prepare Product list
-		Intent intentProductService = new Intent(getApplicationContext(),ProductService.class);
-		startService(intentProductService);
+		ProductService.start(getApplicationContext());
 	}
 }

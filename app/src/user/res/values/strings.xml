@@ -29,6 +29,8 @@
     <string name="error_mobile_digit">Mobile Number should be of 10 digits</string>
     <string name="error_picCode_digit">Pin Code should be of 6 digits</string>
     <string name="error_not_registered">Submit User Details First</string>
+    <string name="error_getting_products">Error in connection</string>
+    <string name="error_empty_product_list">Empty list! Swipe down to refresh</string>
 
     <string name="action_retry">Retry</string>
     <string name="menu_show_user_details">My Profile</string>

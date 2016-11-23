@@ -82,7 +82,7 @@
                         style="@style/UserInfoFormEditTextStyle"
                         android:id="@+id/user_address_editText"
                         android:hint="@string/hint_address"
-                        android:inputType="textMultiLine"/>
+                        android:inputType="textPostalAddress"/>
                 </TableRow>
                 <TableRow>
                     <View
