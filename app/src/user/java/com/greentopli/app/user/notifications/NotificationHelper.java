@@ -54,6 +54,7 @@ public class NotificationHelper {
 				.setContentText(message)
 				.setContentIntent(onClickIntent) // on click action intent
 				.setDefaults(Notification.DEFAULT_SOUND) // play default notification sound
+				.setPriority(Notification.PRIORITY_HIGH) // make it popup on any screen
 				.build();
 
 		NotificationManager manager = (NotificationManager)mContext

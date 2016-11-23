@@ -20,8 +20,9 @@
             android:authorities="com.greentopli.core.storage"
             android:exported="true"/>
 
-        <!--FCM Notifications-->
-        <service android:name=".user.notifications.FcmService">
+        <!--FCM Service on separate process-->
+        <service
+            android:name=".user.notifications.FcmService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

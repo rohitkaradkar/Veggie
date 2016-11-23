@@ -1,6 +1,7 @@
 package com.greentopli.app.user.notifications;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -14,7 +15,9 @@ import java.util.Map;
  */
 
 public class FcmService extends FirebaseMessagingService {
-	private static final long DELAY_TIME = 5000;
+	private static final String TAG = FcmService.class.getSimpleName();
+	private static final long DELAY_TIME = 1000;
+
 	@Override
 	public void onMessageReceived(RemoteMessage remoteMessage) {
 		final NotificationHelper helper = new NotificationHelper(getApplicationContext());
@@ -28,6 +31,7 @@ public class FcmService extends FirebaseMessagingService {
 		else if (remoteMessage.getData().size()>0){
 			final DataMessage dataMessage = parseMessage(remoteMessage.getData());
 			if (dataMessage!=null && !dataMessage.isEmpty()){
+				Log.e(TAG,dataMessage.getMessage());
 				/**
 				 * Adding some delay to Notification, because -
 				 * Sometimes it executes before Checkout UI is complete
