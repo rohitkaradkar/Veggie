@@ -4,8 +4,12 @@ package com.greentopli.app.user.ui.purchase;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -37,8 +41,12 @@ import com.greentopli.app.user.adapter.ProductAdapter;
 import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
 import com.greentopli.core.presenter.browse.BrowseProductsView;
 import com.greentopli.core.service.ProductService;
+import com.greentopli.core.storage.helper.ProductDbHelper;
+import com.greentopli.core.storage.product.ProductColumns;
+import com.greentopli.core.storage.product.ProductCursor;
 import com.greentopli.model.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindString;
@@ -48,7 +56,7 @@ import butterknife.OnClick;
 
 
 public class BrowseProductsFragment extends Fragment implements BrowseProductsView, SearchView.OnQueryTextListener,
-SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener{
+SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor>{
 
 	@BindView(R.id.browse_products_recyclerView) RecyclerView mRecyclerView;
 	@BindView(R.id.default_progressbar) ProgressBar mProgressBar;
@@ -84,6 +92,27 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener{
 			OnFragmentInteractionListener.class.getSimpleName());
 		}
 	}
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		return new CursorLoader(getContext(), ProductColumns.CONTENT_URI,null,null,null,null);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+		ProductDbHelper dbHelper = new ProductDbHelper(getContext());
+		ProductCursor cursor = new ProductCursor(data);
+		List<Product> products = new ArrayList<>();
+		while (cursor.moveToNext()){
+			products.add(dbHelper.getProductFromCursor(cursor));
+		}
+		cursor.close();
+		if (products.size()>0){
+			showProducts(products);
+		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -182,6 +211,13 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener{
 	}
 
 	@Override
+	public void onProductServiceFinished() {
+		LoaderManager manager = getActivity().getSupportLoaderManager();
+		manager.restartLoader(0,null,this);
+		manager.initLoader(0,null,this);
+	}
+
+	@Override
 	public void showEmpty(boolean show) {
 		//TODO: Show view is empty
 		mSwipeRefreshLayout.setRefreshing(false);
@@ -243,5 +279,4 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener{
 		mPresenter.getProductItems();
 		return false;
 	}
-
 }

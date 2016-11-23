@@ -13,4 +13,5 @@ public interface BrowseProductsView extends MvpView{
 	void showEmpty(boolean show);
 	void showError(String message);
 	void showProducts(List<Product> list);
+	void onProductServiceFinished();
 }

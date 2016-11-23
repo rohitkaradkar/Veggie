@@ -70,7 +70,8 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 		//Sends Product list to View
 		getmMvpView().showProgressbar(true);
 		if (mProducts.size()>0) {
-			getmMvpView().showProducts(mProducts);
+//			getmMvpView().showProducts(mProducts);
+			getmMvpView().onProductServiceFinished();
 			getmMvpView().showProgressbar(false);
 		}else{
 			getmMvpView().showEmpty(true);
