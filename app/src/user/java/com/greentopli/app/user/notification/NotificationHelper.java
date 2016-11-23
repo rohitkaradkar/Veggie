@@ -11,6 +11,9 @@ import android.support.v4.app.NotificationCompat;
 
 import com.greentopli.app.R;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
+import com.greentopli.core.service.OrderHistoryService;
+import com.greentopli.core.storage.helper.CartDbHelper;
+import com.greentopli.core.storage.helper.UserDbHelper;
 
 import java.util.Calendar;
 
@@ -58,5 +61,13 @@ public class NotificationHelper {
 		NotificationManager manager = (NotificationManager)mContext
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		manager.notify(ID_PRODUCT_DELIVERED,notification);
+
+		// something Goes wrong & Cart is not updated
+		CartDbHelper helper = new CartDbHelper(mContext);
+		if (helper.getProductIdsFromCart(false).size()>0){
+			helper.clearCartItems();
+			OrderHistoryService.start(mContext);
+		}
+
 	}
 }

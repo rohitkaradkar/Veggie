@@ -16,6 +16,7 @@ import com.greentopli.app.R;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.app.user.ui.purchase.PurchaseManagerActivity;
 import com.greentopli.core.storage.helper.CartDbHelper;
+import com.greentopli.core.storage.helper.UserDbHelper;
 
 import java.util.Locale;
 
@@ -75,7 +76,7 @@ public class ProductWidgetProvider extends AppWidgetProvider {
 			appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds,R.id.listView_widget_layout);
 		}
 		else if (intent.getAction().equals(Constants.ACTION_WIDGET_HEADER_CLICK)){
-			if (AuthenticatorActivity.isUserSignedIn()){
+			if (new UserDbHelper(context).getSignedUserInfo()!=null){
 				// on widget header click
 				Intent orderHistoryIntent = new Intent(context, OrderHistoryActivity.class);
 				orderHistoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
