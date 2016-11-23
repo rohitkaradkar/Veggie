@@ -42,4 +42,6 @@
     <dimen name="widget_min_height">250dp</dimen>
     <dimen name="widget_min_resize_width">180dp</dimen>
     <dimen name="widget_min_resize_height">90dp</dimen>
+
+    <integer name="slide_transition_time">350</integer>
 </resources>
