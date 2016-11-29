@@ -84,6 +84,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	protected void onStop() {
 		super.onStop();
 		mAuth.removeAuthStateListener(this);
+		mGoogleApiClient.disconnect();
 	}
 
 	@Override
