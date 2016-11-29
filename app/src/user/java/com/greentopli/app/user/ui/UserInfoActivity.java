@@ -104,17 +104,26 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home){
-			User user = mUserDbHelper.getSignedUserInfo();
-			if (user==null){
-				Toast.makeText(getApplicationContext(), error_not_registered,Toast.LENGTH_LONG)
-						.show();
-			}else
-				onSignUpSuccess();
+			validateRegistration();
 			return true;
 		}
 		return false;
 	}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		setResult(RESULT_CANCELED);
+	}
+
+	private void validateRegistration(){
+		User user = mUserDbHelper.getSignedUserInfo();
+		if (user==null){
+			Toast.makeText(getApplicationContext(), error_not_registered,Toast.LENGTH_LONG)
+					.show();
+		}else
+			onSignUpSuccess();
+	}
 	private boolean isInputValidated() {
 		boolean valid = true;
 //		If any field is empty
@@ -131,8 +140,8 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 			valid = false;
 		}
 //		pin code should be of 6 digit
-		int lenght_pin = userPinCodeEditText.getText().length();
-		if (lenght_pin > 6 || lenght_pin < 6){
+		int length_pin = userPinCodeEditText.getText().length();
+		if (length_pin > 6 || length_pin < 6){
 			userPinCodeEditText.setError(error_pinCode_digit);
 			valid = false;
 		}

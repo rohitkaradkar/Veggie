@@ -25,10 +25,11 @@
     <string name="message_empty_orderHistory"> No Orders Placed Yet !\nSwipe down to refresh</string>
 
     <string name="error_registration">Failed To Register</string>
+    <string name="error_not_signed_in">You must sign in to use this app</string>
     <string name="error_empty_field">Empty Field Not Allowed</string>
-    <string name="error_mobile_digit">Mobile Number should be of 10 digits</string>
+    <string name="error_mobile_digit">Mobile number should be of 10 digits</string>
     <string name="error_picCode_digit">Pin Code should be of 6 digits</string>
-    <string name="error_not_registered">Submit User Details First</string>
+    <string name="error_not_registered">Submit user details first</string>
     <string name="error_getting_products">Product service error</string>
     <string name="error_empty_product_list">Empty list! Swipe down to refresh</string>
 

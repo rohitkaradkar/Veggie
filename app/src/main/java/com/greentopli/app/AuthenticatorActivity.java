@@ -44,12 +44,14 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener, MvpView,
 	GoogleApiClient.ConnectionCallbacks{
 	private GoogleApiClient mGoogleApiClient;
+
 	private static final int RC_SIGN_IN = 9015;
 	public static final String EXTRA_SIGNOUT = "signout_request";
 	private FirebaseAuth mAuth;
 	private static final String TAG = AuthenticatorActivity.class.getSimpleName();
-	@BindView(R.id.default_progressbar)ProgressBar progressBar;
-	@BindView(R.id.button_sign_in) SignInButton signInButton;
+	@BindView(R.id.default_progressbar)ProgressBar mProgressBar;
+	@BindView(R.id.button_sign_in) SignInButton mSignInButton;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -150,10 +152,8 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 
 	@Override
 	public void showProgressbar(boolean show) {
-		if (show)
-			progressBar.setVisibility(View.VISIBLE);
-		else
-			progressBar.setVisibility(View.GONE);
+		mProgressBar.setVisibility(show?View.VISIBLE:View.GONE);
+		mSignInButton.setEnabled(!show);
 	}
 
 	@OnClick(R.id.button_sign_in)
@@ -204,10 +204,16 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	@Override
 	public void onConnectionSuspended(int i) {}
 
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		setResult(RESULT_CANCELED);
+	}
+
 	public static boolean isUserSignedIn(){
 		return FirebaseAuth.getInstance().getCurrentUser()!=null;
 	}
-	public static boolean isUserSignedUp(Context context){
+	public static boolean isUserInfoRegistered(Context context){
 		if (isUserSignedIn()){
 			UserDbHelper userDbHelper = new UserDbHelper(context);
 			return userDbHelper.isUserInfoAvailable(

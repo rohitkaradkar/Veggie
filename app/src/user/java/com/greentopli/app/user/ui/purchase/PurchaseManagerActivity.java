@@ -1,10 +1,12 @@
 package com.greentopli.app.user.ui.purchase;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
@@ -16,13 +18,14 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 	private static final int REQUEST_SIGNIN = 210;
 	private static final int REQUEST_SIGNOUT = 220;
 	private static final int REQUEST_REGISTER_USER_DETAILS = 230;
-
+	private Context mContext;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = getApplicationContext();
 		if (!AuthenticatorActivity.isUserSignedIn())
 			signIn();
-		else if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
+		else if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext()))
 			registerUserDetails();
 
 		setContentView(R.layout.activity_purchase_manager);
@@ -50,11 +53,11 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 				signOut();
 				return true;
 			case R.id.menu_order_history:
-				startActivity(new Intent(getApplicationContext(), OrderHistoryActivity.class));
+				startActivity(new Intent(mContext, OrderHistoryActivity.class));
 				return true;
 			case R.id.menu_user_details:
-				Intent intent = new Intent(getApplicationContext(),UserInfoActivity.class);
-				startActivityForResult(intent,100);
+				Intent intent = new Intent(mContext,UserInfoActivity.class);
+				startActivityForResult(intent,REQUEST_REGISTER_USER_DETAILS);
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -77,7 +80,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		if (resultCode == RESULT_OK){
 			if (requestCode == REQUEST_SIGNIN){
 				// request user information
-				if (!AuthenticatorActivity.isUserSignedUp(getApplicationContext()))
+				if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext()))
 					registerUserDetails();
 
 			}
@@ -87,6 +90,19 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 			else if (requestCode == REQUEST_REGISTER_USER_DETAILS){
 				// download User Order history in background
 				OrderHistoryService.start(getApplicationContext());
+			}
+		}else if (resultCode == RESULT_CANCELED){
+			// user probably pressed back button in Activity
+			if (!AuthenticatorActivity.isUserSignedIn()){
+				Toast.makeText(mContext,R.string.error_not_signed_in,Toast.LENGTH_LONG).show();
+				startActivityForResult(new Intent(mContext,AuthenticatorActivity.class)
+						,REQUEST_SIGNIN);
+				return;
+			}
+			if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())){
+				Toast.makeText(mContext,R.string.error_not_registered,Toast.LENGTH_LONG).show();
+				startActivityForResult(new Intent(mContext,UserInfoActivity.class)
+						,REQUEST_REGISTER_USER_DETAILS);
 			}
 		}
 	}
@@ -101,6 +117,6 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		startActivityForResult(signOutIntent,REQUEST_SIGNOUT);
 	}
 	private void registerUserDetails(){
-		startActivityForResult(new Intent(getApplicationContext(), UserInfoActivity.class), REQUEST_REGISTER_USER_DETAILS);
+		startActivityForResult(new Intent(mContext, UserInfoActivity.class), REQUEST_REGISTER_USER_DETAILS);
 	}
 }
