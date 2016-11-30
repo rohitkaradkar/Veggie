@@ -17,16 +17,18 @@ import com.greentopli.core.service.OrderHistoryService;
 public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 	private static final int REQUEST_SIGNIN = 210;
 	private static final int REQUEST_SIGNOUT = 220;
-	private static final int REQUEST_REGISTER_USER_DETAILS = 230;
+	private static final int REQUEST_USER_DETAILS = 230;
 	private Context mContext;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = getApplicationContext();
-		if (!AuthenticatorActivity.isUserSignedIn())
+		if (!AuthenticatorActivity.isUserSignedIn()) {
 			signIn();
-		else if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext()))
+		}
+		else if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())){
 			registerUserDetails();
+		}
 
 		setContentView(R.layout.activity_purchase_manager);
 
@@ -57,7 +59,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 				return true;
 			case R.id.menu_user_details:
 				Intent intent = new Intent(mContext,UserInfoActivity.class);
-				startActivityForResult(intent,REQUEST_REGISTER_USER_DETAILS);
+				startActivityForResult(intent, REQUEST_USER_DETAILS);
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -87,7 +89,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 			else if (requestCode == REQUEST_SIGNOUT){
 				signIn();
 			}
-			else if (requestCode == REQUEST_REGISTER_USER_DETAILS){
+			else if (requestCode == REQUEST_USER_DETAILS){
 				// download User Order history in background
 				OrderHistoryService.start(getApplicationContext());
 			}
@@ -102,7 +104,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 			if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())){
 				Toast.makeText(mContext,R.string.error_not_registered,Toast.LENGTH_LONG).show();
 				startActivityForResult(new Intent(mContext,UserInfoActivity.class)
-						,REQUEST_REGISTER_USER_DETAILS);
+						, REQUEST_USER_DETAILS);
 			}
 		}
 	}
@@ -117,6 +119,6 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 		startActivityForResult(signOutIntent,REQUEST_SIGNOUT);
 	}
 	private void registerUserDetails(){
-		startActivityForResult(new Intent(mContext, UserInfoActivity.class), REQUEST_REGISTER_USER_DETAILS);
+		startActivityForResult(new Intent(mContext, UserInfoActivity.class), REQUEST_USER_DETAILS);
 	}
 }

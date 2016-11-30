@@ -154,13 +154,16 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		mRestoredScrollPosition = ((LinearLayoutManager) mLayoutManager).findFirstCompletelyVisibleItemPosition();
-		if (mRestoredScrollPosition >0)
-			outState.putInt(KEY_SCROLL_POSITION, mRestoredScrollPosition);
 
-		if (!mSearchView.getQuery().toString().isEmpty())
+		if (mLayoutManager!=null){
+			mRestoredScrollPosition = ((LinearLayoutManager) mLayoutManager).findFirstCompletelyVisibleItemPosition();
+			if (mRestoredScrollPosition >0)
+				outState.putInt(KEY_SCROLL_POSITION, mRestoredScrollPosition);
+		}
+
+		if (mSearchView!=null && !mSearchView.getQuery().toString().isEmpty())
 			outState.putString(KEY_SEARCH_QUERY,mSearchView.getQuery().toString());
-		else if (mSpinnerVegetableType.getSelectedItemPosition()>0)
+		else if (mSpinnerVegetableType!=null && mSpinnerVegetableType.getSelectedItemPosition()>0)
 			outState.putInt(KEY_CATEGORY_POSITION,mSpinnerVegetableType.getSelectedItemPosition());
 
 		super.onSaveInstanceState(outState);
@@ -304,6 +307,7 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 	}
 	@Override
 	public void showProgressbar(boolean show) {
+		showEmpty(false);
 		mProgressBar.setVisibility(show?View.VISIBLE:View.GONE);
 		mSwipeRefreshLayout.setRefreshing(false);
 	}

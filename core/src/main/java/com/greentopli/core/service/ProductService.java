@@ -38,34 +38,28 @@ public class ProductService extends IntentService {
 		final ProductDbHelper dbHandler = new ProductDbHelper(getApplicationContext());
 		Log.d(TAG,"started "+ Calendar.getInstance().getTime());
 		Call<EntityList<Product>> call = service.getProductInfoList();
-		call.enqueue(new Callback<EntityList<Product>>() {
-			@Override
-			public void onResponse(Call<EntityList<Product>> call, Response<EntityList<Product>> response) {
-				if (response.body()!=null && response.body().getItems()!=null){
 
-					// we get Items
-					if (response.body().getItems().size()>0) {
-						// store to database
-						dbHandler.storeProducts(response.body().getItems());
-						broadcast(ACTION_SUCCESS);
-					}
-					else{ // server sends empty list
-						Log.e(TAG,"Empty product list");
-						broadcast(ACTION_EMPTY);
-					}
+		try {
+			Response<EntityList<Product>> response = call.execute();
+			if (response.body()!=null && response.body().getItems()!=null){
+				// we get Items
+				if (response.body().getItems().size()>0) {
+					// store to database
+					dbHandler.storeProducts(response.body().getItems());
+					broadcast(ACTION_SUCCESS);
 				}
-				else{// bad response
-					Log.e(TAG,"Bad response "+response.errorBody());
-					broadcast(ACTION_ERROR);
+				else{ // server sends empty list
+					Log.e(TAG,"Empty product list");
+					broadcast(ACTION_EMPTY);
 				}
-			}
-
-			@Override
-			public void onFailure(Call<EntityList<Product>> call, Throwable t) {
-				Log.e(TAG,"Connection Error "+t.getMessage());
+			}else{// bad response
+				Log.e(TAG,"Bad response "+response.errorBody());
 				broadcast(ACTION_ERROR);
 			}
-		});
+		}catch (Exception e){
+			e.printStackTrace();
+			broadcast(ACTION_ERROR);
+		}
 	}
 
 	private void broadcast(String action){

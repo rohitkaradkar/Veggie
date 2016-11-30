@@ -48,26 +48,23 @@ public class OrderHistoryService extends IntentService {
 			Call<EntityList<PurchasedItem>> call = service.getUserOrderHistory(user_id);
 			cartDbHelper = new CartDbHelper(getApplicationContext());
 
-			call.enqueue(new Callback<EntityList<PurchasedItem>>() {
-				@Override
-				public void onResponse(Call<EntityList<PurchasedItem>> call, Response<EntityList<PurchasedItem>> response) {
-					if (response.body()!=null && response.body().getItems()!=null && !response.body().getItems().isEmpty()){
-							cartDbHelper.storeOrderHistory(
-									response.body().getItems()
-							);
-					}
-					// empty case will be handled by presenter
-					broadcast(ACTION_PROCESSING_COMPLETE);
-					// send broadcast for WidgetUpdate
-					broadcast(Constants.ACTION_WIDGET_UPDATE);
+			try {
+				// no need to enqueue as we are on Background thread
+				Response<EntityList<PurchasedItem>> response = call.execute();
+				if (response!=null && response.body()!=null
+						&& response.body().getItems()!=null && !response.body().getItems().isEmpty()){
+					cartDbHelper.storeOrderHistory(
+							response.body().getItems()
+					);
 				}
-
-				@Override
-				public void onFailure(Call<EntityList<PurchasedItem>> call, Throwable t) {
-					broadcast(ACTION_PROCESSING_FAILED);
-					t.printStackTrace();
-				}
-			});
+				// empty case will be handled by presenter
+				broadcast(ACTION_PROCESSING_COMPLETE);
+				// send broadcast for WidgetUpdate
+				broadcast(Constants.ACTION_WIDGET_UPDATE);
+			}catch (Exception e){
+				e.printStackTrace();
+				broadcast(ACTION_PROCESSING_FAILED);
+			}
 		}
 	}
 

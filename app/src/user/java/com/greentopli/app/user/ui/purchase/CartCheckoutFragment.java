@@ -3,6 +3,7 @@ package com.greentopli.app.user.ui.purchase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -42,6 +43,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@BindView(R.id.progressbar_cartCheckout_fragment) ProgressBar progressBar;
 	@BindView(R.id.toolbar_cartCheckout_fragment) Toolbar mToolbar;
 	@BindInt(R.integer.product_list_columns) int mColumnCount;
+	@BindView(R.id.fab_cart_items_fragment) FloatingActionButton mFab;
 
 	private static final String FORMAT_CART_OVERVIEW = "₹ %d for %d items";
 	private CartCheckoutPresenter mPresenter;
@@ -182,6 +184,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	@Override
 	public void showProgressbar(boolean show) {
 		progressBar.setVisibility(show?View.VISIBLE:View.GONE);
+		mFab.setEnabled(!show);
 	}
 
 	private void goBack(){

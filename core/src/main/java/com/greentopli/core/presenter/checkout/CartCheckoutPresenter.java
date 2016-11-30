@@ -56,8 +56,9 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 				if (call.isCanceled())
 					return;
 
-				if (response.body()==null)
+				if (response.body()==null){
 					getmMvpView().onCartCheckoutError("Null Pointer "+call.toString());
+				}
 				else if (response.body().isResult()){
 					dbHandler.clearCartItems();
 					getmMvpView().onCartCheckoutSuccess(
