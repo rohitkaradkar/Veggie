@@ -200,11 +200,8 @@ public class CartCheckoutFragment extends Fragment implements CartView, Purchase
 			FragmentManager manager = null;
 			if (getActivity() != null)
 				manager = getActivity().getSupportFragmentManager();
-			/**
-			 * {@link PurchaseManagerActivity} uses two fragments BrowseProductsFragment & this.
-			 * so I want to make sure that all two fragments are present on Stack.
-			 */
-			if (manager != null && manager.getBackStackEntryCount() == 2) {
+
+			if (manager != null && manager.getBackStackEntryCount() == 1) {
 				manager.popBackStackImmediate();
 			}
 		} catch (Exception e) {
