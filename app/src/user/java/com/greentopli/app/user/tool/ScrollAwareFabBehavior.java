@@ -1,4 +1,5 @@
 package com.greentopli.app.user.tool;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
@@ -17,11 +18,11 @@ public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
 	}
 
 	@Override
-	public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout,FloatingActionButton child,
-	                                   View directTargetChild,View target, int nestedScrollAxes) {
+	public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child,
+	                                   View directTargetChild, View target, int nestedScrollAxes) {
 		// check for vertical scrolling
 		return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL ||
-				super.onStartNestedScroll(coordinatorLayout, child,directTargetChild, target, nestedScrollAxes);
+				super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
 	}
 
 	@Override
@@ -29,22 +30,22 @@ public class ScrollAwareFabBehavior extends FloatingActionButton.Behavior {
 	                           View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
 		super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
 
-		if (dyConsumed>0 && child.getVisibility()==View.VISIBLE) // scrolling down
-			animate(child,false);
-		else if (dyConsumed < 0 && child.getVisibility()!=View.VISIBLE) // scrolling up
-			animate(child,true);
+		if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) // scrolling down
+			animate(child, false);
+		else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) // scrolling up
+			animate(child, true);
 	}
 
-	private void animate(final FloatingActionButton button, final boolean show){
+	private void animate(final FloatingActionButton button, final boolean show) {
 
 		button.animate()
-				.translationY(show?1:button.getHeight())
+				.translationY(show ? 1 : button.getHeight())
 				.alpha(1.0f)
 				.setListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationEnd(Animator animation) {
 						super.onAnimationEnd(animation);
-						button.setVisibility(show?View.VISIBLE:View.GONE);
+						button.setVisibility(show ? View.VISIBLE : View.GONE);
 					}
 				});
 	}

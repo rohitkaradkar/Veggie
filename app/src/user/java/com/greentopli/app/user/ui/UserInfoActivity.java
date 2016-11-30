@@ -30,9 +30,9 @@ import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
-import com.greentopli.core.storage.helper.UserDbHelper;
 import com.greentopli.core.presenter.signup.SignUpView;
 import com.greentopli.core.presenter.signup.UserSignUpPresenter;
+import com.greentopli.core.storage.helper.UserDbHelper;
 import com.greentopli.model.User;
 
 import java.util.List;
@@ -43,24 +43,38 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class UserInfoActivity extends AppCompatActivity implements SignUpView{
+public class UserInfoActivity extends AppCompatActivity implements SignUpView {
 	private static final String TAG = UserInfoActivity.class.getSimpleName();
-	@BindView(R.id.container_userInfo_activity) CoordinatorLayout mContainer;
-	@BindView(R.id.fab_userInfo_activity) FloatingActionButton fab;
-	@BindView(R.id.user_avatar) ImageView avatarImageView;
-	@BindView(R.id.user_name_editText)EditText userNameEditText;
-	@BindView(R.id.user_address_editText)EditText userAddressEditText;
-	@BindView(R.id.user_pinCode_editText)EditText userPinCodeEditText;
-	@BindView(R.id.user_mobileNo_editText)EditText userMobileNoEditText;
-	@BindView(R.id.progressbar_signUp_activity) ProgressBar progressBar;
-	@BindViews({R.id.user_name_editText,R.id.user_address_editText,R.id.user_pinCode_editText,R.id.user_mobileNo_editText})
+	@BindView(R.id.container_userInfo_activity)
+	CoordinatorLayout mContainer;
+	@BindView(R.id.fab_userInfo_activity)
+	FloatingActionButton fab;
+	@BindView(R.id.user_avatar)
+	ImageView avatarImageView;
+	@BindView(R.id.user_name_editText)
+	EditText userNameEditText;
+	@BindView(R.id.user_address_editText)
+	EditText userAddressEditText;
+	@BindView(R.id.user_pinCode_editText)
+	EditText userPinCodeEditText;
+	@BindView(R.id.user_mobileNo_editText)
+	EditText userMobileNoEditText;
+	@BindView(R.id.progressbar_signUp_activity)
+	ProgressBar progressBar;
+	@BindViews({R.id.user_name_editText, R.id.user_address_editText, R.id.user_pinCode_editText, R.id.user_mobileNo_editText})
 	List<EditText> signUpViews;
-	@BindString(R.string.error_empty_field)String error_empty;
-	@BindString(R.string.error_mobile_digit)String error_mobile_digit;
-	@BindString(R.string.error_picCode_digit)String error_pinCode_digit;
-	@BindString(R.string.error_registration)String error_registration;
-	@BindString(R.string.error_not_registered) String error_not_registered;
-	@BindString(R.string.action_retry)String action_retry;
+	@BindString(R.string.error_empty_field)
+	String error_empty;
+	@BindString(R.string.error_mobile_digit)
+	String error_mobile_digit;
+	@BindString(R.string.error_picCode_digit)
+	String error_pinCode_digit;
+	@BindString(R.string.error_registration)
+	String error_registration;
+	@BindString(R.string.error_not_registered)
+	String error_not_registered;
+	@BindString(R.string.action_retry)
+	String action_retry;
 
 	private UserSignUpPresenter mPresenter;
 	private FirebaseUser mFirebaseUser;
@@ -74,36 +88,36 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		ButterKnife.bind(this);
-		mPresenter = UserSignUpPresenter.bind(this,getApplicationContext());
+		mPresenter = UserSignUpPresenter.bind(this, getApplicationContext());
 		mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 		mUserDbHelper = new UserDbHelper(getApplicationContext());
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		User user = mUserDbHelper.getSignedUserInfo();
-		if (user!=null){
+		if (user != null) {
 			userNameEditText.setText(user.getName());
 			userAddressEditText.setText(user.getAddress());
 			userPinCodeEditText.setText(String.valueOf(user.getPincode()));
 			userMobileNoEditText.setText(String.valueOf(user.getMobileNo()));
-		}
-		else
+		} else
 			userNameEditText.setText(mFirebaseUser.getDisplayName());
 
 		Glide.with(getApplicationContext())
 				.load(mFirebaseUser.getPhotoUrl())
-				.asBitmap().into(new BitmapImageViewTarget(avatarImageView){
+				.asBitmap().into(new BitmapImageViewTarget(avatarImageView) {
 			// refer : http://stackoverflow.com/a/32390715/2804351
 			@Override
 			protected void setResource(Bitmap resource) {
-				RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(),resource);
+				RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
 				drawable.setCircular(true);
 				avatarImageView.setImageDrawable(drawable);
 			}
 		});
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home){
+		if (item.getItemId() == android.R.id.home) {
 			validateRegistration();
 			return true;
 		}
@@ -116,14 +130,15 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 		setResult(RESULT_CANCELED);
 	}
 
-	private void validateRegistration(){
+	private void validateRegistration() {
 		User user = mUserDbHelper.getSignedUserInfo();
-		if (user==null){
-			Toast.makeText(getApplicationContext(), error_not_registered,Toast.LENGTH_LONG)
+		if (user == null) {
+			Toast.makeText(getApplicationContext(), error_not_registered, Toast.LENGTH_LONG)
 					.show();
-		}else
+		} else
 			onSignUpSuccess();
 	}
+
 	private boolean isInputValidated() {
 		boolean valid = true;
 //		If any field is empty
@@ -135,21 +150,22 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 		}
 //		mobile no should be of 10 Digit
 		int length_mobile = userMobileNoEditText.getText().length();
-		if (length_mobile > 10 || length_mobile < 10){
+		if (length_mobile > 10 || length_mobile < 10) {
 			userMobileNoEditText.setError(error_mobile_digit);
 			valid = false;
 		}
 //		pin code should be of 6 digit
 		int length_pin = userPinCodeEditText.getText().length();
-		if (length_pin > 6 || length_pin < 6){
+		if (length_pin > 6 || length_pin < 6) {
 			userPinCodeEditText.setError(error_pinCode_digit);
 			valid = false;
 		}
 		return valid;
 	}
+
 	@OnClick(R.id.fab_userInfo_activity)
 	public void onSaveUserInfo() {
-		if (mFirebaseUser !=null && isInputValidated()){
+		if (mFirebaseUser != null && isInputValidated()) {
 			showProgressbar(true);
 			mUser = new User(mFirebaseUser.getEmail());
 			mUser.setName(mFirebaseUser.getDisplayName());
@@ -160,7 +176,8 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 			setAuthToken();
 		}
 	}
-	private void setAuthToken(){
+
+	private void setAuthToken() {
 		mFirebaseUser.getToken(true)
 				.addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
 					@Override
@@ -181,8 +198,8 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 				});
 	}
 
-	private void setInstanceId(){
-		if (FirebaseInstanceId.getInstance()!=null) {
+	private void setInstanceId() {
+		if (FirebaseInstanceId.getInstance() != null) {
 			String token = FirebaseInstanceId.getInstance().getToken();
 			if (token != null && !token.isEmpty()) {
 				mUser.setInstanceId(token);
@@ -199,10 +216,10 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 
 	@Override
 	public void onSignUpError(String message) {
-		Log.e(TAG, Constants.ERROR_REGISTERING_USERINFO+message);
-		Toast.makeText(getApplicationContext(),Constants.ERROR_REGISTERING_USERINFO,Toast.LENGTH_SHORT).show();
+		Log.e(TAG, Constants.ERROR_REGISTERING_USERINFO + message);
+		Toast.makeText(getApplicationContext(), Constants.ERROR_REGISTERING_USERINFO, Toast.LENGTH_SHORT).show();
 		// log Firebase Crash
-		FirebaseCrash.log(Constants.ERROR_REGISTERING_USERINFO+message);
+		FirebaseCrash.log(Constants.ERROR_REGISTERING_USERINFO + message);
 		retrySnackbar();
 	}
 
@@ -218,12 +235,12 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView{
 
 	@Override
 	public void showProgressbar(boolean show) {
-		progressBar.setVisibility(show?View.VISIBLE:View.GONE);
+		progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
 		fab.setEnabled(!show);
 	}
 
-	private void retrySnackbar(){
-		Snackbar.make(mContainer, error_registration,Snackbar.LENGTH_LONG)
+	private void retrySnackbar() {
+		Snackbar.make(mContainer, error_registration, Snackbar.LENGTH_LONG)
 				.setAction(action_retry, new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {

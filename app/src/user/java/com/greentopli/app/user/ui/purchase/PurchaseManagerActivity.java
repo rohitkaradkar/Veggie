@@ -2,16 +2,16 @@ package com.greentopli.app.user.ui.purchase;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
-import com.greentopli.app.user.ui.UserInfoActivity;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
+import com.greentopli.app.user.ui.UserInfoActivity;
 import com.greentopli.core.service.OrderHistoryService;
 
 public class PurchaseManagerActivity extends AppCompatActivity implements OnFragmentInteractionListener {
@@ -19,24 +19,24 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 	private static final int REQUEST_SIGNOUT = 220;
 	private static final int REQUEST_USER_DETAILS = 230;
 	private Context mContext;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = getApplicationContext();
 		if (!AuthenticatorActivity.isUserSignedIn()) {
 			signIn();
-		}
-		else if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())){
+		} else if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())) {
 			registerUserDetails();
 		}
 
 		setContentView(R.layout.activity_purchase_manager);
 
-		if (savedInstanceState == null){
+		if (savedInstanceState == null) {
 			BrowseProductsFragment fragment = BrowseProductsFragment.getInstance();
 
 			getSupportFragmentManager().beginTransaction()
-					.add(R.id.activity_purchase_manager_container,fragment)
+					.add(R.id.activity_purchase_manager_container, fragment)
 					.commit();
 			// first fragment should not have addToBackStack("")
 		}
@@ -44,13 +44,13 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu,menu);
+		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()){
+		switch (item.getItemId()) {
 			case R.id.menu_sign_out:
 				signOut();
 				return true;
@@ -58,7 +58,7 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 				startActivity(new Intent(mContext, OrderHistoryActivity.class));
 				return true;
 			case R.id.menu_user_details:
-				Intent intent = new Intent(mContext,UserInfoActivity.class);
+				Intent intent = new Intent(mContext, UserInfoActivity.class);
 				startActivityForResult(intent, REQUEST_USER_DETAILS);
 			default:
 				return super.onOptionsItemSelected(item);
@@ -69,8 +69,8 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 	public void onFragmentInteraction() {
 		//http://stackoverflow.com/a/9856449/2804351
 		getSupportFragmentManager().beginTransaction()
-				.setCustomAnimations(R.anim.slide_in_from_right,R.anim.slide_out_to_left,
-						R.anim.slide_in_from_left,R.anim.slide_out_to_right)
+				.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left,
+						R.anim.slide_in_from_left, R.anim.slide_out_to_right)
 				.replace(R.id.activity_purchase_manager_container, CartCheckoutFragment.newInstance())
 				.addToBackStack(null)
 				.commit();
@@ -79,46 +79,46 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK){
-			if (requestCode == REQUEST_SIGNIN){
+		if (resultCode == RESULT_OK) {
+			if (requestCode == REQUEST_SIGNIN) {
 				// request user information
 				if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext()))
 					registerUserDetails();
 
-			}
-			else if (requestCode == REQUEST_SIGNOUT){
+			} else if (requestCode == REQUEST_SIGNOUT) {
 				signIn();
-			}
-			else if (requestCode == REQUEST_USER_DETAILS){
+			} else if (requestCode == REQUEST_USER_DETAILS) {
 				// download User Order history in background
 				OrderHistoryService.start(getApplicationContext());
 			}
-		}else if (resultCode == RESULT_CANCELED){
+		} else if (resultCode == RESULT_CANCELED) {
 			// user probably pressed back button in Activity
-			if (!AuthenticatorActivity.isUserSignedIn()){
-				Toast.makeText(mContext,R.string.error_not_signed_in,Toast.LENGTH_LONG).show();
-				startActivityForResult(new Intent(mContext,AuthenticatorActivity.class)
-						,REQUEST_SIGNIN);
+			if (!AuthenticatorActivity.isUserSignedIn()) {
+				Toast.makeText(mContext, R.string.error_not_signed_in, Toast.LENGTH_LONG).show();
+				startActivityForResult(new Intent(mContext, AuthenticatorActivity.class)
+						, REQUEST_SIGNIN);
 				return;
 			}
-			if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())){
-				Toast.makeText(mContext,R.string.error_not_registered,Toast.LENGTH_LONG).show();
-				startActivityForResult(new Intent(mContext,UserInfoActivity.class)
+			if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())) {
+				Toast.makeText(mContext, R.string.error_not_registered, Toast.LENGTH_LONG).show();
+				startActivityForResult(new Intent(mContext, UserInfoActivity.class)
 						, REQUEST_USER_DETAILS);
 			}
 		}
 	}
 
-	private void signIn(){
-		Intent intent = new Intent(this,AuthenticatorActivity.class);
-		startActivityForResult(intent,REQUEST_SIGNIN);
+	private void signIn() {
+		Intent intent = new Intent(this, AuthenticatorActivity.class);
+		startActivityForResult(intent, REQUEST_SIGNIN);
 	}
-	private void signOut(){
-		Intent signOutIntent = new Intent(this,AuthenticatorActivity.class);
-		signOutIntent.putExtra(AuthenticatorActivity.EXTRA_SIGNOUT,true);
-		startActivityForResult(signOutIntent,REQUEST_SIGNOUT);
+
+	private void signOut() {
+		Intent signOutIntent = new Intent(this, AuthenticatorActivity.class);
+		signOutIntent.putExtra(AuthenticatorActivity.EXTRA_SIGNOUT, true);
+		startActivityForResult(signOutIntent, REQUEST_SIGNOUT);
 	}
-	private void registerUserDetails(){
+
+	private void registerUserDetails() {
 		startActivityForResult(new Intent(mContext, UserInfoActivity.class), REQUEST_USER_DETAILS);
 	}
 }

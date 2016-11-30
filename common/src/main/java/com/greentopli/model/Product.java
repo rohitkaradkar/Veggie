@@ -7,10 +7,12 @@ import com.googlecode.objectify.annotation.Index;
 import java.util.Calendar;
 import java.util.UUID;
 
-@Entity public class Product {
+@Entity
+public class Product {
 	public enum Type {
 		ALL, LEAFY, FRUITY
 	}
+
 	public enum Volume {
 		WEIGHT("gms"), QUANTITY("pcs");
 		private final String extension;
@@ -24,19 +26,25 @@ import java.util.UUID;
 		}
 	}
 
-	@Id private String id;
-	@Index private String name_english;
+	@Id
+	private String id;
+	@Index
+	private String name_english;
 	private String name_hinglish;
 	private int minimumVolume;
 	private int maximumVolume;
 	private int volumeSet; // Fruits can be purchased in 3, 6, 9, 12 quantity
 	private String imageUrl;
 	private int price;
-	@Index private long time;
-	@Index private Type type;
-	@Index private Volume volume;
+	@Index
+	private long time;
+	@Index
+	private Type type;
+	@Index
+	private Volume volume;
 
-	public Product(){}
+	public Product() {
+	}
 
 	public Product(String name_english, String name_hinglish, Type type, Volume volume, int price) {
 		this.id = UUID.randomUUID().toString();
@@ -141,7 +149,7 @@ import java.util.UUID;
 		return volume;
 	}
 
-	public boolean isEmpty(){
+	public boolean isEmpty() {
 		return (getId() == null || getId().isEmpty());
 	}
 }

@@ -22,16 +22,20 @@ import java.util.List;
 
 public class WidgetRemoteViewsService extends RemoteViewsService {
 	private static final String TAG = WidgetItemRemoteView.class.getSimpleName();
-	public WidgetRemoteViewsService() {}
+
+	public WidgetRemoteViewsService() {
+	}
 
 	@Override
 	public RemoteViewsFactory onGetViewFactory(Intent intent) {
-		return new WidgetItemRemoteView(this.getApplicationContext(),intent);
+		return new WidgetItemRemoteView(this.getApplicationContext(), intent);
 	}
-	class WidgetItemRemoteView implements RemoteViewsService.RemoteViewsFactory{
+
+	class WidgetItemRemoteView implements RemoteViewsService.RemoteViewsFactory {
 		Context mContext;
 		Intent mIntent;
 		List<Product> mProducts;
+
 		public WidgetItemRemoteView(Context mContext, Intent mIntent) {
 			this.mContext = mContext;
 			this.mIntent = mIntent;
@@ -54,15 +58,15 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
 
 		@Override
 		public int getCount() {
-			return (mProducts==null?0:mProducts.size());
+			return (mProducts == null ? 0 : mProducts.size());
 		}
 
 		@Override
 		public RemoteViews getViewAt(int position) {
-			if (position >= 0 && mProducts.size()>0){
+			if (position >= 0 && mProducts.size() > 0) {
 				RemoteViews remoteView = new RemoteViews(mContext.getPackageName(), R.layout.item_widget_view);
 				final Product product = mProducts.get(position);
-				remoteView.setTextViewText(R.id.item_widget_product_name,product.getName_english());
+				remoteView.setTextViewText(R.id.item_widget_product_name, product.getName_english());
 
 				try {
 					// As we have already Cached images while using Glide in App
@@ -70,13 +74,13 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
 							.load(product.getImageUrl())
 							.asBitmap()
 							.diskCacheStrategy(DiskCacheStrategy.SOURCE)
-							.into(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL)
+							.into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
 							.get();
 
-					if (bitmap!=null)
-						remoteView.setBitmap(R.id.item_widget_product_image,"setImageBitmap",bitmap);
+					if (bitmap != null)
+						remoteView.setBitmap(R.id.item_widget_product_image, "setImageBitmap", bitmap);
 
-				}catch (Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				return remoteView;
@@ -96,7 +100,7 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
 
 		@Override
 		public long getItemId(int position) {
-			return (position<mProducts.size()?position:-1);
+			return (position < mProducts.size() ? position : -1);
 		}
 
 		@Override
@@ -104,10 +108,10 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
 			return false;
 		}
 
-		private void updateDataSet(){
+		private void updateDataSet() {
 			CartDbHelper cartDbHelper = new CartDbHelper(mContext);
 			long date = CommonUtils.getDateExcludingTime();
-			mProducts = cartDbHelper.getProductsFromCart(true,date);
+			mProducts = cartDbHelper.getProductsFromCart(true, date);
 		}
 	}
 }

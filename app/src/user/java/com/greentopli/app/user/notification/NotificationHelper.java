@@ -13,7 +13,6 @@ import com.greentopli.app.R;
 import com.greentopli.app.user.ui.OrderHistoryActivity;
 import com.greentopli.core.service.OrderHistoryService;
 import com.greentopli.core.storage.helper.CartDbHelper;
-import com.greentopli.core.storage.helper.UserDbHelper;
 
 import java.util.Calendar;
 
@@ -28,7 +27,8 @@ public class NotificationHelper {
 	public NotificationHelper(Context mContext) {
 		this.mContext = mContext;
 	}
-	public void showNotification(String title, String message){
+
+	public void showNotification(String title, String message) {
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
 
 		NotificationCompat.InboxStyle notificationStyle = new NotificationCompat.InboxStyle();
@@ -38,10 +38,10 @@ public class NotificationHelper {
 		 * CLEAR_TOP: if application is running give it as new intent, instead of new task
 		 * SINGLE_TOP: Activity will not be launched if it is already running
 		 */
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		PendingIntent onClickIntent = PendingIntent.getActivity(mContext,0,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		PendingIntent onClickIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 		// use launcher icon
-		Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.ic_launcher);
+		Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher);
 
 		Notification notification = builder
 				.setSmallIcon(R.drawable.ic_shopping) // shown on notification bar
@@ -58,13 +58,13 @@ public class NotificationHelper {
 				.setPriority(Notification.PRIORITY_HIGH) // make it popup on any screen
 				.build();
 
-		NotificationManager manager = (NotificationManager)mContext
+		NotificationManager manager = (NotificationManager) mContext
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.notify(ID_PRODUCT_DELIVERED,notification);
+		manager.notify(ID_PRODUCT_DELIVERED, notification);
 
 		// something Goes wrong & Cart is not updated
 		CartDbHelper helper = new CartDbHelper(mContext);
-		if (helper.getProductIdsFromCart(false).size()>0){
+		if (helper.getProductIdsFromCart(false).size() > 0) {
 			helper.clearCartItems();
 			OrderHistoryService.start(mContext);
 		}

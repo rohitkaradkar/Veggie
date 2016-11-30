@@ -1,15 +1,14 @@
 package com.greentopli.core.remote;
 
 import com.greentopli.model.BackendResult;
-import com.greentopli.model.list.EntityList;
 import com.greentopli.model.Product;
 import com.greentopli.model.PurchasedItem;
 import com.greentopli.model.User;
+import com.greentopli.model.list.EntityList;
 import com.greentopli.model.list.UserOrders;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;

@@ -8,5 +8,6 @@ import android.content.Context;
 
 public interface Presenter<V extends MvpView> {
 	void attachView(V mvpView, Context context);
+
 	void detachView();
 }

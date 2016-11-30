@@ -1,61 +1,64 @@
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-<application>
-    <activity
-        android:name="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"
-        android:theme="@style/AppTheme.NoActionBar.Dark">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent-filter>
-    </activity>
+    <application>
+        <activity
+            android:name="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"
+            android:theme="@style/AppTheme.NoActionBar.Dark">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
 
-    <activity android:name="com.greentopli.app.AuthenticatorActivity"/>
+        <activity android:name="com.greentopli.app.AuthenticatorActivity"/>
 
-    <activity android:name="com.greentopli.app.user.ui.OrderHistoryActivity"
-        android:label="@string/menu_order_history"
-        android:parentActivityName="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"/>
-    </activity>
+        <activity
+            android:name="com.greentopli.app.user.ui.OrderHistoryActivity"
+            android:label="@string/menu_order_history"
+            android:parentActivityName="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"/>
+        </activity>
 
-    <activity
-        android:name="com.greentopli.app.user.ui.UserInfoActivity"
-        android:label="@string/title_activity_sign_up"
-        android:theme="@style/AppTheme.NoActionBar.Dark" >
-    </activity>
+        <activity
+            android:name="com.greentopli.app.user.ui.UserInfoActivity"
+            android:label="@string/title_activity_sign_up"
+            android:theme="@style/AppTheme.NoActionBar.Dark">
+        </activity>
 
-    <!--Product downloader service-->
-    <service
-        android:name="com.greentopli.core.service.ProductService"
-        android:exported="false"/>
+        <!--Product downloader service-->
+        <service
+            android:name="com.greentopli.core.service.ProductService"
+            android:exported="false"/>
 
-    <!--Order history Intent Services-->
-    <service
-        android:name="com.greentopli.core.service.OrderHistoryService"
-        android:exported="false"/>
+        <!--Order history Intent Services-->
+        <service
+            android:name="com.greentopli.core.service.OrderHistoryService"
+            android:exported="false"/>
 
-    <!--Widget Provider-->
-    <receiver android:name="com.greentopli.app.user.ui.widget.ProductWidgetProvider" >
-        <intent-filter>
-            <!--broadcast actions-->
-            <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            <action android:name="com.greentopli.app.user.WIDGET_UPDATE" />
-            <action android:name="com.greentopli.app.user.ACTION_WIDGET_HEADER_CLICK"/>
-        </intent-filter>
-        <meta-data android:name="android.appwidget.provider"
-                   android:resource="@xml/widget_info" />
-    </receiver>
+        <!--Widget Provider-->
+        <receiver android:name="com.greentopli.app.user.ui.widget.ProductWidgetProvider">
+            <intent-filter>
+                <!--broadcast actions-->
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.greentopli.app.user.WIDGET_UPDATE"/>
+                <action android:name="com.greentopli.app.user.ACTION_WIDGET_HEADER_CLICK"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info"/>
+        </receiver>
 
-    <!--widget service that creates list items-->
-    <service android:name="com.greentopli.app.user.ui.widget.WidgetRemoteViewsService"
-             android:enabled="true"
-             android:exported="true"
-             android:permission="android.permission.BIND_REMOTEVIEWS">
-    </service>
-</application>
+        <!--widget service that creates list items-->
+        <service
+            android:name="com.greentopli.app.user.ui.widget.WidgetRemoteViewsService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS">
+        </service>
+    </application>
 </manifest>

@@ -3,10 +3,10 @@ package com.greentopli.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -30,8 +30,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.Constants;
-import com.greentopli.core.storage.helper.UserDbHelper;
 import com.greentopli.core.presenter.base.MvpView;
+import com.greentopli.core.storage.helper.UserDbHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,16 +41,18 @@ import butterknife.OnClick;
  * referred from https://firebase.google.com/docs/auth/android/google-signin?utm_source=studio
  */
 public class AuthenticatorActivity extends AppCompatActivity implements
-	GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener, MvpView,
-	GoogleApiClient.ConnectionCallbacks{
+		GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener, MvpView,
+		GoogleApiClient.ConnectionCallbacks {
 	private GoogleApiClient mGoogleApiClient;
 
 	private static final int RC_SIGN_IN = 9015;
 	public static final String EXTRA_SIGNOUT = "signout_request";
 	private FirebaseAuth mAuth;
 	private static final String TAG = AuthenticatorActivity.class.getSimpleName();
-	@BindView(R.id.default_progressbar)ProgressBar mProgressBar;
-	@BindView(R.id.button_sign_in) SignInButton mSignInButton;
+	@BindView(R.id.default_progressbar)
+	ProgressBar mProgressBar;
+	@BindView(R.id.button_sign_in)
+	SignInButton mSignInButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 
 		mAuth = FirebaseAuth.getInstance();
 
-		if (getIntent().hasExtra(EXTRA_SIGNOUT) && getIntent().getBooleanExtra(EXTRA_SIGNOUT,false))
+		if (getIntent().hasExtra(EXTRA_SIGNOUT) && getIntent().getBooleanExtra(EXTRA_SIGNOUT, false))
 			signOut();
 	}
 
@@ -102,7 +104,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 			} else {
 				// Google Sign In failed, update UI appropriately
 				showProgressbar(false);
-				Toast.makeText(getApplicationContext(), Constants.ERROR_SIGNIN,Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), Constants.ERROR_SIGNIN, Toast.LENGTH_LONG).show();
 				FirebaseCrash.log(Constants.ERROR_SIGNIN);
 			}
 		}
@@ -116,18 +118,19 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 		showProgressbar(false);
 		if (user != null) {
 			// User is signed in
-			Log.d(TAG,"Signed In "+user.getDisplayName());
+			Log.d(TAG, "Signed In " + user.getDisplayName());
 			returnActivityResult();
 		} else {
 			// User is signed out
-			Log.d(TAG,"Signed Out");
+			Log.d(TAG, "Signed Out");
 		}
 	}
 
 	@Override
 	public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-		Toast.makeText(getApplicationContext(),connectionResult.toString(),Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), connectionResult.toString(), Toast.LENGTH_LONG).show();
 	}
+
 	private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 		Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -153,18 +156,19 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 
 	@Override
 	public void showProgressbar(boolean show) {
-		mProgressBar.setVisibility(show?View.VISIBLE:View.GONE);
+		mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
 		mSignInButton.setEnabled(!show);
 	}
 
 	@OnClick(R.id.button_sign_in)
-	void signIn(){
+	void signIn() {
 		showProgressbar(true);
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
-	private void signOut(){
-		try{
+
+	private void signOut() {
+		try {
 			showProgressbar(true);
 
 			// Firebase Logout
@@ -184,7 +188,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 			userDbHelper.removeUserInfo();
 
 			returnActivityResult();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -203,7 +207,8 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	}
 
 	@Override
-	public void onConnectionSuspended(int i) {}
+	public void onConnectionSuspended(int i) {
+	}
 
 	@Override
 	public void onBackPressed() {
@@ -211,11 +216,12 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 		setResult(RESULT_CANCELED);
 	}
 
-	public static boolean isUserSignedIn(){
-		return FirebaseAuth.getInstance().getCurrentUser()!=null;
+	public static boolean isUserSignedIn() {
+		return FirebaseAuth.getInstance().getCurrentUser() != null;
 	}
-	public static boolean isUserInfoRegistered(Context context){
-		if (isUserSignedIn()){
+
+	public static boolean isUserInfoRegistered(Context context) {
+		if (isUserSignedIn()) {
 			UserDbHelper userDbHelper = new UserDbHelper(context);
 			return userDbHelper.isUserInfoAvailable(
 					FirebaseAuth.getInstance().getCurrentUser().getEmail()
@@ -223,7 +229,8 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 		}
 		return false;
 	}
-	private void returnActivityResult(){
+
+	private void returnActivityResult() {
 		if (getParent() == null)
 			setResult(Activity.RESULT_OK);
 		else {

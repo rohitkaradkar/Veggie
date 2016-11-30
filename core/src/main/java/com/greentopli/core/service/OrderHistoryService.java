@@ -8,18 +8,17 @@ import android.util.Log;
 
 import com.greentopli.Constants;
 import com.greentopli.core.Utils;
+import com.greentopli.core.remote.BackendConnectionService;
+import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.storage.helper.CartDbHelper;
 import com.greentopli.core.storage.helper.UserDbHelper;
-import com.greentopli.core.remote.ServiceGenerator;
-import com.greentopli.core.remote.BackendConnectionService;
-import com.greentopli.model.list.EntityList;
 import com.greentopli.model.PurchasedItem;
 import com.greentopli.model.User;
+import com.greentopli.model.list.EntityList;
 
 import java.util.Calendar;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -32,17 +31,18 @@ public class OrderHistoryService extends IntentService {
 	public static final String ACTION_PROCESSING_COMPLETE = "com.greentopli.core.service.OrderHistoryService.SERVICE_PROCESSING_COMPLETE";
 	public static final String ACTION_PROCESSING_FAILED = "com.greentopli.core.service.OrderHistoryService.SERVICE_PROCESSING_FAILED";
 
-	public OrderHistoryService(){
+	public OrderHistoryService() {
 		super(OrderHistoryService.class.getSimpleName());
 	}
 
 	CartDbHelper cartDbHelper;
+
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.d(TAG,"Started "+ Calendar.getInstance().getTime());
+		Log.d(TAG, "Started " + Calendar.getInstance().getTime());
 		String user_id = intent.getDataString();
 
-		if (user_id!=null && !user_id.isEmpty()){
+		if (user_id != null && !user_id.isEmpty()) {
 			broadcast(ACTION_PROCESSING);
 			BackendConnectionService service = ServiceGenerator.createService(BackendConnectionService.class);
 			Call<EntityList<PurchasedItem>> call = service.getUserOrderHistory(user_id);
@@ -51,8 +51,8 @@ public class OrderHistoryService extends IntentService {
 			try {
 				// no need to enqueue as we are on Background thread
 				Response<EntityList<PurchasedItem>> response = call.execute();
-				if (response!=null && response.body()!=null
-						&& response.body().getItems()!=null && !response.body().getItems().isEmpty()){
+				if (response != null && response.body() != null
+						&& response.body().getItems() != null && !response.body().getItems().isEmpty()) {
 					cartDbHelper.storeOrderHistory(
 							response.body().getItems()
 					);
@@ -61,24 +61,24 @@ public class OrderHistoryService extends IntentService {
 				broadcast(ACTION_PROCESSING_COMPLETE);
 				// send broadcast for WidgetUpdate
 				broadcast(Constants.ACTION_WIDGET_UPDATE);
-			}catch (Exception e){
+			} catch (Exception e) {
 				e.printStackTrace();
 				broadcast(ACTION_PROCESSING_FAILED);
 			}
 		}
 	}
 
-	private void broadcast(String action){
+	private void broadcast(String action) {
 		Intent broadcastIntent = new Intent();
 		broadcastIntent.setAction(action);
 		sendBroadcast(broadcastIntent);
-		Log.d(TAG," status "+action);
+		Log.d(TAG, " status " + action);
 	}
 
-	public static void start(Context context){
+	public static void start(Context context) {
 		User user = new UserDbHelper(context).getSignedUserInfo();
 		// verify service is not running already
-		if (user!=null && !Utils.isMyServiceRunning(OrderHistoryService.class,context)){
+		if (user != null && !Utils.isMyServiceRunning(OrderHistoryService.class, context)) {
 			String userId = user.getEmail();
 			// start service to get new data
 			Intent orderHistoryService = new Intent(context, OrderHistoryService.class);

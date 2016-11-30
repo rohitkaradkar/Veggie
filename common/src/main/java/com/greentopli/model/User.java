@@ -8,21 +8,31 @@ import com.googlecode.objectify.annotation.Index;
  * Created by rnztx on 23/10/16.
  */
 
-@Entity public class User {
-	@Id private String email;
-	@Index private String name;
-	@Index private long mobileNo;
-	@Index private String address;
-	@Index private int pincode;
-	@Index private String instanceId;
-	@Index private String authToken;
-	@Index private String photoUrl;
+@Entity
+public class User {
+	@Id
+	private String email;
+	@Index
+	private String name;
+	@Index
+	private long mobileNo;
+	@Index
+	private String address;
+	@Index
+	private int pincode;
+	@Index
+	private String instanceId;
+	@Index
+	private String authToken;
+	@Index
+	private String photoUrl;
 
 	public User(String email) {
 		this.email = email;
 	}
 
-	public User() {}
+	public User() {
+	}
 
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;

@@ -29,21 +29,22 @@ public class BackendResult {
 		this.message = message;
 	}
 
-	public BackendResult(){}
+	public BackendResult() {
+	}
 
-	public static BackendResult success(){
+	public static BackendResult success() {
 		return success("Success");
 	}
 
-	public static BackendResult success(String message){
-		return new BackendResult(true,message);
+	public static BackendResult success(String message) {
+		return new BackendResult(true, message);
 	}
 
-	public static BackendResult error(){
+	public static BackendResult error() {
 		return error("Error");
 	}
 
-	public static BackendResult error(String message){
-		return new BackendResult(false,message);
+	public static BackendResult error(String message) {
+		return new BackendResult(false, message);
 	}
 }

@@ -20,19 +20,20 @@ public class InstanceIdService extends FirebaseInstanceIdService implements Sign
 		super.onTokenRefresh();
 		// this ID identifies user while sending Notification from server.
 		String newInstanceId = FirebaseInstanceId.getInstance().getToken();
-		if (newInstanceId!=null && !newInstanceId.isEmpty()){
-			mPresenter = UserSignUpPresenter.bind(this,getApplicationContext());
+		if (newInstanceId != null && !newInstanceId.isEmpty()) {
+			mPresenter = UserSignUpPresenter.bind(this, getApplicationContext());
 			mPresenter.updateInstanceId(newInstanceId);
 		}
 	}
+
 	@Override
 	public void onSignUpError(String message) {
-		Log.d(TAG,message);
+		Log.d(TAG, message);
 	}
 
 	@Override
 	public void onSignUpSuccess() {
-		Log.d(TAG,"Instance id updated");
+		Log.d(TAG, "Instance id updated");
 	}
 
 	@Override

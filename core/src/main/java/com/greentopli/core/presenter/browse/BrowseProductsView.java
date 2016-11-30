@@ -9,9 +9,12 @@ import java.util.List;
  * Created by rnztx on 13/10/16.
  */
 
-public interface BrowseProductsView extends MvpView{
+public interface BrowseProductsView extends MvpView {
 	void showEmpty(boolean show);
+
 	void showError(String message);
+
 	void showProducts(List<Product> list);
+
 	void onProductServiceFinished();
 }

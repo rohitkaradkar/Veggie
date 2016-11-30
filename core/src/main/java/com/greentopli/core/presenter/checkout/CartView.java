@@ -11,7 +11,10 @@ import java.util.List;
 
 public interface CartView extends MvpView {
 	void onCartCheckoutSuccess(String user_id);
+
 	void onCartCheckoutFailed(List<String> failedProductIds);
+
 	void onCartCheckoutError(String error_message);
+
 	void onCartItemsReceived(List<Product> cartItems);
 }

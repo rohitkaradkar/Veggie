@@ -23,6 +23,6 @@ public class ListItemDecoration extends RecyclerView.ItemDecoration {
 	public void getItemOffsets(Rect outRect, View view,
 	                           RecyclerView parent, RecyclerView.State state) {
 		int position = parent.getChildLayoutPosition(view);
-		outRect.set(margin,position==0?margin:0,margin,margin);
+		outRect.set(margin, position == 0 ? margin : 0, margin, margin);
 	}
 }

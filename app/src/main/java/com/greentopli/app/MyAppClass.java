@@ -2,8 +2,6 @@ package com.greentopli.app;
 
 import android.app.Application;
 
-import com.facebook.stetho.Stetho;
-
 /**
  * Created by rnztx on 21/10/16.
  */

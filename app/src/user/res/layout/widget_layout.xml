@@ -13,6 +13,7 @@
         android:orientation="horizontal"
         android:background="@color/colorPrimary"
         android:layout_height="?android:attr/actionBarSize">
+
         <ImageView
             android:layout_width="@dimen/product_item_icon_size"
             android:layout_height="match_parent"
@@ -26,12 +27,14 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:text="@string/title_widget"
                 android:textColor="@android:color/white"/>
+
             <TextView
                 android:id="@+id/widget_product_count_textView"
                 android:layout_width="wrap_content"

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:tool="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
@@ -14,6 +13,7 @@
         android:layout_marginBottom="@dimen/list_item_elevation_margin"
         android:elevation="@dimen/cardview_default_elevation"
         tool:cardCornerRadius="@dimen/list_item_corner_radius">
+
         <include layout="@layout/item_product_view_content"/>
     </android.support.v7.widget.CardView>
 </FrameLayout>

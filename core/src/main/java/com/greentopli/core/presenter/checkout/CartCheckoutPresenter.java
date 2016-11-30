@@ -2,11 +2,11 @@ package com.greentopli.core.presenter.checkout;
 
 import android.content.Context;
 
+import com.greentopli.core.presenter.base.BasePresenter;
+import com.greentopli.core.remote.BackendConnectionService;
+import com.greentopli.core.remote.ServiceGenerator;
 import com.greentopli.core.storage.helper.CartDbHelper;
 import com.greentopli.core.storage.helper.UserDbHelper;
-import com.greentopli.core.presenter.base.BasePresenter;
-import com.greentopli.core.remote.ServiceGenerator;
-import com.greentopli.core.remote.BackendConnectionService;
 import com.greentopli.model.BackendResult;
 import com.greentopli.model.Product;
 import com.greentopli.model.list.UserOrders;
@@ -21,16 +21,18 @@ import retrofit2.Response;
  * Created by rnztx on 19/10/16.
  */
 
-public class CartCheckoutPresenter extends BasePresenter<CartView>{
+public class CartCheckoutPresenter extends BasePresenter<CartView> {
 
 	private Call<BackendResult> mCall;
 	private CartDbHelper dbHandler;
 	private UserDbHelper userDbHelper;
-	public CartCheckoutPresenter() {}
 
-	public static CartCheckoutPresenter bind(CartView cartView,Context context){
+	public CartCheckoutPresenter() {
+	}
+
+	public static CartCheckoutPresenter bind(CartView cartView, Context context) {
 		CartCheckoutPresenter presenter = new CartCheckoutPresenter();
-		presenter.attachView(cartView,context);
+		presenter.attachView(cartView, context);
 		return presenter;
 	}
 
@@ -42,7 +44,7 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 
 	}
 
-	public void checkOutOrders(){
+	public void checkOutOrders() {
 		getmMvpView().showProgressbar(true);
 		UserOrders cartItems = new UserOrders();
 		cartItems.setItems(dbHandler.getPurchasedItemList(false));
@@ -56,17 +58,15 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 				if (call.isCanceled())
 					return;
 
-				if (response.body()==null){
-					getmMvpView().onCartCheckoutError("Null Pointer "+call.toString());
-				}
-				else if (response.body().isResult()){
+				if (response.body() == null) {
+					getmMvpView().onCartCheckoutError("Null Pointer " + call.toString());
+				} else if (response.body().isResult()) {
 					dbHandler.clearCartItems();
 					getmMvpView().onCartCheckoutSuccess(
 							userDbHelper.getSignedUserInfo().getEmail()
 					);
 					return;
-				}
-				else
+				} else
 					getmMvpView().onCartCheckoutFailed(null);
 
 				getmMvpView().showProgressbar(false);
@@ -87,14 +87,14 @@ public class CartCheckoutPresenter extends BasePresenter<CartView>{
 	public void detachView() {
 		this.userDbHelper = null;
 		this.dbHandler = null;
-		if (mCall!=null)
+		if (mCall != null)
 			this.mCall.cancel();
 		super.detachView();
 	}
 
-	public void getProductsFromCart(){
+	public void getProductsFromCart() {
 		List<Product> products = dbHandler.getProductsFromCart(false);
-		if (products.size()>0)
+		if (products.size() > 0)
 			getmMvpView().onCartItemsReceived(products);
 	}
 }

@@ -23,26 +23,27 @@ public class FcmService extends FirebaseMessagingService {
 		final NotificationHelper helper = new NotificationHelper(getApplicationContext());
 
 		// Notification Message (from Firebase Console)
-		if (remoteMessage.getNotification()!=null){
+		if (remoteMessage.getNotification() != null) {
 			RemoteMessage.Notification notification = remoteMessage.getNotification();
-			helper.showNotification(notification.getTitle(),notification.getBody());
+			helper.showNotification(notification.getTitle(), notification.getBody());
 		}
 		// Data Message (from server)
-		else if (remoteMessage.getData().size()>0){
+		else if (remoteMessage.getData().size() > 0) {
 			final DataMessage dataMessage = parseMessage(remoteMessage.getData());
-			if (dataMessage!=null && !dataMessage.isEmpty()){
-				Log.e(TAG,dataMessage.getMessage());
+			if (dataMessage != null && !dataMessage.isEmpty()) {
+				Log.e(TAG, dataMessage.getMessage());
 				/**
 				 * Adding some delay to Notification, because -
 				 * Sometimes it executes before Checkout UI is complete
 				 */
 				SystemClock.sleep(DELAY_TIME);
-				helper.showNotification(dataMessage.getTitle(),dataMessage.getMessage());
+				helper.showNotification(dataMessage.getTitle(), dataMessage.getMessage());
 			}
 		}
 	}
-	private DataMessage parseMessage(Map<String,String> mappedData){
-		if (mappedData.containsKey(Constants.JSON_KEY_TITLE) && mappedData.containsKey(Constants.JSON_KEY_MESSAGE)){
+
+	private DataMessage parseMessage(Map<String, String> mappedData) {
+		if (mappedData.containsKey(Constants.JSON_KEY_TITLE) && mappedData.containsKey(Constants.JSON_KEY_MESSAGE)) {
 			DataMessage dataMessage = new DataMessage();
 			dataMessage.setTitle(mappedData.get(Constants.JSON_KEY_TITLE));
 			dataMessage.setMessage(mappedData.get(Constants.JSON_KEY_MESSAGE));

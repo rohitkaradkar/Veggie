@@ -22,13 +22,13 @@ import android.widget.Toast;
 import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
-import com.greentopli.app.user.tool.ListItemDecoration;
 import com.greentopli.app.user.adapter.ProductAdapter;
+import com.greentopli.app.user.tool.ListItemDecoration;
 import com.greentopli.core.presenter.checkout.CartCheckoutPresenter;
 import com.greentopli.core.presenter.checkout.CartView;
 import com.greentopli.core.service.OrderHistoryService;
-import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.core.service.PurchasedItemObserver;
+import com.greentopli.core.storage.purchaseditem.PurchasedItemColumns;
 import com.greentopli.model.Product;
 
 import java.util.List;
@@ -38,12 +38,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CartCheckoutFragment extends Fragment implements CartView,PurchasedItemObserver.Listener{
-	@BindView(R.id.cartItem_fragment_recyclerView) RecyclerView mRecyclerView;
-	@BindView(R.id.progressbar_cartCheckout_fragment) ProgressBar progressBar;
-	@BindView(R.id.toolbar_cartCheckout_fragment) Toolbar mToolbar;
-	@BindInt(R.integer.product_list_columns) int mColumnCount;
-	@BindView(R.id.fab_cart_items_fragment) FloatingActionButton mFab;
+public class CartCheckoutFragment extends Fragment implements CartView, PurchasedItemObserver.Listener {
+	@BindView(R.id.cartItem_fragment_recyclerView)
+	RecyclerView mRecyclerView;
+	@BindView(R.id.progressbar_cartCheckout_fragment)
+	ProgressBar progressBar;
+	@BindView(R.id.toolbar_cartCheckout_fragment)
+	Toolbar mToolbar;
+	@BindInt(R.integer.product_list_columns)
+	int mColumnCount;
+	@BindView(R.id.fab_cart_items_fragment)
+	FloatingActionButton mFab;
 
 	private static final String FORMAT_CART_OVERVIEW = "₹ %d for %d items";
 	private CartCheckoutPresenter mPresenter;
@@ -52,6 +57,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	private PurchasedItemObserver contentObserver;
 
 	private static final String TAG = CartCheckoutFragment.class.getSimpleName();
+
 	public CartCheckoutFragment() {
 		// Required empty public constructor
 	}
@@ -66,13 +72,13 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		View rootView =  inflater.inflate(R.layout.fragment_cart_checkout, container, false);
-		ButterKnife.bind(this,rootView);
+		View rootView = inflater.inflate(R.layout.fragment_cart_checkout, container, false);
+		ButterKnife.bind(this, rootView);
 
 		//set toolbar as Actionbar
-		((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-		ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-		if (actionBar!=null){
+		((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
+		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+		if (actionBar != null) {
 			//actionBar.setTitle(R.string.title_fragment_cartCheckout);
 			mToolbar.setTitle(R.string.title_fragment_cartCheckout);
 			actionBar.setDisplayShowHomeEnabled(true);
@@ -83,12 +89,14 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
 		return rootView;
 	}
-	private void initRecyclerView(){
-		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART,getContext());
+
+	private void initRecyclerView() {
+		mAdapter = new ProductAdapter(ProductAdapter.Mode.CART, getContext());
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mRecyclerView.setAdapter(mAdapter);
 	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -98,7 +106,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		thread.start();
 		Handler handler = new Handler(thread.getLooper());
 
-		contentObserver = new PurchasedItemObserver(handler,getContext(),this);
+		contentObserver = new PurchasedItemObserver(handler, getContext(), this);
 		getContext().getContentResolver()
 				.registerContentObserver(
 						PurchasedItemColumns.CONTENT_URI,
@@ -109,7 +117,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		contentObserver.updateCartInformation();
 
 		// register presenter
-		mPresenter = CartCheckoutPresenter.bind(this,getContext());
+		mPresenter = CartCheckoutPresenter.bind(this, getContext());
 		mPresenter.getProductsFromCart();
 	}
 
@@ -124,7 +132,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home){
+		if (item.getItemId() == android.R.id.home) {
 			goBack();
 			return true;
 		}
@@ -132,7 +140,7 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	}
 
 	@OnClick(R.id.fab_cart_items_fragment)
-	void onFabClick(){
+	void onFabClick() {
 		mPresenter.checkOutOrders();
 	}
 
@@ -140,22 +148,22 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 	public void onCartCheckoutSuccess(String user_id) {
 		// update order history
 		OrderHistoryService.start(getContext());
-		Toast.makeText(getContext(),R.string.message_checkout_success,Toast.LENGTH_SHORT).show();
+		Toast.makeText(getContext(), R.string.message_checkout_success, Toast.LENGTH_SHORT).show();
 		// navigate to Main Screen
 		goBack();
 	}
 
 	@Override
 	public void onCartCheckoutFailed(List<String> failedProductIds) {
-		Log.e(TAG,"Checkout Failed");
-		Toast.makeText(getContext(),R.string.message_duplicate_orders,Toast.LENGTH_SHORT).show();
+		Log.e(TAG, "Checkout Failed");
+		Toast.makeText(getContext(), R.string.message_duplicate_orders, Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onCartCheckoutError(String error_message) {
-		Log.e(TAG,"Checkout Error"+error_message);
-		Toast.makeText(getContext(),R.string.message_checkout_error,Toast.LENGTH_SHORT).show();
-		FirebaseCrash.log(Constants.ERROR_CART_CHECKOUT+error_message);
+		Log.e(TAG, "Checkout Error" + error_message);
+		Toast.makeText(getContext(), R.string.message_checkout_error, Toast.LENGTH_SHORT).show();
+		FirebaseCrash.log(Constants.ERROR_CART_CHECKOUT + error_message);
 	}
 
 	@Override
@@ -172,9 +180,9 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (total_price>0 && item_count > 0)
-					mToolbar.setSubtitle(String.format(FORMAT_CART_OVERVIEW,total_price,item_count));
-				else{
+				if (total_price > 0 && item_count > 0)
+					mToolbar.setSubtitle(String.format(FORMAT_CART_OVERVIEW, total_price, item_count));
+				else {
 					goBack();
 				}
 			}
@@ -183,23 +191,23 @@ public class CartCheckoutFragment extends Fragment implements CartView,Purchased
 
 	@Override
 	public void showProgressbar(boolean show) {
-		progressBar.setVisibility(show?View.VISIBLE:View.GONE);
+		progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
 		mFab.setEnabled(!show);
 	}
 
-	private void goBack(){
+	private void goBack() {
 		try {
 			FragmentManager manager = null;
-			if (getActivity()!=null)
+			if (getActivity() != null)
 				manager = getActivity().getSupportFragmentManager();
 			/**
 			 * {@link PurchaseManagerActivity} uses two fragments BrowseProductsFragment & this.
 			 * so I want to make sure that all two fragments are present on Stack.
 			 */
-			if(manager!=null && manager.getBackStackEntryCount()==2){
+			if (manager != null && manager.getBackStackEntryCount() == 2) {
 				manager.popBackStackImmediate();
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

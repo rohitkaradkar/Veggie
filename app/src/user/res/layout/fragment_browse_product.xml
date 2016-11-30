@@ -6,23 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.greentopli.app.user.ui.purchase.BrowseProductsFragment">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_browseProduct_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:theme="@style/Toolbar"
-                app:popupTheme="@style/Menus">
-                <Spinner
-                    android:layout_gravity="end"
-                    android:id="@+id/spinner_browse_fragment"
-                    android:layout_width="@dimen/toolbar_product_category_spinner_size"
-                    android:layout_height="wrap_content"/>
-            </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_browseProduct_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:theme="@style/Toolbar"
+            app:popupTheme="@style/Menus">
+
+            <Spinner
+                android:layout_gravity="end"
+                android:id="@+id/spinner_browse_fragment"
+                android:layout_width="@dimen/toolbar_product_category_spinner_size"
+                android:layout_height="wrap_content"/>
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+
     <TextView
         android:id="@+id/browse_products_empty_message_textView"
         android:layout_gravity="center"
@@ -35,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/browse_products_recyclerView"
             android:layout_width="match_parent"
@@ -42,6 +47,7 @@
             android:background="@color/colorBackground"
             android:clipToPadding="true"/>
     </android.support.v4.widget.SwipeRefreshLayout>
+
     <ProgressBar
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/default_progressbar"
@@ -51,6 +57,7 @@
         android:layout_gravity="center"
         android:visibility="gone"
         tools:visibility="visible"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_browse_product_fragment"
         android:layout_width="wrap_content"

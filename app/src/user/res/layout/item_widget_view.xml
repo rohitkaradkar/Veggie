@@ -4,12 +4,14 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/item_widget_product_image"
         android:layout_width="@dimen/widget_product_item_icon_size"
         android:layout_height="@dimen/widget_product_item_icon_size"
         android:contentDescription="@string/desc_product_image"
         tools:src="@drawable/ic_photo_default"/>
+
     <TextView
         android:id="@+id/item_widget_product_name"
         android:layout_width="wrap_content"

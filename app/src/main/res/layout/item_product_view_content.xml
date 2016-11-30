@@ -3,12 +3,14 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="wrap_content">
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/product_item_view_padding"
         android:gravity="center">
+
         <ImageView
             android:id="@+id/item_product_image"
             android:layout_width="@dimen/product_item_icon_size"
@@ -16,22 +18,26 @@
             android:contentDescription="@string/desc_product_image"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_photo_default"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/product_item_view_margin">
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true">
+
                 <TextView
                     android:id="@+id/item_product_name"
                     style="@style/TextStyle"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textSize="@dimen/product_item_name_textSize"
                     tools:text="Lady Finger"/>
+
                 <TextView
                     android:id="@+id/item_product_price"
                     style="@style/TextStyle"
@@ -51,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true">
+
                 <ImageButton
                     android:id="@+id/item_product_volume_subtract_button"
                     android:src="@drawable/ic_remove_circle_outline"
@@ -83,6 +90,7 @@
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
+
     <CheckBox
         style="@style/FloatingControls"
         android:contentDescription="@string/desc_button_cart_add_item"

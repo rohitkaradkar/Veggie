@@ -26,7 +26,7 @@ public class ProductDbHelper {
 		this.context = context;
 	}
 
-	public long storeProduct(@NonNull Product product){
+	public long storeProduct(@NonNull Product product) {
 		ProductContentValues values = new ProductContentValues();
 		values.putProductId(product.getId());
 		values.putNameEnglish(product.getName_english());
@@ -43,39 +43,43 @@ public class ProductDbHelper {
 		return ContentUris.parseId(uri);
 	}
 
-	public void storeProducts(@NonNull List<Product> productList){
-		for (Product item : productList){
+	public void storeProducts(@NonNull List<Product> productList) {
+		for (Product item : productList) {
 			long id = storeProduct(item);
 		}
 	}
 
-	public List<Product> getProducts(){
+	public List<Product> getProducts() {
 		ProductSelection selection = new ProductSelection();
 		return getProducts(selection);
 	}
-	public List<Product> getProducts(String query){
+
+	public List<Product> getProducts(String query) {
 		ProductSelection selection = new ProductSelection();
 		selection.nameEnglishContains(query);
 		return getProducts(selection);
 	}
-	public List<Product> getProducts(Product.Type productType){
+
+	public List<Product> getProducts(Product.Type productType) {
 		ProductSelection selection = new ProductSelection();
 		selection.type(productType.name());
 		return getProducts(selection);
 	}
-	private List<Product> getProducts(ProductSelection selection){
+
+	private List<Product> getProducts(ProductSelection selection) {
 		ProductCursor cursor = selection.query(context.getContentResolver(), ProductColumns.ALL_COLUMNS);
 		List<Product> list = new ArrayList<>();
-		while (cursor.moveToNext()){
+		while (cursor.moveToNext()) {
 			Product product = getProductFromCursor(cursor);
-			if (product!=null)
+			if (product != null)
 				list.add(product);
 		}
 		cursor.close();
 		return list;
 	}
-	public List<Product> getProducts(List<String> product_ids){
-		if(product_ids.size()<=0)
+
+	public List<Product> getProducts(List<String> product_ids) {
+		if (product_ids.size() <= 0)
 			return null;
 		ProductSelection selection = new ProductSelection();
 		String[] ids = product_ids.toArray(new String[product_ids.size()]);
@@ -83,7 +87,7 @@ public class ProductDbHelper {
 		return getProducts(selection);
 	}
 
-	public Product getProductFromCursor(ProductCursor cursor){
+	public Product getProductFromCursor(ProductCursor cursor) {
 		Product product = new Product();
 		product.setId(cursor.getProductId());
 		product.setName_english(cursor.getNameEnglish());
@@ -100,10 +104,10 @@ public class ProductDbHelper {
 		return product;
 	}
 
-	public Product getProduct(@NonNull String product_id){
+	public Product getProduct(@NonNull String product_id) {
 		ProductSelection where = new ProductSelection();
 		where.productId(product_id);
-		Product product =  new Product();
+		Product product = new Product();
 		ProductCursor cursor = where.query(context);
 		if (cursor.moveToNext())
 			product = getProductFromCursor(cursor);

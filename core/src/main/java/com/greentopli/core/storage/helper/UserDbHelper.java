@@ -22,7 +22,7 @@ public class UserDbHelper {
 		this.context = context;
 	}
 
-	public long storeUserInfo(@NonNull User user){
+	public long storeUserInfo(@NonNull User user) {
 		UserContentValues values = new UserContentValues();
 		values.putEmail(user.getEmail());
 		values.putName(user.getName());
@@ -36,7 +36,7 @@ public class UserDbHelper {
 		return ContentUris.parseId(uri);
 	}
 
-	public User getUserInfo(@NonNull UserCursor cursor){
+	public User getUserInfo(@NonNull UserCursor cursor) {
 		User user = new User();
 		user.setEmail(cursor.getEmail());
 		user.setName(cursor.getName());
@@ -49,22 +49,23 @@ public class UserDbHelper {
 		return user;
 	}
 
-	public User getSignedUserInfo(){
+	public User getSignedUserInfo() {
 		UserSelection where = new UserSelection();
 		UserCursor cursor = where.query(context.getContentResolver(), UserColumns.ALL_COLUMNS);
 		User user = null;
-		if(cursor.moveToNext())
+		if (cursor.moveToNext())
 			user = getUserInfo(cursor);
 		cursor.close();
 		return user;
 	}
 
-	public long removeUserInfo(){
+	public long removeUserInfo() {
 		UserSelection where = new UserSelection();
 //		where.email(email);
 		return where.delete(context);
 	}
-	public boolean isUserInfoAvailable(@NonNull String email){
+
+	public boolean isUserInfoAvailable(@NonNull String email) {
 		try {
 			UserSelection where = new UserSelection();
 			where.email(email);
@@ -72,7 +73,7 @@ public class UserDbHelper {
 			boolean isAvailable = cursor.moveToNext();
 			cursor.close();
 			return isAvailable;
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}

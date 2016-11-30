@@ -10,8 +10,10 @@ import java.util.List;
  * Created by rnztx on 19/10/16.
  */
 
-@Entity public class UserOrders {
-	@Index private List<PurchasedItem> items;
+@Entity
+public class UserOrders {
+	@Index
+	private List<PurchasedItem> items;
 
 	public UserOrders() {
 	}

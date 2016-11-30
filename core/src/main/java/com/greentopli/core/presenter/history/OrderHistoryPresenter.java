@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.core.service.OrderHistoryService;
 import com.greentopli.core.storage.helper.CartDbHelper;
 import com.greentopli.core.storage.helper.UserDbHelper;
-import com.greentopli.core.presenter.base.BasePresenter;
 import com.greentopli.model.OrderHistory;
 import com.greentopli.model.Product;
 
@@ -28,23 +28,24 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 	private IntentFilter mIntentFilter;
 	private String mUserId;
 
-	OrderHistoryPresenter(){
+	OrderHistoryPresenter() {
 		mIntentFilter = new IntentFilter();
 		// create filters
 		mIntentFilter.addAction(OrderHistoryService.ACTION_PROCESSING);
 		mIntentFilter.addAction(OrderHistoryService.ACTION_PROCESSING_COMPLETE);
 		mIntentFilter.addAction(OrderHistoryService.ACTION_PROCESSING_FAILED);
 	}
-	public static OrderHistoryPresenter bind(OrderHistoryView mvpView, Context context){
+
+	public static OrderHistoryPresenter bind(OrderHistoryView mvpView, Context context) {
 		OrderHistoryPresenter presenter = new OrderHistoryPresenter();
-		presenter.attachView(mvpView,context);
+		presenter.attachView(mvpView, context);
 		return presenter;
 	}
 
 	BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			switch (intent.getAction()){
+			switch (intent.getAction()) {
 				case OrderHistoryService.ACTION_PROCESSING:
 					getmMvpView().showProgressbar(true);
 					getmMvpView().onEmpty(false);
@@ -59,12 +60,13 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 			}
 		}
 	};
+
 	@Override
 	public void attachView(OrderHistoryView mvpView, Context context) {
 		super.attachView(mvpView, context);
 		mCartDbHelper = new CartDbHelper(context);
 		mUserId = new UserDbHelper(context).getSignedUserInfo().getEmail();
-		getContext().registerReceiver(mBroadcastReceiver,mIntentFilter);
+		getContext().registerReceiver(mBroadcastReceiver, mIntentFilter);
 		// send available data
 		requestOrderHistory();
 	}
@@ -75,10 +77,10 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 		super.detachView();
 	}
 
-	private void requestOrderHistory(){
+	private void requestOrderHistory() {
 		getmMvpView().showProgressbar(true);
-		HashMap<Long,Integer> pair = mCartDbHelper.getOrderHistoryDates(mUserId);
-		if (pair.size()==0){
+		HashMap<Long, Integer> pair = mCartDbHelper.getOrderHistoryDates(mUserId);
+		if (pair.size() == 0) {
 			getmMvpView().onEmpty(true);
 			getmMvpView().showProgressbar(false);
 			return;
@@ -86,11 +88,11 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 
 		List<OrderHistory> orderHistoryList = new ArrayList<>();
 
-		for (long date : pair.keySet()){
+		for (long date : pair.keySet()) {
 			// create Obj
-			OrderHistory orderHistory = new OrderHistory(mUserId,date);
-			List<Product> products = mCartDbHelper.getProductsFromCart(true,date);
-			if (products.size()>0){
+			OrderHistory orderHistory = new OrderHistory(mUserId, date);
+			List<Product> products = mCartDbHelper.getProductsFromCart(true, date);
+			if (products.size() > 0) {
 				orderHistory.setProducts(products);
 				orderHistory.setTotalItems(products.size());
 				orderHistory.setTotalPrice(pair.get(date));
@@ -98,7 +100,7 @@ public class OrderHistoryPresenter extends BasePresenter<OrderHistoryView> {
 			}
 		}
 
-		if (orderHistoryList.size()>0){
+		if (orderHistoryList.size() > 0) {
 			// sort by date
 			Collections.sort(orderHistoryList, new Comparator<OrderHistory>() {
 				@Override

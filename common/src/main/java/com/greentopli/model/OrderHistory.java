@@ -22,8 +22,8 @@ public class OrderHistory {
 		this.products = new ArrayList<>();
 	}
 
-	public boolean isEmpty(){
-		return (totalItems==0 || totalPrice ==0 || products.size()==0);
+	public boolean isEmpty() {
+		return (totalItems == 0 || totalPrice == 0 || products.size() == 0);
 	}
 
 	public String getUserId() {

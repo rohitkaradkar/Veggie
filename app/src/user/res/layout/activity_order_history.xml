@@ -8,10 +8,12 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     tools:context="com.greentopli.app.user.ui.OrderHistoryActivity">
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/order_history_swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/orderHistory_recyclerView"
             android:layout_width="match_parent"
@@ -39,4 +41,4 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 </FrameLayout
->
+    >

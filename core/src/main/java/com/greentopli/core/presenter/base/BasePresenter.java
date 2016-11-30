@@ -9,22 +9,24 @@ import android.content.Context;
 public class BasePresenter<T extends MvpView> implements Presenter<T> {
 	private T mMvpView;
 	private Context context;
+
 	@Override
 	public void attachView(T mvpView, Context context) {
-		this.mMvpView=mvpView;
+		this.mMvpView = mvpView;
 		this.context = context;
 	}
 
 	@Override
 	public void detachView() {
-		this.mMvpView=null;
-		this.context=null;
+		this.mMvpView = null;
+		this.context = null;
 	}
 
-	public boolean isViewAttached(){
-		return this.mMvpView!=null;
+	public boolean isViewAttached() {
+		return this.mMvpView != null;
 	}
-	public T getmMvpView(){
+
+	public T getmMvpView() {
 		return this.mMvpView;
 	}
 

@@ -13,7 +13,8 @@ public class DataMessage {
 		this.message = message;
 	}
 
-	public DataMessage() {}
+	public DataMessage() {
+	}
 
 	public String getTitle() {
 		return title;
@@ -31,7 +32,7 @@ public class DataMessage {
 		this.message = message;
 	}
 
-	public boolean isEmpty(){
+	public boolean isEmpty() {
 		return (title.isEmpty() || message.isEmpty());
 	}
 }

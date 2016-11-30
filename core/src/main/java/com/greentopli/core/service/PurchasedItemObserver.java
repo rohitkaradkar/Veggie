@@ -20,6 +20,7 @@ public class PurchasedItemObserver extends ContentObserver {
 	private Context context;
 	private Listener listener;
 	CartDbHelper cartDbHelper;
+
 	public PurchasedItemObserver(Handler handler, Context context, Listener listener) {
 		super(handler);
 		this.context = context;
@@ -35,24 +36,23 @@ public class PurchasedItemObserver extends ContentObserver {
 	@Override
 	public void onChange(boolean selfChange, Uri uri) {
 		super.onChange(selfChange, uri);
-		if (uri.equals(PurchasedItemColumns.CONTENT_URI)){
+		if (uri.equals(PurchasedItemColumns.CONTENT_URI)) {
 			updateCartInformation();
 		}
 	}
 
-	public void updateCartInformation(){
+	public void updateCartInformation() {
 		int totalOrderPrice = cartDbHelper.getCartSubtotal();
 		List<Product> cartProducts = cartDbHelper.getProductsFromCart(false);
-		if (cartProducts!=null){
-			listener.onCartItemsChanged(totalOrderPrice,cartProducts.size());
-		}
-		else {
+		if (cartProducts != null) {
+			listener.onCartItemsChanged(totalOrderPrice, cartProducts.size());
+		} else {
 			// Cart is empty
-			listener.onCartItemsChanged(0,0);
+			listener.onCartItemsChanged(0, 0);
 		}
 	}
 
-	public interface Listener{
+	public interface Listener {
 		void onCartItemsChanged(int total_price, int item_count);
 	}
 }

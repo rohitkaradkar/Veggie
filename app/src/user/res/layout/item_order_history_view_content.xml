@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/list_vertical_margin"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <TextView
         android:id="@+id/item_orderHistory_heading"
         android:layout_width="match_parent"

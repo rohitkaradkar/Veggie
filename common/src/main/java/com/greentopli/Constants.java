@@ -12,11 +12,11 @@ public final class Constants {
 	public static final String ACTION_WIDGET_HEADER_CLICK =
 			"com.greentopli.app.user.ACTION_WIDGET_HEADER_CLICK";
 
-	public static final String ERROR_INSTANCEID= "Error Obtaining InstanceID: ";
-	public static final String ERROR_REGISTERING_USERINFO= "Error Registering UserInfo: ";
-	public static final String ERROR_SIGNIN= "Error SignIn: ";
-	public static final String ERROR_PRODUCT_LOADING= "Error Product Loading: ";
-	public static final String ERROR_CART_CHECKOUT= "Error Cart Checkout: ";
+	public static final String ERROR_INSTANCEID = "Error Obtaining InstanceID: ";
+	public static final String ERROR_REGISTERING_USERINFO = "Error Registering UserInfo: ";
+	public static final String ERROR_SIGNIN = "Error SignIn: ";
+	public static final String ERROR_PRODUCT_LOADING = "Error Product Loading: ";
+	public static final String ERROR_CART_CHECKOUT = "Error Cart Checkout: ";
 
 	/**
 	 * Firebase Analytics Events
@@ -29,6 +29,6 @@ public final class Constants {
 	//JSON key
 	public static final String JSON_KEY_DATA = "data";
 	public static final String JSON_KEY_TITLE = "title";
-	public static final String JSON_KEY_MESSAGE= "message";
+	public static final String JSON_KEY_MESSAGE = "message";
 
 }

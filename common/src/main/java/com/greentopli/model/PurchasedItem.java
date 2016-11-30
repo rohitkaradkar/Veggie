@@ -4,24 +4,33 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**
  * Created by rnztx on 19/10/16.
  */
 
-@Entity public class PurchasedItem {
+@Entity
+public class PurchasedItem {
 
-	@Id private String orderId;
-	@Index private String userId; // as email id
-	@Index private String productId;
-	@Index private long dateRequested;
-	@Index private long dateCompleted;
-	@Index private boolean accepted;
-	@Index private boolean completed;
-	@Index private int volume;
-	@Index private int totalPrice;
+	@Id
+	private String orderId;
+	@Index
+	private String userId; // as email id
+	@Index
+	private String productId;
+	@Index
+	private long dateRequested;
+	@Index
+	private long dateCompleted;
+	@Index
+	private boolean accepted;
+	@Index
+	private boolean completed;
+	@Index
+	private int volume;
+	@Index
+	private int totalPrice;
 
 
 	public PurchasedItem(String userId, String productId) {
@@ -35,6 +44,7 @@ import java.util.UUID;
 		this.dateCompleted = 0;
 		this.dateRequested = 0;
 	}
+
 	public int getTotalPrice() {
 		return totalPrice;
 	}
@@ -107,6 +117,7 @@ import java.util.UUID;
 		this.completed = completed;
 	}
 
-	public PurchasedItem() {}
+	public PurchasedItem() {
+	}
 
 }
