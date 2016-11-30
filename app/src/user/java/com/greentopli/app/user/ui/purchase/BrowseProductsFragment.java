@@ -3,7 +3,6 @@ package com.greentopli.app.user.ui.purchase;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,6 +69,14 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 	private BrowseProductsPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private FirebaseAnalytics mAnalytics;
+	private int mRestoredScrollPosition = 0;
+	private int mRestoredCategoryPosition = 0;
+	private String mRestoredSearchQuery = "";
+
+	private static final String KEY_SCROLL_POSITION ="scroll_position";
+	private static final String KEY_SEARCH_QUERY="search_query";
+	private static final String KEY_CATEGORY_POSITION="category_position";
+
 
 	SearchView mSearchView;
 	OnFragmentInteractionListener listener;
@@ -116,7 +123,7 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	                         Bundle savedInstanceState) {
+	                         Bundle bundle) {
 		// Inflate the layout for this fragment
 		View rootView =  inflater.inflate(R.layout.fragment_browse_product, container, false);
 		ButterKnife.bind(this,rootView);
@@ -128,18 +135,48 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 		}
 		// enable menu options
 		setHasOptionsMenu(true);
+		if (bundle!=null){
+			if (bundle.containsKey(KEY_SCROLL_POSITION))
+				mRestoredScrollPosition = bundle.getInt(KEY_SCROLL_POSITION);
+
+			if (bundle.containsKey(KEY_SEARCH_QUERY))
+				mRestoredSearchQuery = bundle.getString(KEY_SEARCH_QUERY);
+			else if (bundle.containsKey(KEY_CATEGORY_POSITION))
+				mRestoredCategoryPosition = bundle.getInt(KEY_CATEGORY_POSITION);
+
+		}
 		mPresenter = BrowseProductsPresenter.bind(this,getContext());
 		mAnalytics = FirebaseAnalytics.getInstance(getContext());
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
 		return rootView;
 	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		mRestoredScrollPosition = ((LinearLayoutManager) mLayoutManager).findFirstCompletelyVisibleItemPosition();
+		if (mRestoredScrollPosition >0)
+			outState.putInt(KEY_SCROLL_POSITION, mRestoredScrollPosition);
+
+		if (!mSearchView.getQuery().toString().isEmpty())
+			outState.putString(KEY_SEARCH_QUERY,mSearchView.getQuery().toString());
+		else if (mSpinnerVegetableType.getSelectedItemPosition()>0)
+			outState.putInt(KEY_CATEGORY_POSITION,mSpinnerVegetableType.getSelectedItemPosition());
+
+		super.onSaveInstanceState(outState);
+	}
+
 	private void initRecyclerView(){
 		// prepare recycler view for incoming data
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mAdapter = new ProductAdapter(ProductAdapter.Mode.BROWSE,getContext());
 		mRecyclerView.setAdapter(mAdapter);
+		// restore scroll position on orientation change
+		if (mRestoredScrollPosition >0){
+			mRecyclerView.scrollToPosition(mRestoredScrollPosition);
+			mRestoredScrollPosition = 0;
+		}
 		showEmpty(false);
 	}
 	@Override
@@ -156,10 +193,7 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 		MenuItem itemSearch = menu.findItem(R.id.menu_search_browse_product);
 		SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-//		MenuItemCompat.setActionView(itemSearch, mSearchView);
-//		mSearchView = new SearchView(getContext());
 		if (itemSearch!=null){
-//			mSearchView = (SearchView) itemSearch.getActionView();
 			mSearchView = (SearchView) MenuItemCompat.getActionView(itemSearch);
 			MenuItemCompat.collapseActionView(itemSearch);
 		}
@@ -167,11 +201,18 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 			mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 			mSearchView.setOnQueryTextListener(this);
 			mSearchView.setOnCloseListener(this);
+			if (!mRestoredSearchQuery.isEmpty() && itemSearch!=null){
+				// expand searchview
+				mSearchView.setQuery(mRestoredSearchQuery,false);
+				mSearchView.setIconified(false);
+				mSearchView.clearFocus();
+			}
 		}
 		super.onCreateOptionsMenu(menu,inflater);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
 				R.layout.spinner_row, CommonUtils.getFoodCategories());
 		mSpinnerVegetableType.setAdapter(adapter);
+
 		/**
 		 * View gets updated when user selects Vegetable category from spinner.
 		 * Also executed once on initialization
@@ -183,7 +224,13 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				if (position>=0 && position < CommonUtils.getFoodCategories().size()){
 					String vegetableType = CommonUtils.getFoodCategories().get(position);
-					mPresenter.sortProducts(vegetableType);
+					// disable sort by category while searching products
+					if (mSearchView.getQuery().toString().isEmpty()){
+						mPresenter.sortProducts(vegetableType);
+					} else {
+						// when search query is present, user will not be able to select any category
+						mSpinnerVegetableType.setSelection(0,true);
+					}
 					// report category selection to analytics
 					if (!vegetableType.toLowerCase().equals(Product.Type.ALL.name().toLowerCase())){
 						Bundle argument = new Bundle();
@@ -196,6 +243,10 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {}
 		});
+
+		if (mRestoredCategoryPosition > 0){
+			mSpinnerVegetableType.setSelection(mRestoredCategoryPosition,true);
+		}
 	}
 
 	@Override
@@ -240,8 +291,12 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 	}
 
 	@OnClick(R.id.fab_browse_product_fragment)
-	void onFabClick(){
+	void onCheckoutBegin(){
 		if (mAdapter.getCartItemCount()>0){
+			// avoiding state persistence of list
+			mRestoredCategoryPosition = 0;
+			mRestoredScrollPosition = 0;
+			mRestoredSearchQuery = "";
 			listener.onFragmentInteraction();
 		}else {
 			Toast.makeText(getContext(),R.string.message_empty_cart,Toast.LENGTH_SHORT).show();
@@ -268,13 +323,15 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 	@Override
 	public boolean onQueryTextChange(String newText) {
 		mPresenter.searchProduct(newText);
+		mSpinnerVegetableType.setSelection(0,true);
 		return true;
 	}
 
 	// On closing SearchBar
 	@Override
 	public boolean onClose() {
-		mPresenter.getProductItems();
+		mRestoredSearchQuery = "";
+		mSpinnerVegetableType.setSelection(0);
 		return false;
 	}
 }
