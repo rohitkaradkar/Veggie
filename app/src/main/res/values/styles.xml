@@ -41,6 +41,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">@dimen/activity_userInfo_editText_end_margin</item>
+        <!--avoid full screen keyboard in landscape mode-->
+        <item name="android:imeOptions">flagNoExtractUi</item>
     </style>
     <style name="AppTheme.CartButton" parent="Widget.AppCompat.Button">
         <item name="android:colorButtonNormal">@android:color/white</item>

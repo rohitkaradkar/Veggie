@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
@@ -204,6 +205,8 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 			mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 			mSearchView.setOnQueryTextListener(this);
 			mSearchView.setOnCloseListener(this);
+			// avoid full screen keyboard in landscape mode
+			mSearchView.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
 			if (!mRestoredSearchQuery.isEmpty() && itemSearch!=null){
 				// expand searchview
 				mSearchView.setQuery(mRestoredSearchQuery,false);
