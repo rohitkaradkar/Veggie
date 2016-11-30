@@ -27,8 +27,9 @@
                 android:textColor="@android:color/white"/>
             <ImageView
                 android:id="@+id/icon_launcher"
-                android:layout_width="192dp"
-                android:layout_height="192dp"
+                android:layout_width="@dimen/activity_authenticator_logo_size"
+                android:layout_height="@dimen/activity_authenticator_logo_size"
+                android:contentDescription="@string/desc_app_logo"
                 android:src="@drawable/ic_launcher"/>
 
             <com.google.android.gms.common.SignInButton

@@ -36,6 +36,7 @@
     <dimen name="activity_userInfo_icon_end_margin">32dp</dimen>
     <dimen name="activity_userInfo_editText_end_margin">32dp</dimen>
     <dimen name="user_avatar_size">120dp</dimen>
+    <dimen name="activity_authenticator_logo_size">190dp</dimen>
 
     <!--Widget-->
     <dimen name="widget_min_width">350dp</dimen>

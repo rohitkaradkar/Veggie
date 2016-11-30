@@ -19,6 +19,7 @@
             android:src="@drawable/ic_launcher"
             android:layout_gravity="center_horizontal"
             android:padding="@dimen/widget_icon_padding"
+            android:contentDescription="@string/desc_app_logo"
             android:background="@android:color/transparent"/>
 
         <LinearLayout

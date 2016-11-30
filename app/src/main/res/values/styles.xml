@@ -36,6 +36,7 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginEnd">@dimen/activity_userInfo_icon_end_margin</item>
+        <item name="android:contentDescription">@string/desc_form_icon</item>
     </style>
     <style name="UserInfoFormEditTextStyle">
         <item name="android:layout_width">match_parent</item>
