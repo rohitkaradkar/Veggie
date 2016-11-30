@@ -37,8 +37,8 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.activity_purchase_manager_container,fragment)
-					.addToBackStack(null)
 					.commit();
+			// first fragment should not have addToBackStack("")
 		}
 	}
 

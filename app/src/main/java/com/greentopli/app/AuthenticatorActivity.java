@@ -145,6 +145,7 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 							Toast.makeText(getApplicationContext(), "Authentication failed.",
 									Toast.LENGTH_SHORT).show();
 							FirebaseCrash.report(task.getException());
+							showProgressbar(false);
 						}
 					}
 				});

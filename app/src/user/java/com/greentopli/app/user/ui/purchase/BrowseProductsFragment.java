@@ -311,8 +311,8 @@ SearchView.OnCloseListener,SwipeRefreshLayout.OnRefreshListener, LoaderManager.L
 	@Override
 	public void showProgressbar(boolean show) {
 		showEmpty(false);
-		mProgressBar.setVisibility(show?View.VISIBLE:View.GONE);
 		mSwipeRefreshLayout.setRefreshing(false);
+		mProgressBar.setVisibility(show?View.VISIBLE:View.GONE);
 	}
 
 	// On Swipe Refresh layout
