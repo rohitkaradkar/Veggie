@@ -46,7 +46,6 @@ public class NotificationHelper {
 		Notification notification = builder
 				.setSmallIcon(R.drawable.ic_shopping) // shown on notification bar
 				.setLargeIcon(largeIcon)// shown in notification tray
-//				.setColor(ContextCompat.getColor(mContext,R.color.colorPrimary)) // works when large icon is not set
 				.setTicker(title)
 				.setWhen(Calendar.getInstance().getTimeInMillis())
 				.setAutoCancel(true)
