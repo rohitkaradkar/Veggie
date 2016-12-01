@@ -1,6 +1,5 @@
 package com.greentopli.app.user.ui;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -85,7 +84,7 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (!AuthenticatorActivity.isUserSignedIn()){
+		if (!AuthenticatorActivity.isUserSignedIn()) {
 			returnActivityResult(RESULT_CANCELED);
 			return;
 		}
@@ -104,7 +103,7 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView {
 			userAddressEditText.setText(user.getAddress());
 			userPinCodeEditText.setText(String.valueOf(user.getPincode()));
 			userMobileNoEditText.setText(String.valueOf(user.getMobileNo()));
-		} else{
+		} else {
 			userNameEditText.setText(mFirebaseUser.getDisplayName());
 		}
 
@@ -234,7 +233,7 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView {
 		returnActivityResult(RESULT_OK);
 	}
 
-	private void returnActivityResult(int resultCode){
+	private void returnActivityResult(int resultCode) {
 		if (getParent() == null)
 			setResult(resultCode);
 		else {
@@ -242,6 +241,7 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView {
 		}
 		finish();
 	}
+
 	@Override
 	public void showProgressbar(boolean show) {
 		progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
