@@ -89,20 +89,16 @@ public class PurchaseManagerActivity extends AppCompatActivity implements OnFrag
 				signIn();
 			} else if (requestCode == REQUEST_USER_DETAILS) {
 				// download User Order history in background
-				OrderHistoryService.start(getApplicationContext());
+				OrderHistoryService.start(mContext);
 			}
 		} else if (resultCode == RESULT_CANCELED) {
-			// user probably pressed back button in Activity
-			if (!AuthenticatorActivity.isUserSignedIn()) {
-				Toast.makeText(mContext, R.string.error_not_signed_in, Toast.LENGTH_LONG).show();
-				startActivityForResult(new Intent(mContext, AuthenticatorActivity.class)
-						, REQUEST_SIGNIN);
-				return;
+			// onBackPressed while SignIn
+			if (requestCode == REQUEST_SIGNIN && !AuthenticatorActivity.isUserSignedIn()) {
+				finish();
 			}
-			if (!AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())) {
-				Toast.makeText(mContext, R.string.error_not_registered, Toast.LENGTH_LONG).show();
-				startActivityForResult(new Intent(mContext, UserInfoActivity.class)
-						, REQUEST_USER_DETAILS);
+			// onBackPressed while registering User Details
+			else if (requestCode == REQUEST_USER_DETAILS && !AuthenticatorActivity.isUserInfoRegistered(getApplicationContext())) {
+				finish();
 			}
 		}
 	}

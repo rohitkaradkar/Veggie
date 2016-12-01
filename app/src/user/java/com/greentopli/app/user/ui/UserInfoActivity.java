@@ -29,6 +29,7 @@ import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.greentopli.Constants;
+import com.greentopli.app.AuthenticatorActivity;
 import com.greentopli.app.R;
 import com.greentopli.core.presenter.signup.SignUpView;
 import com.greentopli.core.presenter.signup.UserSignUpPresenter;
@@ -84,6 +85,10 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!AuthenticatorActivity.isUserSignedIn()){
+			returnActivityResult(RESULT_CANCELED);
+			return;
+		}
 		setContentView(R.layout.activity_user_info);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -99,8 +104,9 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView {
 			userAddressEditText.setText(user.getAddress());
 			userPinCodeEditText.setText(String.valueOf(user.getPincode()));
 			userMobileNoEditText.setText(String.valueOf(user.getMobileNo()));
-		} else
+		} else{
 			userNameEditText.setText(mFirebaseUser.getDisplayName());
+		}
 
 		Glide.with(getApplicationContext())
 				.load(mFirebaseUser.getPhotoUrl())
@@ -225,14 +231,17 @@ public class UserInfoActivity extends AppCompatActivity implements SignUpView {
 
 	@Override
 	public void onSignUpSuccess() {
+		returnActivityResult(RESULT_OK);
+	}
+
+	private void returnActivityResult(int resultCode){
 		if (getParent() == null)
-			setResult(Activity.RESULT_OK);
+			setResult(resultCode);
 		else {
-			getParent().setResult(RESULT_OK);
+			getParent().setResult(resultCode);
 		}
 		finish();
 	}
-
 	@Override
 	public void showProgressbar(boolean show) {
 		progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
