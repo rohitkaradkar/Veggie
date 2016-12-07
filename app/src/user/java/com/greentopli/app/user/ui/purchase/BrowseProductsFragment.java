@@ -56,7 +56,7 @@ import butterknife.OnClick;
 
 
 public class BrowseProductsFragment extends Fragment implements BrowseProductsView, SearchView.OnQueryTextListener,
-		SearchView.OnCloseListener, SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor> {
+		SearchView.OnCloseListener, SwipeRefreshLayout.OnRefreshListener{
 
 	@BindView(R.id.browse_products_recyclerView)
 	RecyclerView mRecyclerView;
@@ -108,29 +108,6 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 			throw new RuntimeException(context.toString() + " Must implement " +
 					OnFragmentInteractionListener.class.getSimpleName());
 		}
-	}
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		return new CursorLoader(getContext(), ProductColumns.CONTENT_URI, null, null, null, null);
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-		ProductDbHelper dbHelper = new ProductDbHelper(getContext());
-		ProductCursor cursor = new ProductCursor(data);
-		List<Product> products = new ArrayList<>();
-		while (cursor.moveToNext()) {
-			products.add(dbHelper.getProductFromCursor(cursor));
-		}
-		cursor.close();
-		if (products.size() > 0) {
-			showProducts(products);
-		}
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
 	@Override
@@ -278,13 +255,6 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 		}
 		mSearchView.setOnQueryTextListener(this);
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public void onProductServiceFinished() {
-		LoaderManager manager = getActivity().getSupportLoaderManager();
-		manager.restartLoader(0, null, this);
-		manager.initLoader(0, null, this);
 	}
 
 	@Override
