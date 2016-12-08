@@ -3,12 +3,10 @@ package com.greentopli.app.user.ui.purchase;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -41,12 +39,8 @@ import com.greentopli.app.user.tool.ListItemDecoration;
 import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
 import com.greentopli.core.presenter.browse.BrowseProductsView;
 import com.greentopli.core.service.ProductService;
-import com.greentopli.core.storage.helper.ProductDbHelper;
-import com.greentopli.core.storage.product.ProductColumns;
-import com.greentopli.core.storage.product.ProductCursor;
 import com.greentopli.model.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindString;
@@ -56,7 +50,7 @@ import butterknife.OnClick;
 
 
 public class BrowseProductsFragment extends Fragment implements BrowseProductsView, SearchView.OnQueryTextListener,
-		SearchView.OnCloseListener, SwipeRefreshLayout.OnRefreshListener{
+		SearchView.OnCloseListener, SwipeRefreshLayout.OnRefreshListener {
 
 	@BindView(R.id.browse_products_recyclerView)
 	RecyclerView mRecyclerView;
@@ -70,6 +64,8 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	@BindView(R.id.browse_products_empty_message_textView)
 	TextView mEmptyMessage;
+	@BindView(R.id.fab_browse_product_fragment)
+	FloatingActionButton mFab;
 
 	@BindString(R.string.app_name)
 	String mAppName;
@@ -266,7 +262,13 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 
 	@Override
 	public void showError(String message) {
-		Toast.makeText(getContext(), R.string.error_getting_products, Toast.LENGTH_LONG).show();
+		Snackbar.make(mRecyclerView,R.string.error_getting_products,Snackbar.LENGTH_LONG)
+				.setAction(R.string.action_retry, new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						mPresenter.getProductItems();
+					}
+				}).show();
 		FirebaseCrash.log(Constants.ERROR_PRODUCT_LOADING + message);
 		mSwipeRefreshLayout.setRefreshing(false);
 	}
@@ -294,9 +296,15 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 
 	@Override
 	public void showProgressbar(boolean show) {
-		showEmpty(false);
 		mSwipeRefreshLayout.setRefreshing(false);
 		mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+
+		// hide empty message
+		if (mEmptyMessage.getVisibility() == View.VISIBLE && show)
+			showEmpty(false);
+
+		// disable fab
+		mFab.setEnabled(!show);
 	}
 
 	// On Swipe Refresh layout

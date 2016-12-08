@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Green Basket</string>
+    <string name="app_name">Veggie</string>
     <string name="title_activity_sign_up">Personal Details</string>
     <string name="title_fragment_cartCheckout">Cart Items</string>
     <string name="title_widget">Green Basket</string>
@@ -30,7 +30,7 @@
     <string name="error_mobile_digit">Mobile number should be of 10 digits</string>
     <string name="error_picCode_digit">Pin Code should be of 6 digits</string>
     <string name="error_not_registered">You must submit user details</string>
-    <string name="error_getting_products">Product service error</string>
+    <string name="error_getting_products">Failed to retrieve list!</string>
     <string name="error_empty_product_list">Empty list! Swipe down to refresh</string>
 
     <string name="action_retry">Retry</string>

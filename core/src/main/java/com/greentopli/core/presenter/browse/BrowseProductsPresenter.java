@@ -37,6 +37,7 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 			switch (intent.getAction()) {
 				case ProductService.ACTION_ERROR:
 					getmMvpView().showError("");
+					getmMvpView().showEmpty(mProducts.size() == 0);
 					break;
 				case ProductService.ACTION_SUCCESS:
 					mProducts = dbHandler.getProducts();
@@ -68,12 +69,11 @@ public class BrowseProductsPresenter extends BasePresenter<BrowseProductsView> {
 
 	public void getProductItems() {
 		//Sends Product list to View
-		getmMvpView().showProgressbar(true);
 		if (mProducts.size() > 0) {
 			getmMvpView().showProducts(mProducts);
 			getmMvpView().showProgressbar(false);
 		} else {
-			getmMvpView().showEmpty(true);
+			getmMvpView().showProgressbar(true);
 			ProductService.start(getContext());
 		}
 	}
