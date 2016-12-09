@@ -27,6 +27,6 @@ public interface BackendConnectionService {
 	@GET("/_ah/api/server/v1/getPurchasedItemList")
 	Call<EntityList<PurchasedItem>> getUserOrderHistory(@Query("user_id") String user_id);
 
-	@GET("/_ah/api/backend/v1/getProductInfoList")
+	@GET("/_ah/api/server/v1/getProductInfoList")
 	Call<EntityList<Product>> getProductInfoList();
 }
