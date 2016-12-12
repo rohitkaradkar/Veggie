@@ -43,16 +43,29 @@ import butterknife.OnClick;
 public class AuthenticatorActivity extends AppCompatActivity implements
 		GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener, MvpView,
 		GoogleApiClient.ConnectionCallbacks {
-	private GoogleApiClient mGoogleApiClient;
-
-	private static final int RC_SIGN_IN = 9015;
 	public static final String EXTRA_SIGNOUT = "signout_request";
-	private FirebaseAuth mAuth;
+	private static final int RC_SIGN_IN = 9015;
 	private static final String TAG = AuthenticatorActivity.class.getSimpleName();
 	@BindView(R.id.default_progressbar)
 	ProgressBar mProgressBar;
 	@BindView(R.id.button_sign_in)
 	SignInButton mSignInButton;
+	private GoogleApiClient mGoogleApiClient;
+	private FirebaseAuth mAuth;
+
+	public static boolean isUserSignedIn() {
+		return FirebaseAuth.getInstance().getCurrentUser() != null;
+	}
+
+	public static boolean isUserInfoRegistered(Context context) {
+		if (isUserSignedIn()) {
+			UserDbHelper userDbHelper = new UserDbHelper(context);
+			return userDbHelper.isUserInfoAvailable(
+					FirebaseAuth.getInstance().getCurrentUser().getEmail()
+			);
+		}
+		return false;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +123,6 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 		}
 
 	}
-
 
 	@Override
 	public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -214,20 +226,6 @@ public class AuthenticatorActivity extends AppCompatActivity implements
 	public void onBackPressed() {
 		super.onBackPressed();
 		setResult(RESULT_CANCELED);
-	}
-
-	public static boolean isUserSignedIn() {
-		return FirebaseAuth.getInstance().getCurrentUser() != null;
-	}
-
-	public static boolean isUserInfoRegistered(Context context) {
-		if (isUserSignedIn()) {
-			UserDbHelper userDbHelper = new UserDbHelper(context);
-			return userDbHelper.isUserInfoAvailable(
-					FirebaseAuth.getInstance().getCurrentUser().getEmail()
-			);
-		}
-		return false;
 	}
 
 	private void returnActivityResult() {

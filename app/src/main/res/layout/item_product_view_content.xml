@@ -5,11 +5,11 @@
              android:layout_height="wrap_content">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/product_item_view_padding"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/product_item_view_padding">
 
         <ImageView
             android:id="@+id/item_product_image"
@@ -25,11 +25,11 @@
             android:layout_marginStart="@dimen/product_item_view_margin">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/item_product_name"
@@ -42,31 +42,31 @@
                     android:id="@+id/item_product_price"
                     style="@style/TextStyle"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textSize="@dimen/product_item_price_textSize"
                     android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/product_item_price_textSize"
                     tools:text="​1.25 kg is ₹ 150"/>
             </LinearLayout>
 
 
             <RelativeLayout
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:id="@+id/item_product_volume_controls"
-                android:orientation="horizontal"
                 android:layout_width="@dimen/volume_control_width"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true">
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <ImageButton
                     android:id="@+id/item_product_volume_subtract_button"
-                    android:src="@drawable/ic_remove_circle_outline"
-                    android:contentDescription="@string/desc_button_volume_down"
                     android:layout_width="@dimen/image_button_icon_size"
                     android:layout_height="@dimen/image_button_icon_size"
-                    android:scaleType="fitCenter"
                     android:layout_alignParentStart="true"
-                    android:background="@android:color/transparent"/>
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/desc_button_volume_down"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_remove_circle_outline"/>
 
                 <TextView
                     android:id="@+id/item_product_volume"
@@ -80,33 +80,22 @@
 
                 <ImageButton
                     android:id="@+id/item_product_volume_add_button"
-                    android:src="@drawable/ic_add_circle_outline"
-                    android:contentDescription="@string/desc_button_volume_up"
                     android:layout_width="@dimen/image_button_icon_size"
                     android:layout_height="@dimen/image_button_icon_size"
-                    android:scaleType="fitCenter"
                     android:layout_alignParentEnd="true"
-                    android:background="@android:color/transparent"/>
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/desc_button_volume_up"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_add_circle_outline"/>
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 
     <CheckBox
+        android:id="@+id/item_product_checkbox"
         style="@style/FloatingControls"
-        android:contentDescription="@string/desc_button_cart_add_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:id="@+id/item_product_checkbox"/>
-
-    <ImageButton
-        style="@style/FloatingControls"
-        tools:visibility="visible"
-        android:id="@+id/item_product_remove_button"
-        android:src="@drawable/ic_close"
-        android:contentDescription="@string/desc_button_cart_remove_item"
-        android:layout_width="@dimen/image_button_icon_size"
-        android:layout_height="@dimen/image_button_icon_size"
-        android:scaleType="fitCenter"
-        android:background="@android:color/transparent"/>
+        android:contentDescription="@string/desc_button_cart_add_item"/>
 </FrameLayout>

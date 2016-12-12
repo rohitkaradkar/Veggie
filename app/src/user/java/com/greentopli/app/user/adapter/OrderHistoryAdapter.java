@@ -30,47 +30,6 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 	private static Calendar todayDate = Calendar.getInstance();
 	private List<OrderHistory> mOrderHistoryList;
 
-	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		private OrderHistory order;
-		// date, total 78 Rs.
-		private static final String TITLE_FORMAT = "%s\t\t\t\t\t\t\t\t₹ %d";
-		@BindView(R.id.item_orderHistory_heading)
-		TextView headingTextView;
-		@BindView(R.id.item_orderHistory_subHeading)
-		TextView subheadingTextView;
-
-		public ViewHolder(View itemView) {
-			super(itemView);
-			ButterKnife.bind(this, itemView);
-			itemView.setOnClickListener(this);
-		}
-
-		public void setOrderHistory(OrderHistory order) {
-			this.order = order;
-		}
-
-		@Override
-		public void onClick(View v) {
-			if (v.getId() == R.id.item_orderHistory_view_container) {
-
-				ProductAdapter adapter = new ProductAdapter(ProductAdapter.Mode.HISTORY, order.getOrderDate(), v.getContext());
-				adapter.addNewProducts(order.getProducts());
-
-				// format date - Sun, 20 Dec 92
-				todayDate.setTimeInMillis(order.getOrderDate());
-				String dateFormatted = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
-						.format(todayDate.getTime());
-				String titleText = String.format(Locale.ENGLISH, TITLE_FORMAT, dateFormatted, order.getTotalPrice());
-
-				MaterialDialog dialog = new MaterialDialog.Builder(v.getContext())
-						.title(titleText)
-						.negativeText(R.string.text_order_dialog_close)
-						.adapter(adapter, new LinearLayoutManager(v.getContext()))
-						.show();
-			}
-		}
-	}
-
 	public OrderHistoryAdapter() {
 		this.mOrderHistoryList = new ArrayList<>();
 	}
@@ -107,5 +66,46 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 	@Override
 	public int getItemCount() {
 		return mOrderHistoryList.size();
+	}
+
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+		// date, total 78 Rs.
+		private static final String TITLE_FORMAT = "%s\t\t\t\t\t\t\t\t₹ %d";
+		@BindView(R.id.item_orderHistory_heading)
+		TextView headingTextView;
+		@BindView(R.id.item_orderHistory_subHeading)
+		TextView subheadingTextView;
+		private OrderHistory order;
+
+		public ViewHolder(View itemView) {
+			super(itemView);
+			ButterKnife.bind(this, itemView);
+			itemView.setOnClickListener(this);
+		}
+
+		public void setOrderHistory(OrderHistory order) {
+			this.order = order;
+		}
+
+		@Override
+		public void onClick(View v) {
+			if (v.getId() == R.id.item_orderHistory_view_container) {
+
+				ProductAdapter adapter = new ProductAdapter(ProductAdapter.Mode.HISTORY, order.getOrderDate(), v.getContext());
+				adapter.addNewProducts(order.getProducts());
+
+				// format date - Sun, 20 Dec 92
+				todayDate.setTimeInMillis(order.getOrderDate());
+				String dateFormatted = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
+						.format(todayDate.getTime());
+				String titleText = String.format(Locale.ENGLISH, TITLE_FORMAT, dateFormatted, order.getTotalPrice());
+
+				MaterialDialog dialog = new MaterialDialog.Builder(v.getContext())
+						.title(titleText)
+						.negativeText(R.string.text_order_dialog_close)
+						.adapter(adapter, new LinearLayoutManager(v.getContext()))
+						.show();
+			}
+		}
 	}
 }

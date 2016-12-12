@@ -12,10 +12,10 @@ import com.greentopli.app.R;
  * refer: http://stackoverflow.com/a/28533234/2804351
  */
 
-public class ListItemDecoration extends RecyclerView.ItemDecoration {
+public class ProductItemDecoration extends RecyclerView.ItemDecoration {
 	private int margin;
 
-	public ListItemDecoration(Context context) {
+	public ProductItemDecoration(Context context) {
 		this.margin = context.getResources().getDimensionPixelSize(R.dimen.product_item_view_margin);
 	}
 

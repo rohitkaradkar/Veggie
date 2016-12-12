@@ -35,7 +35,7 @@ import com.greentopli.CommonUtils;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.app.user.adapter.ProductAdapter;
-import com.greentopli.app.user.tool.ListItemDecoration;
+import com.greentopli.app.user.tool.ProductItemDecoration;
 import com.greentopli.core.presenter.browse.BrowseProductsPresenter;
 import com.greentopli.core.presenter.browse.BrowseProductsView;
 import com.greentopli.core.service.ProductService;
@@ -52,6 +52,9 @@ import butterknife.OnClick;
 public class BrowseProductsFragment extends Fragment implements BrowseProductsView, SearchView.OnQueryTextListener,
 		SearchView.OnCloseListener, SwipeRefreshLayout.OnRefreshListener {
 
+	private static final String KEY_SCROLL_POSITION = "scroll_position";
+	private static final String KEY_SEARCH_QUERY = "search_query";
+	private static final String KEY_CATEGORY_POSITION = "category_position";
 	@BindView(R.id.browse_products_recyclerView)
 	RecyclerView mRecyclerView;
 	@BindView(R.id.default_progressbar)
@@ -66,9 +69,10 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 	TextView mEmptyMessage;
 	@BindView(R.id.fab_browse_product_fragment)
 	FloatingActionButton mFab;
-
 	@BindString(R.string.app_name)
 	String mAppName;
+	SearchView mSearchView;
+	OnFragmentInteractionListener listener;
 	private ProductAdapter mAdapter;
 	private BrowseProductsPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
@@ -76,14 +80,6 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 	private int mRestoredScrollPosition = 0;
 	private int mRestoredCategoryPosition = 0;
 	private String mRestoredSearchQuery = "";
-
-	private static final String KEY_SCROLL_POSITION = "scroll_position";
-	private static final String KEY_SEARCH_QUERY = "search_query";
-	private static final String KEY_CATEGORY_POSITION = "category_position";
-
-
-	SearchView mSearchView;
-	OnFragmentInteractionListener listener;
 
 	public BrowseProductsFragment() {
 		// Required empty public constructor
@@ -133,7 +129,7 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 		mPresenter = BrowseProductsPresenter.bind(this, getContext());
 		mAnalytics = FirebaseAnalytics.getInstance(getContext());
 		mSwipeRefreshLayout.setOnRefreshListener(this);
-		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
+		mRecyclerView.addItemDecoration(new ProductItemDecoration(getContext()));
 		return rootView;
 	}
 
@@ -262,7 +258,7 @@ public class BrowseProductsFragment extends Fragment implements BrowseProductsVi
 
 	@Override
 	public void showError(String message) {
-		Snackbar.make(mRecyclerView,R.string.error_getting_products,Snackbar.LENGTH_LONG)
+		Snackbar.make(mRecyclerView, R.string.error_getting_products, Snackbar.LENGTH_LONG)
 				.setAction(R.string.action_retry, new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {

@@ -7,13 +7,13 @@
     <application
         xmlns:tools="http://schemas.android.com/tools"
         android:name=".MyAppClass"
-        android:theme="@style/AppTheme"
         android:icon="@drawable/ic_launcher"
         android:supportsRtl="true"
+        android:theme="@style/AppTheme"
         tools:replace="name">
         <activity
-            android:theme="@style/AppTheme.NoActionBar.Dark"
-            android:name=".AuthenticatorActivity"/>
+            android:name=".AuthenticatorActivity"
+            android:theme="@style/AppTheme.NoActionBar.Dark"/>
 
         <provider
             android:name="com.greentopli.core.storage.DatabaseProvider"

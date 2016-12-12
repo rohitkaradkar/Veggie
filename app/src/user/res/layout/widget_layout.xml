@@ -3,36 +3,36 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_purchased_item_container"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background">
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimary"
-        android:layout_height="?android:attr/actionBarSize">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="@dimen/product_item_icon_size"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_launcher"
             android:layout_gravity="center_horizontal"
-            android:padding="@dimen/widget_icon_padding"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/desc_app_logo"
-            android:background="@android:color/transparent"/>
+            android:padding="@dimen/widget_icon_padding"
+            android:src="@drawable/ic_launcher"/>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:text="@string/title_widget"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textColor="@android:color/white"/>
 
             <TextView

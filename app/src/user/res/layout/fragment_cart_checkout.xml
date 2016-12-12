@@ -1,11 +1,11 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
     tools:context="com.greentopli.app.user.ui.purchase.CartCheckoutFragment">
 
     <android.support.design.widget.AppBarLayout
@@ -17,8 +17,8 @@
             android:id="@+id/toolbar_cartCheckout_fragment"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            app:theme="@style/Toolbar"
-            app:popupTheme="@style/Menus"/>
+            app:popupTheme="@style/Menus"
+            app:theme="@style/Toolbar"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -29,22 +29,22 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <ProgressBar
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/progressbar_cartCheckout_fragment"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:visibility="gone"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_cart_items_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_done"
-        android:contentDescription="@string/desc_fab_checkout_cart"
-        android:tint="@color/cardview_light_background"
         android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/desc_fab_checkout_cart"
+        android:src="@drawable/ic_done"
+        android:tint="@color/cardview_light_background"
         app:layout_anchor="@id/cartItem_fragment_recyclerView"
         app:layout_anchorGravity="bottom|end"
         app:layout_behavior="com.greentopli.app.user.tool.ScrollAwareFabBehavior"

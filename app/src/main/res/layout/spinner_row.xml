@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/spinner_item_height"
-    android:textSize="@dimen/spinner_item_textSize"
-    android:textIsSelectable="false"
     android:gravity="start|center_vertical"
+    android:padding="@dimen/spinner_item_padding"
     android:textColor="@android:color/white"
-    android:padding="@dimen/spinner_item_padding"/>
+    android:textIsSelectable="false"
+    android:textSize="@dimen/spinner_item_textSize"/>

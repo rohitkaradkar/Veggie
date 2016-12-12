@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,7 +24,8 @@ import com.google.firebase.crash.FirebaseCrash;
 import com.greentopli.Constants;
 import com.greentopli.app.R;
 import com.greentopli.app.user.adapter.ProductAdapter;
-import com.greentopli.app.user.tool.ListItemDecoration;
+import com.greentopli.app.user.tool.ProductItemDecoration;
+import com.greentopli.app.user.tool.ProductItemTouchHelper;
 import com.greentopli.core.presenter.checkout.CartCheckoutPresenter;
 import com.greentopli.core.presenter.checkout.CartView;
 import com.greentopli.core.service.OrderHistoryService;
@@ -38,7 +40,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CartCheckoutFragment extends Fragment implements CartView, PurchasedItemObserver.Listener {
+public class CartCheckoutFragment extends Fragment implements CartView, PurchasedItemObserver.Listener,
+		ProductItemTouchHelper.Callback {
+	private static final String FORMAT_CART_OVERVIEW = "₹ %d for %d items";
+	private static final String TAG = CartCheckoutFragment.class.getSimpleName();
 	@BindView(R.id.cartItem_fragment_recyclerView)
 	RecyclerView mRecyclerView;
 	@BindView(R.id.progressbar_cartCheckout_fragment)
@@ -49,14 +54,10 @@ public class CartCheckoutFragment extends Fragment implements CartView, Purchase
 	int mColumnCount;
 	@BindView(R.id.fab_cart_items_fragment)
 	FloatingActionButton mFab;
-
-	private static final String FORMAT_CART_OVERVIEW = "₹ %d for %d items";
 	private CartCheckoutPresenter mPresenter;
 	private RecyclerView.LayoutManager mLayoutManager;
 	private ProductAdapter mAdapter;
 	private PurchasedItemObserver contentObserver;
-
-	private static final String TAG = CartCheckoutFragment.class.getSimpleName();
 
 	public CartCheckoutFragment() {
 		// Required empty public constructor
@@ -86,7 +87,7 @@ public class CartCheckoutFragment extends Fragment implements CartView, Purchase
 		}
 		setHasOptionsMenu(true);
 		initRecyclerView();
-		mRecyclerView.addItemDecoration(new ListItemDecoration(getContext()));
+		mRecyclerView.addItemDecoration(new ProductItemDecoration(getContext()));
 		return rootView;
 	}
 
@@ -95,6 +96,10 @@ public class CartCheckoutFragment extends Fragment implements CartView, Purchase
 		mLayoutManager = new LinearLayoutManager(getContext());
 		mRecyclerView.setLayoutManager(mLayoutManager);
 		mRecyclerView.setAdapter(mAdapter);
+
+		ItemTouchHelper.Callback callback = new ProductItemTouchHelper(this);
+		ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+		touchHelper.attachToRecyclerView(mRecyclerView);
 	}
 
 	@Override
@@ -208,5 +213,11 @@ public class CartCheckoutFragment extends Fragment implements CartView, Purchase
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public void onItemSwiped(int position) {
+		if (mAdapter != null && mAdapter.getItemCount() > position)
+			mAdapter.removeProduct(position);
 	}
 }

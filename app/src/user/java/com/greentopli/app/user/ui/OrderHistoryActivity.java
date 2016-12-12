@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.greentopli.app.R;
 import com.greentopli.app.user.adapter.OrderHistoryAdapter;
-import com.greentopli.app.user.tool.ListItemDecoration;
+import com.greentopli.app.user.tool.ProductItemDecoration;
 import com.greentopli.core.presenter.history.OrderHistoryPresenter;
 import com.greentopli.core.presenter.history.OrderHistoryView;
 import com.greentopli.core.service.OrderHistoryService;
@@ -41,7 +41,7 @@ public class OrderHistoryActivity extends AppCompatActivity implements OrderHist
 		setContentView(R.layout.activity_order_history);
 		ButterKnife.bind(this);
 		mPresenter = OrderHistoryPresenter.bind(this, getApplicationContext());
-		mRecyclerView.addItemDecoration(new ListItemDecoration(getApplicationContext()));
+		mRecyclerView.addItemDecoration(new ProductItemDecoration(getApplicationContext()));
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 	}
 

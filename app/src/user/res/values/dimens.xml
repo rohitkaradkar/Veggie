@@ -26,8 +26,8 @@
     <dimen name="product_item_view_margin">8dp</dimen>
     <dimen name="product_item_icon_size">64dp</dimen>
 
-    <dimen name="image_button_icon_size">24dp</dimen>
-    <dimen name="volume_control_width">120dp</dimen>
+    <dimen name="image_button_icon_size">28dp</dimen>
+    <dimen name="volume_control_width">130dp</dimen>
 
     <!--User info form-->
     <dimen name="form_icon_size">24dp</dimen>

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,115 +34,15 @@ import butterknife.OnClick;
  */
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+	private static final String FORMAT_PRICE_AND_VOLUME = "%s is ₹ %d";
+	private static final String FORMAT_PRICE = "₹ %d";
+	private static final String FORMAT_VOLUME = "%s";
 	private List<Product> mProducts;
 	private Context mContext;
 	private CartDbHelper mCartDbHelper;
 	private FirebaseAnalytics mFirebaseAnalytics;
-
-	private static final String FORMAT_PRICE_AND_VOLUME = "%s is ₹ %d";
-	private static final String FORMAT_PRICE = "₹ %d";
-	private static final String FORMAT_VOLUME = "%s";
-
-	public enum Mode {
-		BROWSE, CART, HISTORY
-	}
-
 	private Mode adapterMode;
 	private long dateOfRequest;
-
-	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-		@BindView(R.id.item_product_image)
-		ImageView image;
-		@BindView(R.id.item_product_checkbox)
-		CheckBox checkBox;
-		@BindView(R.id.item_product_name)
-		TextView name;
-		@BindView(R.id.item_product_price)
-		TextView price;
-		@BindView(R.id.item_product_volume)
-		TextView volume;
-		@BindView(R.id.item_product_volume_controls)
-		RelativeLayout volumeControls;
-		@BindView(R.id.item_product_remove_button)
-		ImageButton removeCartItemButton;
-		private Product product;
-		private PurchasedItem cartItem;
-
-		public ViewHolder(View itemView) {
-			super(itemView);
-			ButterKnife.bind(this, itemView);
-			itemView.setOnClickListener(this);
-		}
-
-		@Override
-		public void onClick(View v) {
-			/**
-			 * In Browse mode Direct click to checkbox is DISABLED,
-			 * so we manually handle the tick & correspondingly addButton / remove item from cart
-			 */
-			if (v.getId() == R.id.item_product_view_container && adapterMode.equals(Mode.BROWSE))
-				updateToCart();
-		}
-
-		@OnClick(R.id.item_product_volume_add_button)
-		void onVolumeAdded() {
-			int newVolume = cartItem.getVolume() + product.getVolumeSet();
-			if (newVolume <= product.getMaximumVolume()) {
-				mCartDbHelper.updateVolume(product.getId(), newVolume);
-				notifyItemChanged(getAdapterPosition());
-			}
-		}
-
-		@OnClick(R.id.item_product_volume_subtract_button)
-		void onVolumeSubtracted() {
-			int newVolume = cartItem.getVolume() - product.getVolumeSet();
-			if (newVolume >= product.getMinimumVolume()) {
-				mCartDbHelper.updateVolume(product.getId(), newVolume);
-				notifyItemChanged(getAdapterPosition());
-			}
-		}
-
-		@OnClick(R.id.item_product_remove_button)
-		void onCartItemRemoved() {
-			if (mCartDbHelper.removeProductFromCart(product.getId()) > 0) {
-				for (int i = 0; i < mProducts.size(); i++) {
-					Product item = mProducts.get(i);
-					if (item.getId().equals(product.getId())) {
-						mProducts.remove(i);
-						notifyItemRemoved(getAdapterPosition());
-					}
-				}
-			}
-		}
-
-		private void updateToCart() {
-			/**
-			 * using analytics we track which items are removed from Cart.
-			 */
-			Bundle analyticsData = new Bundle();
-			analyticsData.putString(FirebaseAnalytics.Param.ITEM_NAME, product.getName_english());
-			analyticsData.putInt(Constants.ITEM_PRICE, product.getPrice());
-			analyticsData.putInt(Constants.ITEM_VOLUME, product.getMinimumVolume());
-
-			if (mCartDbHelper.isProductAddedToCart(product.getId())) {
-				mCartDbHelper.removeProductFromCart(product.getId());
-				checkBox.setChecked(false);
-				mFirebaseAnalytics.logEvent(Constants.EVENT_CART_ITEM_REMOVED, analyticsData);
-			} else {
-				mCartDbHelper.addProductToCart(product.getId(), product.getMinimumVolume());
-				checkBox.setChecked(true);
-			}
-		}
-
-		public void setProduct(Product product) {
-			this.product = product;
-		}
-
-		public void setCartItem(PurchasedItem cartItem) {
-			this.cartItem = cartItem;
-		}
-	}
-
 	public ProductAdapter(Mode adapterMode, Context context) {
 		this(adapterMode, 0, context);
 	}
@@ -207,7 +106,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 			holder.setCartItem(item);
 			holder.volumeControls.setVisibility(View.VISIBLE);
 			holder.volume.setText(formattedVolume);
-			holder.removeCartItemButton.setVisibility(View.VISIBLE);
 		}
 		// just checking order history
 		else if (adapterMode.equals(Mode.HISTORY)) {
@@ -236,4 +134,94 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 		notifyDataSetChanged();
 	}
 
+	public void removeProduct(int position) {
+		if (mCartDbHelper.removeProductFromCart(mProducts.get(position).getId()) > 0) {
+			mProducts.remove(position);
+			notifyItemRemoved(position);
+			notifyItemChanged(position); // retains item decoration
+		}
+	}
+
+	public enum Mode {
+		BROWSE, CART, HISTORY
+	}
+
+	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+		@BindView(R.id.item_product_image)
+		ImageView image;
+		@BindView(R.id.item_product_checkbox)
+		CheckBox checkBox;
+		@BindView(R.id.item_product_name)
+		TextView name;
+		@BindView(R.id.item_product_price)
+		TextView price;
+		@BindView(R.id.item_product_volume)
+		TextView volume;
+		@BindView(R.id.item_product_volume_controls)
+		RelativeLayout volumeControls;
+
+		private Product product;
+		private PurchasedItem cartItem;
+
+		public ViewHolder(View itemView) {
+			super(itemView);
+			ButterKnife.bind(this, itemView);
+			itemView.setOnClickListener(this);
+		}
+
+		@Override
+		public void onClick(View v) {
+			/**
+			 * In Browse mode Direct click to checkbox is DISABLED,
+			 * so we manually handle the tick & correspondingly addButton / remove item from cart
+			 */
+			if (v.getId() == R.id.item_product_view_container && adapterMode.equals(Mode.BROWSE))
+				updateToCart();
+		}
+
+		@OnClick(R.id.item_product_volume_add_button)
+		void onVolumeAdded() {
+			int newVolume = cartItem.getVolume() + product.getVolumeSet();
+			if (newVolume <= product.getMaximumVolume()) {
+				mCartDbHelper.updateVolume(product.getId(), newVolume);
+				notifyItemChanged(getAdapterPosition());
+			}
+		}
+
+		@OnClick(R.id.item_product_volume_subtract_button)
+		void onVolumeSubtracted() {
+			int newVolume = cartItem.getVolume() - product.getVolumeSet();
+			if (newVolume >= product.getMinimumVolume()) {
+				mCartDbHelper.updateVolume(product.getId(), newVolume);
+				notifyItemChanged(getAdapterPosition());
+			}
+		}
+
+		private void updateToCart() {
+			/**
+			 * using analytics we track which items are removed from Cart.
+			 */
+			Bundle analyticsData = new Bundle();
+			analyticsData.putString(FirebaseAnalytics.Param.ITEM_NAME, product.getName_english());
+			analyticsData.putInt(Constants.ITEM_PRICE, product.getPrice());
+			analyticsData.putInt(Constants.ITEM_VOLUME, product.getMinimumVolume());
+
+			if (mCartDbHelper.isProductAddedToCart(product.getId())) {
+				mCartDbHelper.removeProductFromCart(product.getId());
+				checkBox.setChecked(false);
+				mFirebaseAnalytics.logEvent(Constants.EVENT_CART_ITEM_REMOVED, analyticsData);
+			} else {
+				mCartDbHelper.addProductToCart(product.getId(), product.getMinimumVolume());
+				checkBox.setChecked(true);
+			}
+		}
+
+		public void setProduct(Product product) {
+			this.product = product;
+		}
+
+		public void setCartItem(PurchasedItem cartItem) {
+			this.cartItem = cartItem;
+		}
+	}
 }
