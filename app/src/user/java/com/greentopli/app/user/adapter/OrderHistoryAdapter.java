@@ -70,7 +70,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		// date, total 78 Rs.
-		private static final String TITLE_FORMAT = "%s\t\t\t\t\t\t\t\t₹ %d";
+		private static final String TITLE_FORMAT = "%s - ₹ %d";
 		@BindView(R.id.item_orderHistory_heading)
 		TextView headingTextView;
 		@BindView(R.id.item_orderHistory_subHeading)
@@ -97,7 +97,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 				// format date - Sun, 20 Dec 92
 				todayDate.setTimeInMillis(order.getOrderDate());
 				String dateFormatted = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH)
-						.format(todayDate.getTime());
+						.format(todayDate.getTime()).trim();
 				String titleText = String.format(Locale.ENGLISH, TITLE_FORMAT, dateFormatted, order.getTotalPrice());
 
 				MaterialDialog dialog = new MaterialDialog.Builder(v.getContext())
