@@ -5,7 +5,7 @@
 
     <application>
         <activity
-            android:name="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"
+            android:name="io.github.karadkar.veggie.user.ui.purchase.PurchaseManagerActivity"
             android:theme="@style/AppTheme.NoActionBar.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -13,19 +13,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.greentopli.app.AuthenticatorActivity"/>
+        <activity android:name="io.github.karadkar.veggie.AuthenticatorActivity"/>
 
         <activity
-            android:name="com.greentopli.app.user.ui.OrderHistoryActivity"
+            android:name="io.github.karadkar.veggie.user.ui.OrderHistoryActivity"
             android:label="@string/menu_order_history"
-            android:parentActivityName="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity">
+            android:parentActivityName="io.github.karadkar.veggie.user.ui.purchase.PurchaseManagerActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity"/>
+                android:value="io.github.karadkar.veggie.user.ui.purchase.PurchaseManagerActivity"/>
         </activity>
 
         <activity
-            android:name="com.greentopli.app.user.ui.UserInfoActivity"
+            android:name="io.github.karadkar.veggie.user.ui.UserInfoActivity"
             android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar.Dark">
         </activity>
@@ -41,7 +41,7 @@
             android:exported="false"/>
 
         <!--Widget Provider-->
-        <receiver android:name="com.greentopli.app.user.ui.widget.ProductWidgetProvider">
+        <receiver android:name="io.github.karadkar.veggie.user.ui.widget.ProductWidgetProvider">
             <intent-filter>
                 <!--broadcast actions-->
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -55,7 +55,7 @@
 
         <!--widget service that creates list items-->
         <service
-            android:name="com.greentopli.app.user.ui.widget.WidgetRemoteViewsService"
+            android:name="io.github.karadkar.veggie.user.ui.widget.WidgetRemoteViewsService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_REMOTEVIEWS">

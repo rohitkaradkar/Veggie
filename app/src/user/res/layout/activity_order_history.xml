@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.greentopli.app.user.ui.OrderHistoryActivity">
+    tools:context="io.github.karadkar.veggie.user.ui.OrderHistoryActivity">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/order_history_swipeRefreshLayout"

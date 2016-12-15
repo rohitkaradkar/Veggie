@@ -7,7 +7,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion '25.0.1'
     defaultConfig {
-        applicationId "com.greentopli.app"
+        applicationId "io.github.karadkar.veggie"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1

@@ -5,7 +5,7 @@
     android:id="@+id/activity_purchase_manager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.greentopli.app.user.ui.purchase.PurchaseManagerActivity">
+    tools:context="io.github.karadkar.veggie.user.ui.purchase.PurchaseManagerActivity">
 
     <FrameLayout
         android:id="@+id/activity_purchase_manager_container"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.greentopli.app.AuthenticatorActivity">
+    tools:context="com.greentopli.app.io.github.karadkar.veggie.AuthenticatorActivity">
 
     <ScrollView
         android:layout_width="wrap_content"

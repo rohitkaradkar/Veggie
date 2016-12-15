@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.greentopli.app">
+          package="io.github.karadkar.veggie">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         xmlns:tools="http://schemas.android.com/tools"
-        android:name=".MyAppClass"
+        android:name="io.github.karadkar.veggie.MyAppClass"
         android:icon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="name">
         <activity
-            android:name=".AuthenticatorActivity"
+            android:name="io.github.karadkar.veggie.AuthenticatorActivity"
             android:theme="@style/AppTheme.NoActionBar.Dark"/>
 
         <provider
@@ -22,14 +22,14 @@
 
         <!--FCM Service on separate process-->
         <service
-            android:name=".user.notification.FcmService">
+            android:name="io.github.karadkar.veggie.user.notification.FcmService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
         <!--Firebase instance Id service-->
-        <service android:name=".user.notification.InstanceIdService">
+        <service android:name="io.github.karadkar.veggie.user.notification.InstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

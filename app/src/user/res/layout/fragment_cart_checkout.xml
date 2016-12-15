@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:fitsSystemWindows="true"
-    tools:context="com.greentopli.app.user.ui.purchase.CartCheckoutFragment">
+    tools:context="io.github.karadkar.veggie.user.ui.purchase.CartCheckoutFragment">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

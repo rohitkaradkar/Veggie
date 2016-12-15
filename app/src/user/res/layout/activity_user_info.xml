@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.greentopli.app.user.ui.UserInfoActivity">
+    tools:context="io.github.karadkar.veggie.user.ui.UserInfoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
