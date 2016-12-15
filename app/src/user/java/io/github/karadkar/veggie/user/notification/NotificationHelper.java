@@ -9,64 +9,65 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
-import com.greentopli.app.R;
-import io.github.karadkar.veggie.user.ui.OrderHistoryActivity;
 import com.greentopli.core.service.OrderHistoryService;
 import com.greentopli.core.storage.helper.CartDbHelper;
 
 import java.util.Calendar;
+
+import io.github.karadkar.veggie.R;
+import io.github.karadkar.veggie.user.ui.OrderHistoryActivity;
 
 /**
  * Created by rnztx on 20/11/16.
  */
 
 public class NotificationHelper {
-	public static final int ID_PRODUCT_DELIVERED = 9090;
-	private Context mContext;
+    public static final int ID_PRODUCT_DELIVERED = 9090;
+    private Context mContext;
 
-	public NotificationHelper(Context mContext) {
-		this.mContext = mContext;
-	}
+    public NotificationHelper(Context mContext) {
+        this.mContext = mContext;
+    }
 
-	public void showNotification(String title, String message) {
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+    public void showNotification(String title, String message) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
 
-		NotificationCompat.InboxStyle notificationStyle = new NotificationCompat.InboxStyle();
+        NotificationCompat.InboxStyle notificationStyle = new NotificationCompat.InboxStyle();
 
-		Intent intent = new Intent(mContext, OrderHistoryActivity.class);
-		/**
-		 * CLEAR_TOP: if application is running give it as new intent, instead of new task
-		 * SINGLE_TOP: Activity will not be launched if it is already running
-		 */
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		PendingIntent onClickIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-		// use launcher icon
-		Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher);
+        Intent intent = new Intent(mContext, OrderHistoryActivity.class);
+        /**
+         * CLEAR_TOP: if application is running give it as new intent, instead of new task
+         * SINGLE_TOP: Activity will not be launched if it is already running
+         */
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent onClickIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        // use launcher icon
+        Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_launcher);
 
-		Notification notification = builder
-				.setSmallIcon(R.drawable.ic_shopping) // shown on notification bar
-				.setLargeIcon(largeIcon)// shown in notification tray
-				.setTicker(title)
-				.setWhen(Calendar.getInstance().getTimeInMillis())
-				.setAutoCancel(true)
-				.setContentTitle(title)
-				.setStyle(notificationStyle)
-				.setContentText(message)
-				.setContentIntent(onClickIntent) // on click action intent
-				.setDefaults(Notification.DEFAULT_SOUND) // play default notification sound
-				.setPriority(Notification.PRIORITY_HIGH) // make it popup on any screen
-				.build();
+        Notification notification = builder
+                .setSmallIcon(R.drawable.ic_shopping) // shown on notification bar
+                .setLargeIcon(largeIcon)// shown in notification tray
+                .setTicker(title)
+                .setWhen(Calendar.getInstance().getTimeInMillis())
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setStyle(notificationStyle)
+                .setContentText(message)
+                .setContentIntent(onClickIntent) // on click action intent
+                .setDefaults(Notification.DEFAULT_SOUND) // play default notification sound
+                .setPriority(Notification.PRIORITY_HIGH) // make it popup on any screen
+                .build();
 
-		NotificationManager manager = (NotificationManager) mContext
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		manager.notify(ID_PRODUCT_DELIVERED, notification);
+        NotificationManager manager = (NotificationManager) mContext
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(ID_PRODUCT_DELIVERED, notification);
 
-		// something Goes wrong & Cart is not updated
-		CartDbHelper helper = new CartDbHelper(mContext);
-		if (helper.getProductIdsFromCart(false).size() > 0) {
-			helper.clearCartItems();
-			OrderHistoryService.start(mContext);
-		}
+        // something Goes wrong & Cart is not updated
+        CartDbHelper helper = new CartDbHelper(mContext);
+        if (helper.getProductIdsFromCart(false).size() > 0) {
+            helper.clearCartItems();
+            OrderHistoryService.start(mContext);
+        }
 
-	}
+    }
 }

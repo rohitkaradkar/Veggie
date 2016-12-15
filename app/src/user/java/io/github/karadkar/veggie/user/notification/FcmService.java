@@ -15,40 +15,40 @@ import java.util.Map;
  */
 
 public class FcmService extends FirebaseMessagingService {
-	private static final String TAG = FcmService.class.getSimpleName();
-	private static final long DELAY_TIME = 1000;
+    private static final String TAG = FcmService.class.getSimpleName();
+    private static final long DELAY_TIME = 1000;
 
-	@Override
-	public void onMessageReceived(RemoteMessage remoteMessage) {
-		final NotificationHelper helper = new NotificationHelper(getApplicationContext());
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        final NotificationHelper helper = new NotificationHelper(getApplicationContext());
 
-		// Notification Message (from Firebase Console)
-		if (remoteMessage.getNotification() != null) {
-			RemoteMessage.Notification notification = remoteMessage.getNotification();
-			helper.showNotification(notification.getTitle(), notification.getBody());
-		}
-		// Data Message (from server)
-		else if (remoteMessage.getData().size() > 0) {
-			final DataMessage dataMessage = parseMessage(remoteMessage.getData());
-			if (dataMessage != null && !dataMessage.isEmpty()) {
-				Log.e(TAG, dataMessage.getMessage());
-				/**
-				 * Adding some delay to Notification, because -
-				 * Sometimes it executes before Checkout UI is complete
-				 */
-				SystemClock.sleep(DELAY_TIME);
-				helper.showNotification(dataMessage.getTitle(), dataMessage.getMessage());
-			}
-		}
-	}
+        // Notification Message (from Firebase Console)
+        if (remoteMessage.getNotification() != null) {
+            RemoteMessage.Notification notification = remoteMessage.getNotification();
+            helper.showNotification(notification.getTitle(), notification.getBody());
+        }
+        // Data Message (from server)
+        else if (remoteMessage.getData().size() > 0) {
+            final DataMessage dataMessage = parseMessage(remoteMessage.getData());
+            if (dataMessage != null && !dataMessage.isEmpty()) {
+                Log.e(TAG, dataMessage.getMessage());
+                /**
+                 * Adding some delay to Notification, because -
+                 * Sometimes it executes before Checkout UI is complete
+                 */
+                SystemClock.sleep(DELAY_TIME);
+                helper.showNotification(dataMessage.getTitle(), dataMessage.getMessage());
+            }
+        }
+    }
 
-	private DataMessage parseMessage(Map<String, String> mappedData) {
-		if (mappedData.containsKey(Constants.JSON_KEY_TITLE) && mappedData.containsKey(Constants.JSON_KEY_MESSAGE)) {
-			DataMessage dataMessage = new DataMessage();
-			dataMessage.setTitle(mappedData.get(Constants.JSON_KEY_TITLE));
-			dataMessage.setMessage(mappedData.get(Constants.JSON_KEY_MESSAGE));
-			return dataMessage;
-		}
-		return null;
-	}
+    private DataMessage parseMessage(Map<String, String> mappedData) {
+        if (mappedData.containsKey(Constants.JSON_KEY_TITLE) && mappedData.containsKey(Constants.JSON_KEY_MESSAGE)) {
+            DataMessage dataMessage = new DataMessage();
+            dataMessage.setTitle(mappedData.get(Constants.JSON_KEY_TITLE));
+            dataMessage.setMessage(mappedData.get(Constants.JSON_KEY_MESSAGE));
+            return dataMessage;
+        }
+        return null;
+    }
 }

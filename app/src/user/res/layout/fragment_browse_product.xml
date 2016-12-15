@@ -68,6 +68,6 @@
         android:tint="@color/cardview_light_background"
         app:layout_anchor="@id/browse_products_recyclerView"
         app:layout_anchorGravity="bottom|end"
-        app:layout_behavior="com.greentopli.app.user.tool.ScrollAwareFabBehavior"
+        app:layout_behavior="io.github.karadkar.veggie.user.tool.ScrollAwareFabBehavior"
         />
 </android.support.design.widget.CoordinatorLayout>

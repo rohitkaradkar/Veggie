@@ -5,5 +5,5 @@ package io.github.karadkar.veggie.user.ui.purchase;
  */
 
 public interface OnFragmentInteractionListener {
-	void onFragmentInteraction();
+    void onFragmentInteraction();
 }

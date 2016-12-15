@@ -12,32 +12,32 @@ import com.greentopli.core.presenter.signup.UserSignUpPresenter;
  */
 
 public class InstanceIdService extends FirebaseInstanceIdService implements SignUpView {
-	private static final String TAG = InstanceIdService.class.getSimpleName();
-	private UserSignUpPresenter mPresenter;
+    private static final String TAG = InstanceIdService.class.getSimpleName();
+    private UserSignUpPresenter mPresenter;
 
-	@Override
-	public void onTokenRefresh() {
-		super.onTokenRefresh();
-		// this ID identifies user while sending Notification from server.
-		String newInstanceId = FirebaseInstanceId.getInstance().getToken();
-		if (newInstanceId != null && !newInstanceId.isEmpty()) {
-			mPresenter = UserSignUpPresenter.bind(this, getApplicationContext());
-			mPresenter.updateInstanceId(newInstanceId);
-		}
-	}
+    @Override
+    public void onTokenRefresh() {
+        super.onTokenRefresh();
+        // this ID identifies user while sending Notification from server.
+        String newInstanceId = FirebaseInstanceId.getInstance().getToken();
+        if (newInstanceId != null && !newInstanceId.isEmpty()) {
+            mPresenter = UserSignUpPresenter.bind(this, getApplicationContext());
+            mPresenter.updateInstanceId(newInstanceId);
+        }
+    }
 
-	@Override
-	public void onSignUpError(String message) {
-		Log.d(TAG, message);
-	}
+    @Override
+    public void onSignUpError(String message) {
+        Log.d(TAG, message);
+    }
 
-	@Override
-	public void onSignUpSuccess() {
-		Log.d(TAG, "Instance id updated");
-	}
+    @Override
+    public void onSignUpSuccess() {
+        Log.d(TAG, "Instance id updated");
+    }
 
-	@Override
-	public void showProgressbar(boolean show) {
+    @Override
+    public void showProgressbar(boolean show) {
 
-	}
+    }
 }

@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.greentopli.app.R;
+import io.github.karadkar.veggie.R;
 
 /**
  * Created by rnztx on 15/11/16.
@@ -13,16 +13,16 @@ import com.greentopli.app.R;
  */
 
 public class ProductItemDecoration extends RecyclerView.ItemDecoration {
-	private int margin;
+    private int margin;
 
-	public ProductItemDecoration(Context context) {
-		this.margin = context.getResources().getDimensionPixelSize(R.dimen.product_item_view_margin);
-	}
+    public ProductItemDecoration(Context context) {
+        this.margin = context.getResources().getDimensionPixelSize(R.dimen.product_item_view_margin);
+    }
 
-	@Override
-	public void getItemOffsets(Rect outRect, View view,
-	                           RecyclerView parent, RecyclerView.State state) {
-		int position = parent.getChildLayoutPosition(view);
-		outRect.set(margin, position == 0 ? margin : 0, margin, margin);
-	}
+    @Override
+    public void getItemOffsets(Rect outRect, View view,
+                               RecyclerView parent, RecyclerView.State state) {
+        int position = parent.getChildLayoutPosition(view);
+        outRect.set(margin, position == 0 ? margin : 0, margin, margin);
+    }
 }
