@@ -1,18 +1,34 @@
+
+<p align="center">
+	<a href='https://play.google.com/store/apps/details?id=io.github.karadkar.veggie.user' target="_blank">
+		<img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/>
+	</a>
+</p>
+
 #Veggie
 
-It is a simple vegetable ordering app built to support my friend's startup. It is also an experiment to make use of `Model View Presenter` architecture.
+It is a simple fruits and vegetable shopping app, built to support my friend's startup. It is also an experiment to make use of `Model View Presenter` architecture.
 
 ## Features
 * Select products you want to purchase. You can search and sort them by category. Product volume can be managed while checkout.
-</br><img src="https://github.com/karadkar/Veggie/blob/master/screenshots/1.browse.png" width="300">
-<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/2.cart.png" width="300">
+
+<p align="center" target>	
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/1.browse.png" width="300">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/2.cart.png" width="300">
+</p>
 
 * You will be notified when your order is shipped and you can check your order history. 
-</br><img src="https://github.com/karadkar/Veggie/blob/master/screenshots/3.notification.png" width="300">
-<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/4.history.png" width="300">
+	
+<p align="center">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/3.notification.png" width="300">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/4.history.png" width="300">
+</p>
 
 * Yes, we provide shipping to Mars.
-</br><img src="https://github.com/karadkar/Veggie/blob/master/screenshots/5.profile.png" width="300">
+
+<p align="center">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/5.profile.png" width="300">
+</p>
 
 ## Structure 
 This application is built using `Model View Presenter` architecture which is divided in three modules. Code separation allows to reuse the code. Makes it easy to maintain and modify. It provides abstraction while creating Android views. I have listed all of the modules with their usage.
