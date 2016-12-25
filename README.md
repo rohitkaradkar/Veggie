@@ -5,7 +5,7 @@
 	</a>
 </p>
 
-#Veggie
+# Veggie
 
 It is a simple fruits and vegetable shopping app, built to support my friend's startup. It is also an experiment to make use of `Model View Presenter` architecture.
 
@@ -13,21 +13,21 @@ It is a simple fruits and vegetable shopping app, built to support my friend's s
 * Select products you want to purchase. You can search and sort them by category. Product volume can be managed while checkout.
 
 <p align="center" target>	
-	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/1.browse.png" width="300">
-	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/2.cart.png" width="300">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/1.browse.png?raw=true" width="300">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/2.cart.png?raw=true" width="300">
 </p>
 
 * You will be notified when your order is shipped and you can check your order history. 
 	
 <p align="center">
-	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/3.notification.png" width="300">
-	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/4.history.png" width="300">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/3.notification.png?raw=true" width="300">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/4.history.png?raw=true" width="300">
 </p>
 
 * Yes, we provide shipping to Mars.
 
 <p align="center">
-	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/5.profile.png" width="300">
+	<img src="https://github.com/karadkar/Veggie/blob/master/screenshots/5.profile.png?raw=true" width="300">
 </p>
 
 ## Structure 
@@ -52,7 +52,7 @@ This module works as a `Presenter`. All application logic is provided here. I've
 * Download project source and import in Android studio .
 * Create new project in [Firebase console.](https://console.firebase.google.com/)
 * In Firebase console, add Android app with package name  `com.greentopli.app.user`.
-* Download `google-services.json` file from Firebase console and add to `app/src/user/` dir of project .
+* Download `google-services.json` file from Firebase console and add to `app/src/user/` directory of project .
 
 
 
