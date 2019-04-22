@@ -1,9 +1,7 @@
+# Warning  
+I'm no longer maintaining this project. I haven't update Firebase project & backend so most of the things should not work as expected. 
+Feel free to reach out to me for any help.
 
-<p align="center">
-	<a href='https://play.google.com/store/apps/details?id=io.github.karadkar.veggie.user' target="_blank">
-		<img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/>
-	</a>
-</p>
 
 # Veggie
 
